@@ -25,34 +25,17 @@ namespace LangParser
 
         public override ExpressionNode VisitInfixExpr(MathParser.InfixExprContext context)
         {
-            InfixExpressionNode node;
+            var left = Visit(context.left);
+            var right = Visit(context.right);
 
-            switch (context.op.Type)
+            return context.op.Type switch
             {
-                case MathLexer.OP_ADD:
-                    node = new AdditionNode();
-                    break;
-
-                case MathLexer.OP_SUB:
-                    node = new SubtractionNode();
-                    break;
-
-                case MathLexer.OP_MUL:
-                    node = new MultiplicationNode();
-                    break;
-
-                case MathLexer.OP_DIV:
-                    node = new DivisionNode();
-                    break;
-
-                default:
-                    throw new NotSupportedException();
-            }
-
-            node.Left = Visit(context.left);
-            node.Right = Visit(context.right);
-
-            return node;
+                MathLexer.OP_ADD => BinaryOperatorNode.CreateAdditionOperator(left, right),
+                MathLexer.OP_SUB => BinaryOperatorNode.CreateSubtractionOperator(left, right),
+                MathLexer.OP_MUL => BinaryOperatorNode.CreateMultiplicationOperator(left, right),
+                MathLexer.OP_DIV => BinaryOperatorNode.CreateDivisionOperator(left, right),
+                _ => throw new NotSupportedException()
+            };
         }
 
         public override ExpressionNode VisitUnaryExpr(MathParser.UnaryExprContext context)
