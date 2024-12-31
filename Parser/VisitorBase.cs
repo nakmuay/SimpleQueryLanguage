@@ -2,7 +2,7 @@
 
 namespace LangParser
 {
-    internal abstract class AstVisitor
+    internal abstract class VisitorBase
     {
         internal abstract void Visit(OperatorNode node);
 
@@ -15,7 +15,7 @@ namespace LangParser
         internal abstract void Visit(NumberNode node);
     }
 
-    internal class AstWalkerVisitor : AstVisitor
+    internal class WalkerVisitor : VisitorBase
     {
         internal override void Visit(OperatorNode node)
         {
@@ -30,7 +30,7 @@ namespace LangParser
 
         internal override void Visit(NegateNode node)
         {
-
+            node.InnerNode.Accept(this);
         }
 
         internal override void Visit(FunctionNode node)
@@ -44,7 +44,7 @@ namespace LangParser
         }
     }
 
-    internal sealed class AstFormatterVisitor : AstWalkerVisitor
+    internal sealed class FormatterVisitor : WalkerVisitor
     {
         private readonly StringBuilder builder = new();
 
@@ -81,6 +81,61 @@ namespace LangParser
         internal override void Visit(NumberNode node)
         {
             builder.Append($"{node.Value}");
+        }
+    }
+
+    internal sealed class ExpressionEvaluatorVisitor : WalkerVisitor
+    {
+        private readonly Stack<OperatorNode> _operatorContext = new Stack<OperatorNode>();
+
+        private readonly Stack<double> _signContext = new Stack<double>();
+
+        private double _result = 0;
+
+        public double Result => _result;
+
+        internal override void Visit(OperatorNode node)
+        {
+            _operatorContext.Push(node);
+            base.Visit(node);
+        }
+
+        internal override void Visit(NegateNode node)
+        {
+            _signContext.Push(-1D);
+            base.Visit(node);
+        }
+
+        internal override void Visit(FunctionNode node)
+        {
+
+        }
+
+        internal override void Visit(NumberNode node)
+        {
+            if (!_signContext.TryPop(out var sign))
+            {
+                sign = 1D;
+            }
+
+            var value = sign * node.Value;
+            if (!_operatorContext.TryPop(out var op))
+            {
+                _result = value;
+                return;
+            }
+
+            var result = op.Operator switch
+            {
+                OperatorNode.OperatorType.Addition => _result + value,
+                OperatorNode.OperatorType.Subtraction => _result - value,
+                OperatorNode.OperatorType.Multiplication => _result * value,
+                OperatorNode.OperatorType.Division => _result / value,
+                _ => 0
+            };
+
+            _result = result;
+            base.Visit(node);
         }
     }
 }

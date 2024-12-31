@@ -2,7 +2,7 @@
 {
     internal abstract class ExpressionNode
     {
-        internal abstract void Accept(AstVisitor visitor);
+        internal abstract void Accept(VisitorBase visitor);
     }   
 
     internal sealed class BinaryOperatorNode : ExpressionNode
@@ -20,15 +20,15 @@
 
         public ExpressionNode Right { get; }
 
-        public static BinaryOperatorNode CreateAdditionOperator(ExpressionNode left, ExpressionNode right) => new BinaryOperatorNode(OperatorNode.Addition, left, right);
+        public static BinaryOperatorNode CreateAdditionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Addition, left, right);
 
-        public static BinaryOperatorNode CreateSubtractionOperator(ExpressionNode left, ExpressionNode right) => new BinaryOperatorNode(OperatorNode.Subtraction, left, right);
+        public static BinaryOperatorNode CreateSubtractionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Subtraction, left, right);
 
-        public static BinaryOperatorNode CreateMultiplicationOperator(ExpressionNode left, ExpressionNode right) => new BinaryOperatorNode(OperatorNode.Multiplication, left, right);
+        public static BinaryOperatorNode CreateMultiplicationOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Multiplication, left, right);
 
-        public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new BinaryOperatorNode(OperatorNode.Division, left, right);
+        public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Division, left, right);
 
-        internal override void Accept(AstVisitor visitor)
+        internal override void Accept(VisitorBase visitor)
         {
             visitor.Visit(this);
         }
@@ -51,7 +51,7 @@
 
         public OperatorType Operator { get; }
 
-        internal override void Accept(AstVisitor visitor)
+        internal override void Accept(VisitorBase visitor)
         {
             visitor.Visit(this);
         }
@@ -67,9 +67,19 @@
 
     internal class NegateNode : ExpressionNode
     {
-        public ExpressionNode InnerNode { get; set; }
+        private NegateNode(ExpressionNode innerNode)
+        {
+            InnerNode = innerNode;
+        }
 
-        internal override void Accept(AstVisitor visitor)
+        public ExpressionNode InnerNode { get; }
+
+        public static NegateNode Create(ExpressionNode innerNode)
+        {
+            return new NegateNode(innerNode);
+        }
+
+        internal override void Accept(VisitorBase visitor)
         {
             visitor.Visit(this);
         }
@@ -80,7 +90,7 @@
         public Func<double, double> Function { get; set; }
         public ExpressionNode Argument { get; set; }
 
-        internal override void Accept(AstVisitor visitor)
+        internal override void Accept(VisitorBase visitor)
         {
             visitor.Visit(this);
         }
@@ -88,9 +98,19 @@
 
     internal class NumberNode : ExpressionNode
     {
-        public double Value { get; set; }
+        private NumberNode(double value)
+        {
+            Value = value;
+        }
 
-        internal override void Accept(AstVisitor visitor)
+        public double Value { get; }
+
+        public static NumberNode Create(double value)
+        {
+            return new NumberNode(value);
+        }
+
+        internal override void Accept(VisitorBase visitor)
         {
             visitor.Visit(this);
         }

@@ -1,8 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-
-var input = "(1 + 1) * -2 / 10";
-
+﻿var input = "(1 + 1) * -2 / 10 * 100";
 var output = LangParser.Parser.Parse(input);
 
-Console.WriteLine(output);
+Console.WriteLine($"Expression: {output}");
+
+var result = LangParser.Parser.Evaluate(input);
+Console.WriteLine($"Result:     {result}");

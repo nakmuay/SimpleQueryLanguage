@@ -12,10 +12,8 @@ namespace LangParser
 
         public override ExpressionNode VisitNumberExpr(MathParser.NumberExprContext context)
         {
-            return new NumberNode
-            {
-                Value = double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent)
-            };
+            var value = double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent);
+            return NumberNode.Create(value);
         }
 
         public override ExpressionNode VisitParensExpr(MathParser.ParensExprContext context)
@@ -46,10 +44,7 @@ namespace LangParser
                     return Visit(context.expr());
 
                 case MathLexer.OP_SUB:
-                    return new NegateNode
-                    {
-                        InnerNode = Visit(context.expr())
-                    };
+                    return NegateNode.Create(Visit(context.expr()));
 
                 default:
                     throw new NotSupportedException();
