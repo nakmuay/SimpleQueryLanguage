@@ -1,11 +1,11 @@
 ﻿namespace LangParser
 {
-    internal abstract class ExpressionNode
+    internal abstract record ExpressionNode
     {
         internal abstract void Accept(VisitorBase visitor);
     }   
 
-    internal sealed class BinaryOperatorNode : ExpressionNode
+    internal sealed record class BinaryOperatorNode : ExpressionNode
     {
         private BinaryOperatorNode(OperatorNode operatorNode, ExpressionNode left, ExpressionNode right)
         {
@@ -34,7 +34,7 @@
         }
     }
 
-    internal sealed class OperatorNode : ExpressionNode
+    internal sealed record OperatorNode : ExpressionNode
     {
         public static readonly OperatorNode Addition = new(OperatorType.Addition);
 
@@ -65,7 +65,7 @@
         }
     }
 
-    internal class NegateNode : ExpressionNode
+    internal sealed record NegateNode : ExpressionNode
     {
         private NegateNode(ExpressionNode innerNode)
         {
@@ -85,7 +85,7 @@
         }
     }
 
-    internal class FunctionNode : ExpressionNode
+    internal sealed record FunctionNode : ExpressionNode
     {
         public Func<double, double> Function { get; set; }
         public ExpressionNode Argument { get; set; }
@@ -96,7 +96,7 @@
         }
     }
 
-    internal class NumberNode : ExpressionNode
+    internal sealed record NumberNode : ExpressionNode
     {
         private NumberNode(double value)
         {
