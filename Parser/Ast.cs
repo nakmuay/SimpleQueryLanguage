@@ -83,7 +83,9 @@
 
         public Func<double, double> Function { get; }
 
+
         public ExpressionNode Argument { get; }
+
 
         public static FunctionNode Create(Func<double, double> function, ExpressionNode argument) => new(function, argument);
         
@@ -92,6 +94,20 @@
 
     internal sealed record ParenthesisNode : ExpressionNode
     {
+        private ParenthesisNode(bool isLeft, ExpressionNode innerExpression)
+        {
+            IsLeft = isLeft;
+            InnerExpression = innerExpression;
+        }
+
+        public bool IsLeft { get; }
+
+        public ExpressionNode InnerExpression { get; }
+
+        public static ParenthesisNode CreateLeft(ExpressionNode innerExpression) => new(true, innerExpression);
+
+        public static ParenthesisNode CreateRight(ExpressionNode innerExpression) => new(false, innerExpression);
+
         internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 
