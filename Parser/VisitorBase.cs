@@ -12,6 +12,8 @@ namespace LangParser
 
         internal abstract void Visit(FunctionNode node);
 
+        internal abstract void Visit(ParenthesisNode node);
+
         internal abstract void Visit(NumberNode node);
     }
 
@@ -35,12 +37,17 @@ namespace LangParser
 
         internal override void Visit(FunctionNode node)
         {
+            // Noop.
+        }
 
+        internal override void Visit(ParenthesisNode node)
+        {
+            // Noop.
         }
 
         internal override void Visit(NumberNode node)
         {
-
+            // Noop.
         }
     }
 
@@ -48,10 +55,7 @@ namespace LangParser
     {
         private readonly StringBuilder builder = new();
 
-        public override string ToString()
-        {
-            return builder.ToString();
-        }
+        public override string ToString() => builder.ToString();
 
         internal override void Visit(OperatorNode node)
         {
@@ -69,7 +73,7 @@ namespace LangParser
 
         internal override void Visit(NegateNode node)
         {
-            builder.Append("-");
+            builder.Append('-');
             node.InnerNode.Accept(this);
         }
 
@@ -86,9 +90,9 @@ namespace LangParser
 
     internal sealed class ExpressionEvaluatorVisitor : WalkerVisitor
     {
-        private readonly Stack<OperatorNode> _operatorContext = new Stack<OperatorNode>();
+        private readonly Stack<OperatorNode> _operatorContext = new();
 
-        private readonly Stack<double> _signContext = new Stack<double>();
+        private readonly Stack<double> _signContext = new();
 
         private double _result = 0;
 
@@ -104,11 +108,6 @@ namespace LangParser
         {
             _signContext.Push(-1D);
             base.Visit(node);
-        }
-
-        internal override void Visit(FunctionNode node)
-        {
-
         }
 
         internal override void Visit(NumberNode node)

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace LangParser
 {
-    internal class AstCreatorVisitor : MathBaseVisitor<ExpressionNode>
+    internal sealed class AstCreatorVisitor : MathBaseVisitor<ExpressionNode>
     {
         public override ExpressionNode VisitCompileUnit(MathParser.CompileUnitContext context)
         {
@@ -38,17 +38,12 @@ namespace LangParser
 
         public override ExpressionNode VisitUnaryExpr(MathParser.UnaryExprContext context)
         {
-            switch (context.op.Type)
+            return context.op.Type switch
             {
-                case MathLexer.OP_ADD:
-                    return Visit(context.expr());
-
-                case MathLexer.OP_SUB:
-                    return NegateNode.Create(Visit(context.expr()));
-
-                default:
-                    throw new NotSupportedException();
-            }
+                MathLexer.OP_ADD => Visit(context.expr()),
+                MathLexer.OP_SUB => NegateNode.Create(Visit(context.expr())),
+                _ => throw new NotSupportedException(),
+            };
         }
 
         public override ExpressionNode VisitFuncExpr(MathParser.FuncExprContext context)
@@ -61,7 +56,7 @@ namespace LangParser
                 .Where(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { typeof(double) }))
                 .FirstOrDefault(m => m.Name.Equals(functionName, StringComparison.OrdinalIgnoreCase));
 
-            if (func == null)
+            if (func is null)
                 throw new NotSupportedException(string.Format("Function {0} is not supported", functionName));
 
             return FunctionNode.Create((Func<double, double>)func.CreateDelegate(typeof(Func<double, double>)), Visit(context.expr()));
