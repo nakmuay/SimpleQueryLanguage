@@ -28,10 +28,7 @@
 
         public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Division, left, right);
 
-        internal override void Accept(VisitorBase visitor)
-        {
-            visitor.Visit(this);
-        }
+        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 
     internal sealed record OperatorNode : ExpressionNode
@@ -51,10 +48,7 @@
 
         public OperatorType Operator { get; }
 
-        internal override void Accept(VisitorBase visitor)
-        {
-            visitor.Visit(this);
-        }
+        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
 
         internal enum OperatorType
         {
@@ -74,26 +68,23 @@
 
         public ExpressionNode InnerNode { get; }
 
-        public static NegateNode Create(ExpressionNode innerNode)
-        {
-            return new NegateNode(innerNode);
-        }
+        public static NegateNode Create(ExpressionNode innerNode) => new(innerNode);
 
-        internal override void Accept(VisitorBase visitor)
-        {
-            visitor.Visit(this);
-        }
+        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 
     internal sealed record FunctionNode : ExpressionNode
     {
-        public Func<double, double> Function { get; set; }
-        public ExpressionNode Argument { get; set; }
-
-        internal override void Accept(VisitorBase visitor)
+        private FunctionNode(Func<double, double> function, ExpressionNode argument)
         {
-            visitor.Visit(this);
+            Function = function;
+            Argument = argument;
         }
+
+        public Func<double, double> Function { get; }
+        public ExpressionNode Argument { get; }
+        public static FunctionNode Create(Func<double, double> function, ExpressionNode argument) => new(function, argument);
+        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 
     internal sealed record NumberNode : ExpressionNode
@@ -105,14 +96,8 @@
 
         public double Value { get; }
 
-        public static NumberNode Create(double value)
-        {
-            return new NumberNode(value);
-        }
+        public static NumberNode Create(double value) => new(value);
 
-        internal override void Accept(VisitorBase visitor)
-        {
-            visitor.Visit(this);
-        }
+        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 }

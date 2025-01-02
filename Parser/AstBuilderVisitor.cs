@@ -64,11 +64,7 @@ namespace LangParser
             if (func == null)
                 throw new NotSupportedException(string.Format("Function {0} is not supported", functionName));
 
-            return new FunctionNode
-            {
-                Function = (Func<double, double>)func.CreateDelegate(typeof(Func<double, double>)),
-                Argument = Visit(context.expr())
-            };
+            return FunctionNode.Create((Func<double, double>)func.CreateDelegate(typeof(Func<double, double>)), Visit(context.expr()));
         }
     }
 }
