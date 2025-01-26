@@ -69,22 +69,25 @@ namespace LangParser
             };
 
             builder.Append($" {op} ");
+            base.Visit(node);
         }
 
         internal override void Visit(NegateNode node)
         {
             builder.Append('-');
-            node.InnerNode.Accept(this);
+            base.Visit(node);
         }
 
         internal override void Visit(FunctionNode node)
         {
             builder.Append($"{node.Function.Method.Name}");
+            base.Visit(node);
         }
 
         internal override void Visit(NumberNode node)
         {
             builder.Append($"{node.Value}");
+            base.Visit(node);
         }
     }
 
