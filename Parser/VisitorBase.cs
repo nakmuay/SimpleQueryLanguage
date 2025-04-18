@@ -65,7 +65,7 @@ namespace LangParser
                 OperatorNode.OperatorType.Subtraction => "-",
                 OperatorNode.OperatorType.Multiplication => "*",
                 OperatorNode.OperatorType.Division => "/",
-                _ => throw new NotImplementedException()
+                _ => throw new NotSupportedException($"Operator '{node.Operator}' is not supported.")
             };
 
             builder.Append($" {op} ");
@@ -133,7 +133,7 @@ namespace LangParser
                 OperatorNode.OperatorType.Subtraction => _result - value,
                 OperatorNode.OperatorType.Multiplication => _result * value,
                 OperatorNode.OperatorType.Division => _result / value,
-                _ => 0
+                _ => throw new NotSupportedException($"Operator '{op.Operator}' is not supported.")
             };
 
             _result = result;
