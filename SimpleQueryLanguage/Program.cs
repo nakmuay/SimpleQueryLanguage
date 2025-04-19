@@ -1,9 +1,10 @@
 ﻿using LangParser;
 
 var input = "1 + 1 * -2 / 10 * 100";
-var output = Parser.Parse(input);
+var tree = Parser.Parse(input);
 
-Console.WriteLine($"Expression: {output}");
+var expression = tree.Format();
+Console.WriteLine($"Expression: {expression}");
 
-var result = Parser.Evaluate(input);
+var result = tree.Evaluate();
 Console.WriteLine($"Result:     {result}");

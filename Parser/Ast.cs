@@ -1,6 +1,6 @@
 ﻿namespace LangParser
 {
-    internal abstract record ExpressionNode
+    public abstract record ExpressionNode
     {
         internal abstract void Accept(VisitorBase visitor);
     }   
