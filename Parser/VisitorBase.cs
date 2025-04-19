@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace LangParser
 {
@@ -68,7 +69,7 @@ namespace LangParser
                 _ => throw new NotSupportedException($"Operator '{node.Operator}' is not supported.")
             };
 
-            builder.Append($" {op} ");
+            builder.Append(CultureInfo.InvariantCulture, $" {op} ");
             base.Visit(node);
         }
 
@@ -80,13 +81,13 @@ namespace LangParser
 
         internal override void Visit(FunctionNode node)
         {
-            builder.Append($"{node.Function.Method.Name}");
+            builder.Append(CultureInfo.CurrentCulture, $"{node.Function.Method.Name}");
             base.Visit(node);
         }
 
         internal override void Visit(NumberNode node)
         {
-            builder.Append($"{node.Value}");
+            builder.Append(CultureInfo.InvariantCulture, $"{node.Value}");
             base.Visit(node);
         }
     }
@@ -97,7 +98,7 @@ namespace LangParser
 
         private readonly Stack<double> _signContext = new();
 
-        private double _result = 0;
+        private double _result;
 
         public double Result => _result;
 

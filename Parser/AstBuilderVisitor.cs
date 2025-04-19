@@ -12,7 +12,7 @@ namespace LangParser
 
         public override ExpressionNode VisitNumberExpr(MathParser.NumberExprContext context)
         {
-            var value = double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent);
+            var value = double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
             return NumberNode.Create(value);
         }
 
@@ -57,9 +57,9 @@ namespace LangParser
                 .FirstOrDefault(m => m.Name.Equals(functionName, StringComparison.OrdinalIgnoreCase));
 
             if (func is null)
-                throw new NotSupportedException(string.Format("Function {0} is not supported", functionName));
+                throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "Function {0} is not supported", functionName));
 
-            return FunctionNode.Create((Func<double, double>)func.CreateDelegate(typeof(Func<double, double>)), Visit(context.expr()));
+            return FunctionNode.Create(func.CreateDelegate<Func<double, double>>(), Visit(context.expr()));
         }
     }
 }
