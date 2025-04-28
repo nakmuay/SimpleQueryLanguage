@@ -97,13 +97,6 @@ namespace LangParser
             base.VisitCore(node);
         }
 
-        protected override void VisitCore(ParenthesisNode node)
-        {
-            builder.Append('(');
-            base.VisitCore(node);
-            builder.Append(')');
-        }
-
         protected override void VisitCore(NumberNode node)
         {
             builder.Append(CultureInfo.InvariantCulture, $"{node.Value}");

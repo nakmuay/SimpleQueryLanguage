@@ -2,8 +2,17 @@
 {
     public abstract record ExpressionNode
     {
-        internal abstract void Accept(VisitorBase visitor);
-    }   
+        /// <remarks>
+        /// Should not be inherited outside of this assembly.
+        /// </remarks>
+        private protected ExpressionNode()
+        {
+        }
+
+        public void Accept(VisitorBase visitor) => AcceptCore(visitor);
+
+        protected abstract void AcceptCore(VisitorBase visitor);
+    }
 
     public sealed record class BinaryOperatorNode : ExpressionNode
     {
@@ -28,7 +37,7 @@
 
         public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Division, left, right);
 
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        protected override void AcceptCore(VisitorBase visitor) => visitor.Visit(this);
     }
 
     public sealed record OperatorNode : ExpressionNode
@@ -48,7 +57,7 @@
 
         internal OperatorType Operator { get; }
 
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        protected override void AcceptCore(VisitorBase visitor) => visitor.Visit(this);
 
         internal enum OperatorType
         {
@@ -70,7 +79,7 @@
 
         public static NegateNode Create(ExpressionNode innerNode) => new(innerNode);
 
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        protected override void AcceptCore(VisitorBase visitor) => visitor.Visit(this);
     }
 
     public sealed record FunctionNode : ExpressionNode
@@ -87,8 +96,8 @@
         public ExpressionNode Argument { get; }
 
         public static FunctionNode Create(Func<double, double> function, ExpressionNode argument) => new(function, argument);
-        
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+
+        protected override void AcceptCore(VisitorBase visitor) => visitor.Visit(this);
     }
 
     public sealed record ParenthesisNode : ExpressionNode
@@ -102,7 +111,7 @@
 
         public static ParenthesisNode Create(ExpressionNode innerExpression) => new(innerExpression);
 
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        protected override void AcceptCore(VisitorBase visitor) => visitor.Visit(this);
     }
 
     public sealed record NumberNode : ExpressionNode
@@ -116,6 +125,6 @@
 
         public static NumberNode Create(double value) => new(value);
 
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        protected override void AcceptCore(VisitorBase visitor) => visitor.Visit(this);
     }
 }
