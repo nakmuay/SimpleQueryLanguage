@@ -5,7 +5,7 @@
         internal abstract void Accept(VisitorBase visitor);
     }   
 
-    internal sealed record class BinaryOperatorNode : ExpressionNode
+    public sealed record class BinaryOperatorNode : ExpressionNode
     {
         private BinaryOperatorNode(OperatorNode operatorNode, ExpressionNode left, ExpressionNode right)
         {
@@ -31,7 +31,7 @@
         internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 
-    internal sealed record OperatorNode : ExpressionNode
+    public sealed record OperatorNode : ExpressionNode
     {
         public static readonly OperatorNode Addition = new(OperatorType.Addition);
 
@@ -46,7 +46,7 @@
             Operator = operatorType;
         }
 
-        public OperatorType Operator { get; }
+        internal OperatorType Operator { get; }
 
         internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
 
@@ -59,7 +59,7 @@
         }
     }
 
-    internal sealed record NegateNode : ExpressionNode
+    public sealed record NegateNode : ExpressionNode
     {
         private NegateNode(ExpressionNode innerNode)
         {
@@ -73,7 +73,7 @@
         internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 
-    internal sealed record FunctionNode : ExpressionNode
+    public sealed record FunctionNode : ExpressionNode
     {
         private FunctionNode(Func<double, double> function, ExpressionNode argument)
         {
@@ -86,13 +86,12 @@
 
         public ExpressionNode Argument { get; }
 
-
         public static FunctionNode Create(Func<double, double> function, ExpressionNode argument) => new(function, argument);
         
         internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 
-    internal sealed record ParenthesisNode : ExpressionNode
+    public sealed record ParenthesisNode : ExpressionNode
     {
         private ParenthesisNode(bool isLeft, ExpressionNode innerExpression)
         {
@@ -111,7 +110,7 @@
         internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }
 
-    internal sealed record NumberNode : ExpressionNode
+    public sealed record NumberNode : ExpressionNode
     {
         private NumberNode(double value)
         {
