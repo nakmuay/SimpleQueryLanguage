@@ -93,19 +93,14 @@
 
     public sealed record ParenthesisNode : ExpressionNode
     {
-        private ParenthesisNode(bool isLeft, ExpressionNode innerExpression)
+        private ParenthesisNode(ExpressionNode innerExpression)
         {
-            IsLeft = isLeft;
             InnerExpression = innerExpression;
         }
 
-        public bool IsLeft { get; }
-
         public ExpressionNode InnerExpression { get; }
 
-        public static ParenthesisNode CreateLeft(ExpressionNode innerExpression) => new(true, innerExpression);
-
-        public static ParenthesisNode CreateRight(ExpressionNode innerExpression) => new(false, innerExpression);
+        public static ParenthesisNode Create(ExpressionNode innerExpression) => new(innerExpression);
 
         internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
     }

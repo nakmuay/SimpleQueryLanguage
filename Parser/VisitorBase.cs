@@ -55,7 +55,7 @@ namespace LangParser
 
         protected override void VisitCore(ParenthesisNode node)
         {
-            // Noop.
+            node.InnerExpression.Accept(this);
         }
 
         protected override void VisitCore(NumberNode node)
@@ -95,6 +95,13 @@ namespace LangParser
         {
             builder.Append(CultureInfo.CurrentCulture, $"{node.Function.Method.Name}");
             base.VisitCore(node);
+        }
+
+        protected override void VisitCore(ParenthesisNode node)
+        {
+            builder.Append('(');
+            base.VisitCore(node);
+            builder.Append(')');
         }
 
         protected override void VisitCore(NumberNode node)

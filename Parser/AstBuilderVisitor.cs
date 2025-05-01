@@ -18,7 +18,8 @@ namespace LangParser
 
         public override ExpressionNode VisitParensExpr(MathParser.ParensExprContext context)
         {
-            return Visit(context.expr());
+            var innerExpression = Visit(context.expr());
+            return ParenthesisNode.Create(innerExpression);
         }
 
         public override ExpressionNode VisitInfixExpr(MathParser.InfixExprContext context)
