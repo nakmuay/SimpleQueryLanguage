@@ -97,6 +97,13 @@ namespace LangParser
             base.VisitCore(node);
         }
 
+        protected override void VisitCore(ParenthesisNode node)
+        {
+            builder.Append('(');
+            node.InnerExpression.Accept(this);
+            builder.Append(')');
+        }
+
         protected override void VisitCore(NumberNode node)
         {
             builder.Append(CultureInfo.InvariantCulture, $"{node.Value}");
@@ -106,18 +113,30 @@ namespace LangParser
 
     internal sealed class ExpressionEvaluatorVisitor : WalkerVisitor
     {
-        private readonly Stack<OperatorNode> _operatorContext = new();
+        private readonly Stack<double> _currentValue = new();
 
         private readonly Stack<double> _signContext = new();
 
-        private double _result;
+        public double Result => _currentValue.Peek();
 
-        public double Result => _result;
-
-        protected override void VisitCore(OperatorNode node)
+        protected override void VisitCore(BinaryOperatorNode node)
         {
-            _operatorContext.Push(node);
-            base.VisitCore(node);
+            node.Left.Accept(this);
+            var left = _currentValue.Pop();
+
+            node.Right.Accept(this);
+            var right = _currentValue.Pop();
+
+            var result = node.Operator.Operator switch
+            {
+                OperatorNode.OperatorType.Addition => left + right,
+                OperatorNode.OperatorType.Subtraction => left - right,
+                OperatorNode.OperatorType.Multiplication => left * right,
+                OperatorNode.OperatorType.Division => left / right,
+                _ => throw new NotSupportedException($"Operator '{node.Operator.Operator}' is not supported.")
+            };
+
+            _currentValue.Push(result);
         }
 
         protected override void VisitCore(NegateNode node)
@@ -133,23 +152,7 @@ namespace LangParser
                 sign = 1D;
             }
 
-            var value = sign * node.Value;
-            if (!_operatorContext.TryPop(out var op))
-            {
-                _result = value;
-                return;
-            }
-
-            var result = op.Operator switch
-            {
-                OperatorNode.OperatorType.Addition => _result + value,
-                OperatorNode.OperatorType.Subtraction => _result - value,
-                OperatorNode.OperatorType.Multiplication => _result * value,
-                OperatorNode.OperatorType.Division => _result / value,
-                _ => throw new NotSupportedException($"Operator '{op.Operator}' is not supported.")
-            };
-
-            _result = result;
+            _currentValue.Push(sign * node.Value);
             base.VisitCore(node);
         }
     }
