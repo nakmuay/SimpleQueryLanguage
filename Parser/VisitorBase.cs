@@ -5,60 +5,49 @@ namespace LangParser
 {
     public abstract class VisitorBase
     {
-        internal void Visit(OperatorNode node) => VisitCore(node);
+        public abstract void Visit(OperatorNode node);
 
-        protected abstract void VisitCore(OperatorNode node);
+        public abstract void Visit(BinaryOperatorNode node);
 
-        internal void Visit(BinaryOperatorNode node) => VisitCore(node);
+        public abstract void Visit(NegateNode node);
 
-        protected abstract void VisitCore(BinaryOperatorNode node);
+        public abstract void Visit(FunctionNode node);
 
-        internal void Visit(NegateNode node) => VisitCore(node);
+        public abstract void Visit(ParenthesisNode node);
 
-        protected abstract void VisitCore(NegateNode node);
-
-        internal void Visit(FunctionNode node) => VisitCore(node);
-
-        protected abstract void VisitCore(FunctionNode node);
-
-        internal void Visit(ParenthesisNode node) => VisitCore(node);
-
-        protected abstract void VisitCore(ParenthesisNode node);
-
-        internal void Visit(NumberNode node) => VisitCore(node);
-
-        protected abstract void VisitCore(NumberNode node);
+        public abstract void Visit(NumberNode node);
     }
 
     internal class WalkerVisitor : VisitorBase
     {
-        protected override void VisitCore(OperatorNode node)
+        public override void Visit(OperatorNode node)
         {
+            // Noop.
         }
 
-        protected override void VisitCore(BinaryOperatorNode node)
+        public override void Visit(BinaryOperatorNode node)
         {
             node.Left.Accept(this);
             node.Operator.Accept(this);
             node.Right.Accept(this);
         }
 
-        protected override void VisitCore(NegateNode node)
+        public override void Visit(NegateNode node)
         {
             node.InnerNode.Accept(this);
         }
 
-        protected override void VisitCore(FunctionNode node)
+        public override void Visit(FunctionNode node)
         {
             // Noop.
         }
 
-        protected override void VisitCore(ParenthesisNode node)
+        public override void Visit(ParenthesisNode node)
         {
             node.InnerExpression.Accept(this);
         }
 
-        protected override void VisitCore(NumberNode node)
+        public override void Visit(NumberNode node)
         {
             // Noop.
         }
@@ -70,7 +59,7 @@ namespace LangParser
 
         public override string ToString() => builder.ToString();
 
-        protected override void VisitCore(OperatorNode node)
+        public override void Visit(OperatorNode node)
         {
             var op = node.Operator switch
             {
@@ -82,32 +71,32 @@ namespace LangParser
             };
 
             builder.Append(CultureInfo.InvariantCulture, $" {op} ");
-            base.VisitCore(node);
+            base.Visit(node);
         }
 
-        protected override void VisitCore(NegateNode node)
+        public override void Visit(NegateNode node)
         {
             builder.Append('-');
-            base.VisitCore(node);
+            base.Visit(node);
         }
 
-        protected override void VisitCore(FunctionNode node)
+        public override void Visit(FunctionNode node)
         {
             builder.Append(CultureInfo.CurrentCulture, $"{node.Function.Method.Name}");
-            base.VisitCore(node);
+            base.Visit(node);
         }
 
-        protected override void VisitCore(ParenthesisNode node)
+        public override void Visit(ParenthesisNode node)
         {
             builder.Append('(');
-            node.InnerExpression.Accept(this);
+            base.Visit(node);
             builder.Append(')');
         }
 
-        protected override void VisitCore(NumberNode node)
+        public override void Visit(NumberNode node)
         {
             builder.Append(CultureInfo.InvariantCulture, $"{node.Value}");
-            base.VisitCore(node);
+            base.Visit(node);
         }
     }
 
@@ -119,7 +108,7 @@ namespace LangParser
 
         public double Result => _currentValue.Peek();
 
-        protected override void VisitCore(BinaryOperatorNode node)
+        public override void Visit(BinaryOperatorNode node)
         {
             node.Left.Accept(this);
             var left = _currentValue.Pop();
@@ -139,13 +128,13 @@ namespace LangParser
             _currentValue.Push(result);
         }
 
-        protected override void VisitCore(NegateNode node)
+        public override void Visit(NegateNode node)
         {
             _signContext.Push(-1D);
-            base.VisitCore(node);
+            base.Visit(node);
         }
 
-        protected override void VisitCore(NumberNode node)
+        public override void Visit(NumberNode node)
         {
             if (!_signContext.TryPop(out var sign))
             {
@@ -153,7 +142,7 @@ namespace LangParser
             }
 
             _currentValue.Push(sign * node.Value);
-            base.VisitCore(node);
+            base.Visit(node);
         }
     }
 }
