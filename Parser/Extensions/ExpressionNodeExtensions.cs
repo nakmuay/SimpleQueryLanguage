@@ -1,5 +1,7 @@
+using LangParser.Ast;
+using LangParser.Visitor;
 
-namespace LangParser;
+namespace LangParser.Extensions;
 
 public static class ExpressionNodeExtensions
 {

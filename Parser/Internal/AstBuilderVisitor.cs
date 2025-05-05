@@ -1,9 +1,10 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Reflection;
+using LangParser.Ast;
 
-namespace LangParser;
+namespace LangParser.Internal;
 
-internal sealed class AstCreatorVisitor : MathBaseVisitor<ExpressionNode>
+internal sealed class AstBuilderVisitor : MathBaseVisitor<ExpressionNode>
 {
     public override ExpressionNode VisitCompileUnit(MathParser.CompileUnitContext context)
     {

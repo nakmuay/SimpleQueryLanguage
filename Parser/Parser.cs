@@ -1,4 +1,6 @@
-﻿using Antlr4.Runtime;
+﻿using LangParser.Internal;
+using Antlr4.Runtime;
+using LangParser.Ast;
 
 namespace LangParser;
 
@@ -12,7 +14,7 @@ public static class Parser
         var parser = new MathParser(tokens);
         var tree = parser.compileUnit();
 
-        var visitor = new AstCreatorVisitor();
+        var visitor = new AstBuilderVisitor();
         return visitor.Visit(tree);
     }
 }
