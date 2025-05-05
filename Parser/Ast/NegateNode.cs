@@ -14,4 +14,6 @@ public sealed record NegateNode : ExpressionNode
     public static NegateNode Create(ExpressionNode innerNode) => new(innerNode);
 
     internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+
+    internal override T Accept<T>(TypedVisitorBase<T> visitor) => visitor.Visit(this);
 }

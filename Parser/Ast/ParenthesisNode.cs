@@ -14,4 +14,6 @@ public sealed record ParenthesisNode : ExpressionNode
     public static ParenthesisNode Create(ExpressionNode innerExpression) => new(innerExpression);
 
     internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+
+    internal override T Accept<T>(TypedVisitorBase<T> visitor) => visitor.Visit(this);
 }

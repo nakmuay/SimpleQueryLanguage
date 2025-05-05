@@ -14,4 +14,6 @@ public sealed record NumberNode : ExpressionNode
     public static NumberNode Create(double value) => new(value);
 
     internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+
+    internal override T Accept<T>(TypedVisitorBase<T> visitor) => visitor.Visit(this);
 }

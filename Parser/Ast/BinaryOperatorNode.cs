@@ -26,4 +26,6 @@ public sealed record class BinaryOperatorNode : ExpressionNode
     public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Division, left, right);
 
     internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+
+    internal override T Accept<T>(TypedVisitorBase<T> visitor) => visitor.Visit(this);
 }

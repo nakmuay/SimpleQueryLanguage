@@ -1,4 +1,5 @@
 using LangParser.Ast;
+using LangParser.DataTypes;
 
 namespace LangParser.Visitor;
 

@@ -1,4 +1,5 @@
 using LangParser.Ast;
+using LangParser.DataTypes;
 using System.Globalization;
 using System.Text;
 
@@ -40,7 +41,7 @@ internal sealed class FormatterVisitor : WalkerVisitor
     public override void Visit(ParenthesisNode node)
     {
         _builder.Append('(');
-        base.Visit(node);
+        node.InnerExpression.Accept(this);
         _builder.Append(')');
     }
 

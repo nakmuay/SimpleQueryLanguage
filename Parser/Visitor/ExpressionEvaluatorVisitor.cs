@@ -2,23 +2,14 @@ using LangParser.Ast;
 
 namespace LangParser.Visitor;
 
-internal sealed class ExpressionEvaluatorVisitor : WalkerVisitor
+internal sealed class ExpressionEvaluatorVisitor : TypedVisitorBase<double>
 {
-    private readonly Stack<double> _currentValue = new();
-
-    private readonly Stack<double> _signContext = new();
-
-    public double Result => _currentValue.Peek();
-
-    public override void Visit(BinaryOperatorNode node)
+    public override double Visit(BinaryOperatorNode node)
     {
-        node.Left.Accept(this);
-        double left = _currentValue.Pop();
+        double left = node.Left.Accept(this);
+        double right = node.Right.Accept(this);
 
-        node.Right.Accept(this);
-        double right = _currentValue.Pop();
-
-        double result = node.Operator.Operator switch
+        return node.Operator.Operator switch
         {
             OperatorType.Addition => left + right,
             OperatorType.Subtraction => left - right,
@@ -26,24 +17,22 @@ internal sealed class ExpressionEvaluatorVisitor : WalkerVisitor
             OperatorType.Division => left / right,
             _ => throw new NotSupportedException($"Operator '{node.Operator.Operator}' is not supported.")
         };
-
-        _currentValue.Push(result);
     }
 
-    public override void Visit(NegateNode node)
+    public override double Visit(NegateNode node)
     {
-        _signContext.Push(-1D);
-        base.Visit(node);
+        return -1 * node.InnerNode.Accept(this);
     }
 
-    public override void Visit(NumberNode node)
+    public override double Visit(NumberNode node)
     {
-        if (!_signContext.TryPop(out var sign))
-        {
-            sign = 1D;
-        }
+        return node.Value;
+    }
 
-        _currentValue.Push(sign * node.Value);
-        base.Visit(node);
+    public override double Visit(OperatorNode node) => throw new NotImplementedException();
+    public override double Visit(FunctionNode node) => throw new NotImplementedException();
+    public override double Visit(ParenthesisNode node)
+    {
+        return node.InnerExpression.Accept(this);
     }
 }
