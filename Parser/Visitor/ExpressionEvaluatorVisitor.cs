@@ -13,12 +13,12 @@ internal sealed class ExpressionEvaluatorVisitor : WalkerVisitor
     public override void Visit(BinaryOperatorNode node)
     {
         node.Left.Accept(this);
-        var left = _currentValue.Pop();
+        double left = _currentValue.Pop();
 
         node.Right.Accept(this);
-        var right = _currentValue.Pop();
+        double right = _currentValue.Pop();
 
-        var result = node.Operator.Operator switch
+        double result = node.Operator.Operator switch
         {
             OperatorType.Addition => left + right,
             OperatorType.Subtraction => left - right,

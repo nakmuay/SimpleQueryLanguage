@@ -13,7 +13,7 @@ internal sealed class AstBuilderVisitor : MathBaseVisitor<ExpressionNode>
 
     public override ExpressionNode VisitNumberExpr(MathParser.NumberExprContext context)
     {
-        var value = double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
+        double value = double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
         return NumberNode.Create(value);
     }
 
@@ -50,7 +50,7 @@ internal sealed class AstBuilderVisitor : MathBaseVisitor<ExpressionNode>
 
     public override ExpressionNode VisitFuncExpr(MathParser.FuncExprContext context)
     {
-        var functionName = context.func.Text;
+        string functionName = context.func.Text;
 
         var func = typeof(Math)
             .GetMethods(BindingFlags.Public | BindingFlags.Static)
