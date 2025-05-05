@@ -1,121 +1,120 @@
-﻿namespace LangParser
+﻿namespace LangParser;
+
+public abstract record ExpressionNode
 {
-    public abstract record ExpressionNode
+    internal abstract void Accept(VisitorBase visitor);
+}
+
+public sealed record class BinaryOperatorNode : ExpressionNode
+{
+    private BinaryOperatorNode(OperatorNode operatorNode, ExpressionNode left, ExpressionNode right)
     {
-        internal abstract void Accept(VisitorBase visitor);
+        Operator = operatorNode;
+        Left = left;
+        Right = right;
     }
 
-    public sealed record class BinaryOperatorNode : ExpressionNode
+    public OperatorNode Operator { get; }
+
+    public ExpressionNode Left { get; }
+
+    public ExpressionNode Right { get; }
+
+    public static BinaryOperatorNode CreateAdditionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Addition, left, right);
+
+    public static BinaryOperatorNode CreateSubtractionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Subtraction, left, right);
+
+    public static BinaryOperatorNode CreateMultiplicationOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Multiplication, left, right);
+
+    public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Division, left, right);
+
+    internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+}
+
+public sealed record OperatorNode : ExpressionNode
+{
+    public static readonly OperatorNode Addition = new(OperatorType.Addition);
+
+    public static readonly OperatorNode Subtraction = new(OperatorType.Subtraction);
+
+    public static readonly OperatorNode Multiplication = new(OperatorType.Multiplication);
+
+    public static readonly OperatorNode Division = new(OperatorType.Division);
+
+    private OperatorNode(OperatorType operatorType)
     {
-        private BinaryOperatorNode(OperatorNode operatorNode, ExpressionNode left, ExpressionNode right)
-        {
-            Operator = operatorNode;
-            Left = left;
-            Right = right;
-        }
-
-        public OperatorNode Operator { get; }
-
-        public ExpressionNode Left { get; }
-
-        public ExpressionNode Right { get; }
-
-        public static BinaryOperatorNode CreateAdditionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Addition, left, right);
-
-        public static BinaryOperatorNode CreateSubtractionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Subtraction, left, right);
-
-        public static BinaryOperatorNode CreateMultiplicationOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Multiplication, left, right);
-
-        public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Division, left, right);
-
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        Operator = operatorType;
     }
 
-    public sealed record OperatorNode : ExpressionNode
+    internal OperatorType Operator { get; }
+
+    internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+
+    internal enum OperatorType
     {
-        public static readonly OperatorNode Addition = new(OperatorType.Addition);
+        Addition = 1,
+        Subtraction = 2,
+        Multiplication = 3,
+        Division = 4
+    }
+}
 
-        public static readonly OperatorNode Subtraction = new(OperatorType.Subtraction);
-
-        public static readonly OperatorNode Multiplication = new(OperatorType.Multiplication);
-
-        public static readonly OperatorNode Division = new(OperatorType.Division);
-
-        private OperatorNode(OperatorType operatorType)
-        {
-            Operator = operatorType;
-        }
-
-        internal OperatorType Operator { get; }
-
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
-
-        internal enum OperatorType
-        {
-            Addition = 1,
-            Subtraction = 2,
-            Multiplication = 3,
-            Division = 4
-        }
+public sealed record NegateNode : ExpressionNode
+{
+    private NegateNode(ExpressionNode innerNode)
+    {
+        InnerNode = innerNode;
     }
 
-    public sealed record NegateNode : ExpressionNode
+    public ExpressionNode InnerNode { get; }
+
+    public static NegateNode Create(ExpressionNode innerNode) => new(innerNode);
+
+    internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+}
+
+public sealed record FunctionNode : ExpressionNode
+{
+    private FunctionNode(Func<double, double> function, ExpressionNode argument)
     {
-        private NegateNode(ExpressionNode innerNode)
-        {
-            InnerNode = innerNode;
-        }
-
-        public ExpressionNode InnerNode { get; }
-
-        public static NegateNode Create(ExpressionNode innerNode) => new(innerNode);
-
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        Function = function;
+        Argument = argument;
     }
 
-    public sealed record FunctionNode : ExpressionNode
+    public Func<double, double> Function { get; }
+
+
+    public ExpressionNode Argument { get; }
+
+    public static FunctionNode Create(Func<double, double> function, ExpressionNode argument) => new(function, argument);
+
+    internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+}
+
+public sealed record ParenthesisNode : ExpressionNode
+{
+    private ParenthesisNode(ExpressionNode innerExpression)
     {
-        private FunctionNode(Func<double, double> function, ExpressionNode argument)
-        {
-            Function = function;
-            Argument = argument;
-        }
-
-        public Func<double, double> Function { get; }
-
-
-        public ExpressionNode Argument { get; }
-
-        public static FunctionNode Create(Func<double, double> function, ExpressionNode argument) => new(function, argument);
-
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        InnerExpression = innerExpression;
     }
 
-    public sealed record ParenthesisNode : ExpressionNode
+    public ExpressionNode InnerExpression { get; }
+
+    public static ParenthesisNode Create(ExpressionNode innerExpression) => new(innerExpression);
+
+    internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+}
+
+public sealed record NumberNode : ExpressionNode
+{
+    private NumberNode(double value)
     {
-        private ParenthesisNode(ExpressionNode innerExpression)
-        {
-            InnerExpression = innerExpression;
-        }
-
-        public ExpressionNode InnerExpression { get; }
-
-        public static ParenthesisNode Create(ExpressionNode innerExpression) => new(innerExpression);
-
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
+        Value = value;
     }
 
-    public sealed record NumberNode : ExpressionNode
-    {
-        private NumberNode(double value)
-        {
-            Value = value;
-        }
+    public double Value { get; }
 
-        public double Value { get; }
+    public static NumberNode Create(double value) => new(value);
 
-        public static NumberNode Create(double value) => new(value);
-
-        internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
-    }
+    internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
 }
