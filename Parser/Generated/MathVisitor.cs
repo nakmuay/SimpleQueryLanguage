@@ -32,18 +32,18 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IMathVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="MathParser.compileUnit"/>.
+	/// Visit a parse tree produced by <see cref="MathParser.equation"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitCompileUnit([NotNull] MathParser.CompileUnitContext context);
+	Result VisitEquation([NotNull] MathParser.EquationContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>infixExpr</c>
+	/// Visit a parse tree produced by the <c>variableExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitInfixExpr([NotNull] MathParser.InfixExprContext context);
+	Result VisitVariableExpr([NotNull] MathParser.VariableExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>unaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
@@ -65,6 +65,13 @@ public interface IMathVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitNumberExpr([NotNull] MathParser.NumberExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>binaryExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBinaryExpr([NotNull] MathParser.BinaryExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>parensExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.

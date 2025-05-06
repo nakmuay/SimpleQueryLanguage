@@ -4,12 +4,17 @@ using System.Text;
 
 namespace LangParser.Visitor;
 
-internal sealed class FormatterVisitor : WalkerVisitor
+internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
 {
     private readonly StringBuilder _builder = new();
 
     public override string ToString() => _builder.ToString();
 
+    public override void Visit(VariableNode node)
+    {
+        _builder.Append(CultureInfo.InvariantCulture, $"{node.Name}");
+    }
+   
     public override void Visit(OperatorNode node)
     {
         string op = node.Operator switch
@@ -17,12 +22,12 @@ internal sealed class FormatterVisitor : WalkerVisitor
             OperatorType.Power => "^",
             OperatorType.Multiplication => "*",
             OperatorType.Division => "/",
-            OperatorType.Addition => "+",
-            OperatorType.Subtraction => "-",
+            OperatorType.Addition => " + ",
+            OperatorType.Subtraction => " - ",
             _ => throw new NotSupportedException($"Operator '{node.Operator}' is not supported.")
         };
 
-        _builder.Append(CultureInfo.InvariantCulture, $" {op} ");
+        _builder.Append(CultureInfo.InvariantCulture, $"{op}");
         base.Visit(node);
     }
 

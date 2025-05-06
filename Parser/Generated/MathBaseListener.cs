@@ -36,31 +36,31 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class MathBaseListener : IMathListener {
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="MathParser.compileUnit"/>.
+	/// Enter a parse tree produced by <see cref="MathParser.equation"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterCompileUnit([NotNull] MathParser.CompileUnitContext context) { }
+	public virtual void EnterEquation([NotNull] MathParser.EquationContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="MathParser.compileUnit"/>.
+	/// Exit a parse tree produced by <see cref="MathParser.equation"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitCompileUnit([NotNull] MathParser.CompileUnitContext context) { }
+	public virtual void ExitEquation([NotNull] MathParser.EquationContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>infixExpr</c>
+	/// Enter a parse tree produced by the <c>variableExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterInfixExpr([NotNull] MathParser.InfixExprContext context) { }
+	public virtual void EnterVariableExpr([NotNull] MathParser.VariableExprContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>infixExpr</c>
+	/// Exit a parse tree produced by the <c>variableExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitInfixExpr([NotNull] MathParser.InfixExprContext context) { }
+	public virtual void ExitVariableExpr([NotNull] MathParser.VariableExprContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>unaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
@@ -103,6 +103,20 @@ public partial class MathBaseListener : IMathListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitNumberExpr([NotNull] MathParser.NumberExprContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>binaryExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBinaryExpr([NotNull] MathParser.BinaryExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>binaryExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBinaryExpr([NotNull] MathParser.BinaryExprContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>parensExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.

@@ -7,7 +7,7 @@ public static class ExpressionNodeExtensions
 {
     public static string Format(this ExpressionNode tree)
     {
-        var formatter = new FormatterVisitor();
+        var formatter = new ExpressionFormatterVisitor();
         tree.Accept(formatter);
 
         return formatter.ToString();

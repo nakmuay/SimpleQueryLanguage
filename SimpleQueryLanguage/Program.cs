@@ -1,11 +1,15 @@
 ﻿using LangParser;
 using LangParser.Extensions;
 
-string input = "(1 + 1)^3 + 1 * (-2 / 10) * 100";
-var tree = Parser.Parse(input);
+var epxressionTree = Parser.ParseExpression("(1 + 1)^3 + 1 * (-2 / 10) * 100");
 
-string expression = tree.Format();
+string expression = epxressionTree.Format();
 Console.WriteLine($"Expression: {expression}");
 
-double result = tree.Evaluate();
+double result = epxressionTree.Evaluate();
 Console.WriteLine($"Result:     {result}");
+
+var equationTree = Parser.ParseEquation("x = (1 + 2) * 3");
+
+string equation = equationTree.Format();
+Console.WriteLine($"Equation:   {equation}");

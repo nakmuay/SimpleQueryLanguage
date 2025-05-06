@@ -4,11 +4,11 @@ using LangParser.Ast;
 
 namespace LangParser.Internal;
 
-internal sealed class AstBuilderVisitor : MathBaseVisitor<ExpressionNode>
+internal sealed class ExpressionAstBuilderVisitor : MathBaseVisitor<ExpressionNode>
 {
-    public override ExpressionNode VisitCompileUnit(MathParser.CompileUnitContext context)
+    public override ExpressionNode VisitVariableExpr(MathParser.VariableExprContext context)
     {
-        return Visit(context.expr());
+        return VariableNode.Create(context.var.Text);
     }
 
     public override ExpressionNode VisitNumberExpr(MathParser.NumberExprContext context)
@@ -23,7 +23,7 @@ internal sealed class AstBuilderVisitor : MathBaseVisitor<ExpressionNode>
         return ParenthesisNode.Create(innerExpression);
     }
 
-    public override ExpressionNode VisitInfixExpr(MathParser.InfixExprContext context)
+    public override ExpressionNode VisitBinaryExpr(MathParser.BinaryExprContext context)
     {
         var left = Visit(context.left);
         var right = Visit(context.right);
@@ -41,10 +41,12 @@ internal sealed class AstBuilderVisitor : MathBaseVisitor<ExpressionNode>
 
     public override ExpressionNode VisitUnaryExpr(MathParser.UnaryExprContext context)
     {
+        var innerExpression = Visit(context.expr());
+
         return context.op.Type switch
         {
-            MathLexer.OP_ADD => Visit(context.expr()),
-            MathLexer.OP_SUB => NegateNode.Create(Visit(context.expr())),
+            MathLexer.OP_ADD => innerExpression,
+            MathLexer.OP_SUB => NegateNode.Create(innerExpression),
             _ => throw new NotSupportedException(),
         };
     }

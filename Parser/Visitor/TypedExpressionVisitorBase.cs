@@ -2,8 +2,10 @@ using LangParser.Ast;
 
 namespace LangParser.Visitor;
 
-public abstract class TypedVisitorBase<T>
+public abstract class TypedExpressionVisitorBase<T>
 {
+    public abstract T Visit(VariableNode node);
+
     public abstract T Visit(OperatorNode node);
 
     public abstract T Visit(BinaryOperatorNode node);

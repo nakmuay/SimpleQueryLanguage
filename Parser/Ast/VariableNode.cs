@@ -2,16 +2,16 @@ using LangParser.Visitor;
 
 namespace LangParser.Ast;
 
-public sealed record NumberNode : ExpressionNode
+public sealed record VariableNode : ExpressionNode
 {
-    private NumberNode(double value)
+    private VariableNode(string name)
     {
-        Value = value;
+        Name = name;
     }
 
-    public double Value { get; }
+    public string Name { get; }
 
-    public static NumberNode Create(double value) => new(value);
+    public static VariableNode Create(string name) => new(name);
 
     internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
 

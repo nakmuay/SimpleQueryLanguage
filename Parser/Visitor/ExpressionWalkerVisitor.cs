@@ -1,10 +1,14 @@
 using LangParser.Ast;
-using LangParser.DataTypes;
 
 namespace LangParser.Visitor;
 
-internal class WalkerVisitor : VisitorBase
+internal class ExpressionWalkerVisitor : ExpressionVisitorBase
 {
+    public override void Visit(VariableNode node)
+    {
+        // Noop.
+    }
+
     public override void Visit(OperatorNode node)
     {
         // Noop.

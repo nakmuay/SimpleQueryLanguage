@@ -2,8 +2,10 @@ using LangParser.Ast;
 
 namespace LangParser.Visitor;
 
-internal sealed class ExpressionEvaluatorVisitor : TypedVisitorBase<double>
+internal sealed class ExpressionEvaluatorVisitor : TypedExpressionVisitorBase<double>
 {
+    public override double Visit(VariableNode node) => throw new NotImplementedException();
+
     public override double Visit(BinaryOperatorNode node)
     {
         double left = node.Left.Accept(this);

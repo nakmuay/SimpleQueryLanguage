@@ -31,27 +31,27 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IMathListener : IParseTreeListener {
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="MathParser.compileUnit"/>.
+	/// Enter a parse tree produced by <see cref="MathParser.equation"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterCompileUnit([NotNull] MathParser.CompileUnitContext context);
+	void EnterEquation([NotNull] MathParser.EquationContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="MathParser.compileUnit"/>.
+	/// Exit a parse tree produced by <see cref="MathParser.equation"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitCompileUnit([NotNull] MathParser.CompileUnitContext context);
+	void ExitEquation([NotNull] MathParser.EquationContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>infixExpr</c>
+	/// Enter a parse tree produced by the <c>variableExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterInfixExpr([NotNull] MathParser.InfixExprContext context);
+	void EnterVariableExpr([NotNull] MathParser.VariableExprContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>infixExpr</c>
+	/// Exit a parse tree produced by the <c>variableExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitInfixExpr([NotNull] MathParser.InfixExprContext context);
+	void ExitVariableExpr([NotNull] MathParser.VariableExprContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>unaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
@@ -88,6 +88,18 @@ public interface IMathListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitNumberExpr([NotNull] MathParser.NumberExprContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>binaryExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBinaryExpr([NotNull] MathParser.BinaryExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>binaryExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBinaryExpr([NotNull] MathParser.BinaryExprContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>parensExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
