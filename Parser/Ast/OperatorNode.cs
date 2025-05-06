@@ -4,13 +4,11 @@ namespace LangParser.Ast;
 
 public sealed record OperatorNode : ExpressionNode
 {
-    public static readonly OperatorNode Addition = new(OperatorType.Addition);
-
-    public static readonly OperatorNode Subtraction = new(OperatorType.Subtraction);
-
+    public static readonly OperatorNode Power = new(OperatorType.Power);
     public static readonly OperatorNode Multiplication = new(OperatorType.Multiplication);
-
     public static readonly OperatorNode Division = new(OperatorType.Division);
+    public static readonly OperatorNode Addition = new(OperatorType.Addition);
+    public static readonly OperatorNode Subtraction = new(OperatorType.Subtraction);
 
     private OperatorNode(OperatorType operatorType)
     {

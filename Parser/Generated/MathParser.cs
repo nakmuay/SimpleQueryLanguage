@@ -36,7 +36,8 @@ public partial class MathParser : Parser {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		T__0=1, T__1=2, OP_ADD=3, OP_SUB=4, OP_MUL=5, OP_DIV=6, NUM=7, ID=8, WS=9;
+		T__0=1, T__1=2, OP_ADD=3, OP_SUB=4, OP_MUL=5, OP_DIV=6, OP_POW=7, NUM=8, 
+		ID=9, WS=10;
 	public const int
 		RULE_compileUnit = 0, RULE_expr = 1;
 	public static readonly string[] ruleNames = {
@@ -44,11 +45,11 @@ public partial class MathParser : Parser {
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'"
+		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'", "'^'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, null, "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "NUM", "ID", 
-		"WS"
+		null, null, null, "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_POW", "NUM", 
+		"ID", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -92,6 +93,16 @@ public partial class MathParser : Parser {
 		{
 		}
 		public override int RuleIndex { get { return RULE_compileUnit; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.EnterCompileUnit(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.ExitCompileUnit(this);
+		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
@@ -146,11 +157,22 @@ public partial class MathParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr(int i) {
 			return GetRuleContext<ExprContext>(i);
 		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OP_POW() { return GetToken(MathParser.OP_POW, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OP_MUL() { return GetToken(MathParser.OP_MUL, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OP_DIV() { return GetToken(MathParser.OP_DIV, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OP_ADD() { return GetToken(MathParser.OP_ADD, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OP_SUB() { return GetToken(MathParser.OP_SUB, 0); }
 		public InfixExprContext(ExprContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.EnterInfixExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.ExitInfixExpr(this);
+		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
@@ -167,6 +189,16 @@ public partial class MathParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OP_SUB() { return GetToken(MathParser.OP_SUB, 0); }
 		public UnaryExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.EnterUnaryExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.ExitUnaryExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitUnaryExpr(this);
@@ -181,6 +213,16 @@ public partial class MathParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(MathParser.ID, 0); }
 		public FuncExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.EnterFuncExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.ExitFuncExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitFuncExpr(this);
@@ -191,6 +233,16 @@ public partial class MathParser : Parser {
 		public IToken value;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NUM() { return GetToken(MathParser.NUM, 0); }
 		public NumberExprContext(ExprContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.EnterNumberExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.ExitNumberExpr(this);
+		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
@@ -203,6 +255,16 @@ public partial class MathParser : Parser {
 			return GetRuleContext<ExprContext>(0);
 		}
 		public ParensExprContext(ExprContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.EnterParensExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.ExitParensExpr(this);
+		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
@@ -262,7 +324,7 @@ public partial class MathParser : Parser {
 				    Consume();
 				}
 				State = 13;
-				expr(5);
+				expr(6);
 				}
 				break;
 			case ID:
@@ -293,7 +355,7 @@ public partial class MathParser : Parser {
 				throw new NoViableAltException(this);
 			}
 			Context.Stop = TokenStream.LT(-1);
-			State = 30;
+			State = 33;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
@@ -302,7 +364,7 @@ public partial class MathParser : Parser {
 						TriggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					State = 28;
+					State = 31;
 					ErrorHandler.Sync(this);
 					switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
 					case 1:
@@ -311,8 +373,21 @@ public partial class MathParser : Parser {
 						((InfixExprContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expr);
 						State = 22;
-						if (!(Precpred(Context, 4))) throw new FailedPredicateException(this, "Precpred(Context, 4)");
+						if (!(Precpred(Context, 5))) throw new FailedPredicateException(this, "Precpred(Context, 5)");
 						State = 23;
+						((InfixExprContext)_localctx).op = Match(OP_POW);
+						State = 24;
+						((InfixExprContext)_localctx).right = expr(6);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new InfixExprContext(new ExprContext(_parentctx, _parentState));
+						((InfixExprContext)_localctx).left = _prevctx;
+						PushNewRecursionContext(_localctx, _startState, RULE_expr);
+						State = 25;
+						if (!(Precpred(Context, 4))) throw new FailedPredicateException(this, "Precpred(Context, 4)");
+						State = 26;
 						((InfixExprContext)_localctx).op = TokenStream.LT(1);
 						_la = TokenStream.LA(1);
 						if ( !(_la==OP_MUL || _la==OP_DIV) ) {
@@ -322,18 +397,18 @@ public partial class MathParser : Parser {
 							ErrorHandler.ReportMatch(this);
 						    Consume();
 						}
-						State = 24;
+						State = 27;
 						((InfixExprContext)_localctx).right = expr(5);
 						}
 						break;
-					case 2:
+					case 3:
 						{
 						_localctx = new InfixExprContext(new ExprContext(_parentctx, _parentState));
 						((InfixExprContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expr);
-						State = 25;
+						State = 28;
 						if (!(Precpred(Context, 3))) throw new FailedPredicateException(this, "Precpred(Context, 3)");
-						State = 26;
+						State = 29;
 						((InfixExprContext)_localctx).op = TokenStream.LT(1);
 						_la = TokenStream.LA(1);
 						if ( !(_la==OP_ADD || _la==OP_SUB) ) {
@@ -343,14 +418,14 @@ public partial class MathParser : Parser {
 							ErrorHandler.ReportMatch(this);
 						    Consume();
 						}
-						State = 27;
+						State = 30;
 						((InfixExprContext)_localctx).right = expr(4);
 						}
 						break;
 					}
 					} 
 				}
-				State = 32;
+				State = 35;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			}
@@ -375,23 +450,25 @@ public partial class MathParser : Parser {
 	}
 	private bool expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return Precpred(Context, 4);
-		case 1: return Precpred(Context, 3);
+		case 0: return Precpred(Context, 5);
+		case 1: return Precpred(Context, 4);
+		case 2: return Precpred(Context, 3);
 		}
 		return true;
 	}
 
 	private static int[] _serializedATN = {
-		4,1,9,34,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-		1,1,1,1,1,1,1,1,1,3,1,21,8,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,29,8,1,10,1,12,
-		1,32,9,1,1,1,0,1,2,2,0,2,0,2,1,0,3,4,1,0,5,6,36,0,4,1,0,0,0,2,20,1,0,0,
-		0,4,5,3,2,1,0,5,6,5,0,0,1,6,1,1,0,0,0,7,8,6,1,-1,0,8,9,5,1,0,0,9,10,3,
-		2,1,0,10,11,5,2,0,0,11,21,1,0,0,0,12,13,7,0,0,0,13,21,3,2,1,5,14,15,5,
-		8,0,0,15,16,5,1,0,0,16,17,3,2,1,0,17,18,5,2,0,0,18,21,1,0,0,0,19,21,5,
-		7,0,0,20,7,1,0,0,0,20,12,1,0,0,0,20,14,1,0,0,0,20,19,1,0,0,0,21,30,1,0,
-		0,0,22,23,10,4,0,0,23,24,7,1,0,0,24,29,3,2,1,5,25,26,10,3,0,0,26,27,7,
-		0,0,0,27,29,3,2,1,4,28,22,1,0,0,0,28,25,1,0,0,0,29,32,1,0,0,0,30,28,1,
-		0,0,0,30,31,1,0,0,0,31,3,1,0,0,0,32,30,1,0,0,0,3,20,28,30
+		4,1,10,37,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,1,1,3,1,21,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,
+		32,8,1,10,1,12,1,35,9,1,1,1,0,1,2,2,0,2,0,2,1,0,3,4,1,0,5,6,40,0,4,1,0,
+		0,0,2,20,1,0,0,0,4,5,3,2,1,0,5,6,5,0,0,1,6,1,1,0,0,0,7,8,6,1,-1,0,8,9,
+		5,1,0,0,9,10,3,2,1,0,10,11,5,2,0,0,11,21,1,0,0,0,12,13,7,0,0,0,13,21,3,
+		2,1,6,14,15,5,9,0,0,15,16,5,1,0,0,16,17,3,2,1,0,17,18,5,2,0,0,18,21,1,
+		0,0,0,19,21,5,8,0,0,20,7,1,0,0,0,20,12,1,0,0,0,20,14,1,0,0,0,20,19,1,0,
+		0,0,21,33,1,0,0,0,22,23,10,5,0,0,23,24,5,7,0,0,24,32,3,2,1,6,25,26,10,
+		4,0,0,26,27,7,1,0,0,27,32,3,2,1,5,28,29,10,3,0,0,29,30,7,0,0,0,30,32,3,
+		2,1,4,31,22,1,0,0,0,31,25,1,0,0,0,31,28,1,0,0,0,32,35,1,0,0,0,33,31,1,
+		0,0,0,33,34,1,0,0,0,34,3,1,0,0,0,35,33,1,0,0,0,3,20,31,33
 	};
 
 	public static readonly ATN _ATN =

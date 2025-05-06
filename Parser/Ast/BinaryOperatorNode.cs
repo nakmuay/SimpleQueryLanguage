@@ -17,13 +17,15 @@ public sealed record class BinaryOperatorNode : ExpressionNode
 
     public ExpressionNode Right { get; }
 
-    public static BinaryOperatorNode CreateAdditionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Addition, left, right);
-
-    public static BinaryOperatorNode CreateSubtractionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Subtraction, left, right);
-
+    public static BinaryOperatorNode CreatePowerOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Power, left, right);
+    
     public static BinaryOperatorNode CreateMultiplicationOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Multiplication, left, right);
 
     public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Division, left, right);
+
+    public static BinaryOperatorNode CreateAdditionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Addition, left, right);
+
+    public static BinaryOperatorNode CreateSubtractionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Subtraction, left, right);
 
     internal override void Accept(VisitorBase visitor) => visitor.Visit(this);
 

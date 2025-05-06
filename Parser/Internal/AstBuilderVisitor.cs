@@ -30,10 +30,11 @@ internal sealed class AstBuilderVisitor : MathBaseVisitor<ExpressionNode>
 
         return context.op.Type switch
         {
-            MathLexer.OP_ADD => BinaryOperatorNode.CreateAdditionOperator(left, right),
-            MathLexer.OP_SUB => BinaryOperatorNode.CreateSubtractionOperator(left, right),
+            MathLexer.OP_POW => BinaryOperatorNode.CreatePowerOperator(left, right),
             MathLexer.OP_MUL => BinaryOperatorNode.CreateMultiplicationOperator(left, right),
             MathLexer.OP_DIV => BinaryOperatorNode.CreateDivisionOperator(left, right),
+            MathLexer.OP_ADD => BinaryOperatorNode.CreateAdditionOperator(left, right),
+            MathLexer.OP_SUB => BinaryOperatorNode.CreateSubtractionOperator(left, right),
             _ => throw new NotSupportedException()
         };
     }

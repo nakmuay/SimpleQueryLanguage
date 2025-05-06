@@ -11,10 +11,11 @@ internal sealed class ExpressionEvaluatorVisitor : TypedVisitorBase<double>
 
         return node.Operator.Operator switch
         {
-            OperatorType.Addition => left + right,
-            OperatorType.Subtraction => left - right,
+            OperatorType.Power => Math.Pow(left, right),
             OperatorType.Multiplication => left * right,
             OperatorType.Division => left / right,
+            OperatorType.Addition => left + right,
+            OperatorType.Subtraction => left - right,
             _ => throw new NotSupportedException($"Operator '{node.Operator.Operator}' is not supported.")
         };
     }

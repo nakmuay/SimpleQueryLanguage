@@ -1,5 +1,4 @@
 using LangParser.Ast;
-using LangParser.DataTypes;
 using System.Globalization;
 using System.Text;
 
@@ -15,10 +14,11 @@ internal sealed class FormatterVisitor : WalkerVisitor
     {
         string op = node.Operator switch
         {
-            OperatorType.Addition => "+",
-            OperatorType.Subtraction => "-",
+            OperatorType.Power => "^",
             OperatorType.Multiplication => "*",
             OperatorType.Division => "/",
+            OperatorType.Addition => "+",
+            OperatorType.Subtraction => "-",
             _ => throw new NotSupportedException($"Operator '{node.Operator}' is not supported.")
         };
 
