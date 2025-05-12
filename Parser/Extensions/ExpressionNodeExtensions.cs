@@ -18,4 +18,10 @@ public static class ExpressionNodeExtensions
         var evaluator = new ExpressionEvaluatorVisitor();
         return tree.Accept(evaluator);
     }
+
+    public static ExpressionNode Simplify(this ExpressionNode tree)
+    {
+        var transformer = new ExpressionTreeTransformaer();
+        return tree.Accept(transformer);
+    }
 }
