@@ -3,6 +3,7 @@ using LangParser.Extensions;
 
 var epxressionTree = Parser.ParseExpression("(1 + 1)^3 + 1 * (-2 / 10) * 100");
 Console.WriteLine($"Expression: {epxressionTree.Format()}");
+Console.WriteLine($"Expression: {epxressionTree.Format()}");
 
 double result = epxressionTree.Evaluate();
 Console.WriteLine($"Result:     {result}");

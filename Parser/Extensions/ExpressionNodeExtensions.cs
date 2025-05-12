@@ -21,7 +21,7 @@ public static class ExpressionNodeExtensions
 
     public static ExpressionNode Simplify(this ExpressionNode tree)
     {
-        var transformer = new ExpressionTreeTransformaer();
+        var transformer = new ExpressionTransformer();
         return tree.Accept(transformer);
     }
 }
