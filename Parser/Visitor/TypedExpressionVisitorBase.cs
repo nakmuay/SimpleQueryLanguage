@@ -16,5 +16,5 @@ public abstract class TypedExpressionVisitorBase<T>
 
     public abstract T Visit(ParenthesisNode node);
 
-    public abstract T Visit(NumberNode node);
+    public abstract T Visit(ConstantNode node);
 }

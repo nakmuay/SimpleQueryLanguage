@@ -90,20 +90,6 @@ public partial class MathBaseListener : IMathListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFuncExpr([NotNull] MathParser.FuncExprContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>numberExpr</c>
-	/// labeled alternative in <see cref="MathParser.expr"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterNumberExpr([NotNull] MathParser.NumberExprContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>numberExpr</c>
-	/// labeled alternative in <see cref="MathParser.expr"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitNumberExpr([NotNull] MathParser.NumberExprContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by the <c>binaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -131,6 +117,20 @@ public partial class MathBaseListener : IMathListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitParensExpr([NotNull] MathParser.ParensExprContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>constantExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterConstantExpr([NotNull] MathParser.ConstantExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>constantExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitConstantExpr([NotNull] MathParser.ConstantExprContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

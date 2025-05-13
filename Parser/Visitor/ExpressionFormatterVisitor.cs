@@ -50,7 +50,7 @@ internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
         _builder.Append(')');
     }
 
-    public override void Visit(NumberNode node)
+    public override void Visit(ConstantNode node)
     {
         _builder.Append(CultureInfo.InvariantCulture, $"{node.Value}");
         base.Visit(node);

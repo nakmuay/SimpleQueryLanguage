@@ -13,21 +13,21 @@ internal sealed class ExpressionTransformer : TypedExpressionVisitorBase<Express
         var left = node.Left.Accept(this);
         var right = node.Right.Accept(this);
 
-        if (left is NumberNode leftNumber && right is NumberNode rightNumber)
+        if (left is ConstantNode leftConstant && right is ConstantNode rightConstant)
         {
             double result = node.Operator.Operator switch
             {
-                OperatorType.Multiplication => leftNumber.Value * rightNumber.Value,
-                OperatorType.Division => leftNumber.Value / rightNumber.Value,
-                OperatorType.Addition => leftNumber.Value + rightNumber.Value,
-                OperatorType.Subtraction => leftNumber.Value - rightNumber.Value,
-                OperatorType.Power => Math.Pow(leftNumber.Value, rightNumber.Value),
+                OperatorType.Multiplication => leftConstant.Value * rightConstant.Value,
+                OperatorType.Division => leftConstant.Value / rightConstant.Value,
+                OperatorType.Addition => leftConstant.Value + rightConstant.Value,
+                OperatorType.Subtraction => leftConstant.Value - rightConstant.Value,
+                OperatorType.Power => Math.Pow(leftConstant.Value, rightConstant.Value),
                 _ => 0
             };
 
-            return NumberNode.Create(result);
+            return ConstantNode.Create(result);
         }
-        
+       
         return BinaryOperatorNode.Create(node.Operator, left, right);
     }
 
@@ -38,11 +38,11 @@ internal sealed class ExpressionTransformer : TypedExpressionVisitorBase<Express
     public override ExpressionNode Visit(ParenthesisNode node)
     {
         var innerNode = node.InnerExpression.Accept(this);
-        if(innerNode is NumberNode numberNode)
+        if(innerNode is ConstantNode numberNode)
             return numberNode;
 
         return ParenthesisNode.Create(innerNode);
     }
 
-    public override ExpressionNode Visit(NumberNode node) => node;
+    public override ExpressionNode Visit(ConstantNode node) => node;
 }

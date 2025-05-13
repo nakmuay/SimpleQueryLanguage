@@ -11,7 +11,7 @@ expr
     | left=expr op=('*'|'/') right=expr    # binaryExpr
     | left=expr op=('+'|'-') right=expr    # binaryExpr
     | func=ID '(' expr ')'                 # funcExpr
-    | value=NUM                            # numberExpr
+    | value=NUM                            # constantExpr
     | coeff=NUM var=ID                     # variableExpr
     | var=ID                               # variableExpr
     ;

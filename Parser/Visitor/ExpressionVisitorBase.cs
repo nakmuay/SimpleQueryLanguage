@@ -16,5 +16,5 @@ public abstract class ExpressionVisitorBase
 
     public abstract void Visit(ParenthesisNode node);
 
-    public abstract void Visit(NumberNode node);
+    public abstract void Visit(ConstantNode node);
 }

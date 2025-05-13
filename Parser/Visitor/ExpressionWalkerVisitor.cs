@@ -36,7 +36,7 @@ internal class ExpressionWalkerVisitor : ExpressionVisitorBase
         node.InnerExpression.Accept(this);
     }
 
-    public override void Visit(NumberNode node)
+    public override void Visit(ConstantNode node)
     {
         // Noop.
     }

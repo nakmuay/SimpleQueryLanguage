@@ -77,18 +77,6 @@ public interface IMathListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitFuncExpr([NotNull] MathParser.FuncExprContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>numberExpr</c>
-	/// labeled alternative in <see cref="MathParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterNumberExpr([NotNull] MathParser.NumberExprContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>numberExpr</c>
-	/// labeled alternative in <see cref="MathParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitNumberExpr([NotNull] MathParser.NumberExprContext context);
-	/// <summary>
 	/// Enter a parse tree produced by the <c>binaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// </summary>
@@ -112,4 +100,16 @@ public interface IMathListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitParensExpr([NotNull] MathParser.ParensExprContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>constantExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterConstantExpr([NotNull] MathParser.ConstantExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>constantExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitConstantExpr([NotNull] MathParser.ConstantExprContext context);
 }

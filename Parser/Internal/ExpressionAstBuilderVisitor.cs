@@ -11,10 +11,10 @@ internal sealed class ExpressionAstBuilderVisitor : MathBaseVisitor<ExpressionNo
         return VariableNode.Create(context.var.Text);
     }
 
-    public override ExpressionNode VisitNumberExpr(MathParser.NumberExprContext context)
+    public override ExpressionNode VisitConstantExpr(MathParser.ConstantExprContext context)
     {
         double value = double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
-        return NumberNode.Create(value);
+        return ConstantNode.Create(value);
     }
 
     public override ExpressionNode VisitParensExpr(MathParser.ParensExprContext context)

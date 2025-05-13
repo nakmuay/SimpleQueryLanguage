@@ -230,27 +230,6 @@ public partial class MathParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class NumberExprContext : ExprContext {
-		public IToken value;
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NUM() { return GetToken(MathParser.NUM, 0); }
-		public NumberExprContext(ExprContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
-			if (typedListener != null) typedListener.EnterNumberExpr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
-			if (typedListener != null) typedListener.ExitNumberExpr(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitNumberExpr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
 	public partial class BinaryExprContext : ExprContext {
 		public ExprContext left;
 		public IToken op;
@@ -303,6 +282,27 @@ public partial class MathParser : Parser {
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitParensExpr(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class ConstantExprContext : ExprContext {
+		public IToken value;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NUM() { return GetToken(MathParser.NUM, 0); }
+		public ConstantExprContext(ExprContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.EnterConstantExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IMathListener typedListener = listener as IMathListener;
+			if (typedListener != null) typedListener.ExitConstantExpr(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitConstantExpr(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -377,11 +377,11 @@ public partial class MathParser : Parser {
 				break;
 			case 4:
 				{
-				_localctx = new NumberExprContext(_localctx);
+				_localctx = new ConstantExprContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
 				State = 21;
-				((NumberExprContext)_localctx).value = Match(NUM);
+				((ConstantExprContext)_localctx).value = Match(NUM);
 				}
 				break;
 			case 5:

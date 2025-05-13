@@ -59,13 +59,6 @@ public interface IMathVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFuncExpr([NotNull] MathParser.FuncExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>numberExpr</c>
-	/// labeled alternative in <see cref="MathParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitNumberExpr([NotNull] MathParser.NumberExprContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>binaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// </summary>
@@ -79,4 +72,11 @@ public interface IMathVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitParensExpr([NotNull] MathParser.ParensExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>constantExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConstantExpr([NotNull] MathParser.ConstantExprContext context);
 }
