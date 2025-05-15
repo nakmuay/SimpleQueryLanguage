@@ -18,7 +18,7 @@ public sealed record class BinaryOperatorNode : ExpressionNode
     public ExpressionNode Right { get; }
 
     public static BinaryOperatorNode CreatePowerOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Power, left, right);
-    
+
     public static BinaryOperatorNode CreateMultiplicationOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Multiplication, left, right);
 
     public static BinaryOperatorNode CreateDivisionOperator(ExpressionNode left, ExpressionNode right) => new(OperatorNode.Division, left, right);

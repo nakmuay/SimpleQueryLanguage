@@ -1,6 +1,6 @@
-﻿using LangParser.Internal;
-using Antlr4.Runtime;
+﻿using Antlr4.Runtime;
 using LangParser.Ast;
+using LangParser.Internal;
 
 namespace LangParser;
 

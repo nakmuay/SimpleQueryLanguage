@@ -58,12 +58,11 @@ internal sealed class ExpressionAstBuilderVisitor : MathBaseVisitor<ExpressionNo
         var func = typeof(Math)
             .GetMethods(BindingFlags.Public | BindingFlags.Static)
             .Where(m => m.ReturnType == typeof(double))
-            .Where(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { typeof(double) }))
+            .Where(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual([typeof(double)]))
             .FirstOrDefault(m => m.Name.Equals(functionName, StringComparison.OrdinalIgnoreCase));
 
-        if (func is null)
-            throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "Function {0} is not supported", functionName));
-
-        return FunctionNode.Create(func.CreateDelegate<Func<double, double>>(), Visit(context.expr()));
+        return func is null
+            ? throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "Function {0} is not supported", functionName))
+            : (ExpressionNode)FunctionNode.Create(func.CreateDelegate<Func<double, double>>(), Visit(context.expr()));
     }
 }

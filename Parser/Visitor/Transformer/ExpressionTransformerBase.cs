@@ -7,7 +7,7 @@ internal class ExpressionTransformerBase : TypedExpressionVisitorBase<Expression
     public override ExpressionNode Visit(VariableNode node) => node;
 
     public override ExpressionNode Visit(OperatorNode node) => node;
-    
+
     public override ExpressionNode Visit(BinaryOperatorNode node)
     {
         var left = node.Left.Accept(this);

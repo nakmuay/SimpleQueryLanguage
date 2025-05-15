@@ -22,20 +22,13 @@ internal sealed class ExpressionEvaluatorVisitor : TypedExpressionVisitorBase<do
         };
     }
 
-    public override double Visit(NegateNode node)
-    {
-        return -1 * node.InnerNode.Accept(this);
-    }
+    public override double Visit(NegateNode node) => -1 * node.InnerNode.Accept(this);
 
-    public override double Visit(ConstantNode node)
-    {
-        return node.Value;
-    }
+    public override double Visit(ConstantNode node) => node.Value;
 
     public override double Visit(OperatorNode node) => throw new NotImplementedException();
+
     public override double Visit(FunctionNode node) => throw new NotImplementedException();
-    public override double Visit(ParenthesisNode node)
-    {
-        return node.InnerExpression.Accept(this);
-    }
+
+    public override double Visit(ParenthesisNode node) => node.InnerExpression.Accept(this);
 }
