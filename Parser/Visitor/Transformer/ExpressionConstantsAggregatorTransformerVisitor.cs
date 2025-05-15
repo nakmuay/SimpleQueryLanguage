@@ -2,7 +2,7 @@ using LangParser.Ast;
 
 namespace LangParser.Visitor.Transformer;
 
-internal sealed class ConstantsAggregatorTransformerVisitor : ExpressionTransformerBase
+internal sealed class ExpressionConstantsAggregatorTransformerVisitor : ExpressionTransformerBase
 {
     public override ExpressionNode Visit(BinaryOperatorNode node)
     {

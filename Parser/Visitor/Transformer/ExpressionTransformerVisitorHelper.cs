@@ -1,9 +1,8 @@
-
 using LangParser.Ast;
 using LangParser.Visitor;
 using LangParser.Visitor.Transformer;
 
-internal static class TransformerVisitorHelper
+internal static class ExpressionTransformerVisitorHelper
 {
     public static ExpressionNode ApplyTransformations(ExpressionNode tree, params Span<ExpressionTransformerBase> transformers)
     {

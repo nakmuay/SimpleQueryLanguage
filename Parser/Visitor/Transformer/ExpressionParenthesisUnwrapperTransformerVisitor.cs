@@ -2,7 +2,7 @@ using LangParser.Ast;
 
 namespace LangParser.Visitor.Transformer;
 
-internal sealed class ParenthesisUnwrapperTransformerVisitor : ExpressionTransformerBase
+internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : ExpressionTransformerBase
 {
     public override ExpressionNode Visit(ParenthesisNode node)
     {
