@@ -11,8 +11,6 @@ internal sealed class ExpressionConstantsAggregatorTransformerVisitor : Expressi
 
         if (left is ConstantNode leftConstant && right is ConstantNode rightConstant)
         {
-            Console.WriteLine("Hello");
-
             double result = node.Operator.Operator switch
             {
                 OperatorType.Multiplication => leftConstant.Value * rightConstant.Value,
