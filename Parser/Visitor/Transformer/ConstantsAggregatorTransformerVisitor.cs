@@ -1,13 +1,9 @@
 using LangParser.Ast;
 
-namespace LangParser.Visitor;
+namespace LangParser.Visitor.Transformer;
 
-internal sealed class ExpressionTransformer : TypedExpressionVisitorBase<ExpressionNode>
+internal sealed class ConstantsAggregatorTransformerVisitor : ExpressionTransformerBase
 {
-    public override ExpressionNode Visit(VariableNode node) => node;
-
-    public override ExpressionNode Visit(OperatorNode node) => node;
-
     public override ExpressionNode Visit(BinaryOperatorNode node)
     {
         var left = node.Left.Accept(this);
@@ -15,6 +11,8 @@ internal sealed class ExpressionTransformer : TypedExpressionVisitorBase<Express
 
         if (left is ConstantNode leftConstant && right is ConstantNode rightConstant)
         {
+            Console.WriteLine("Hello");
+
             double result = node.Operator.Operator switch
             {
                 OperatorType.Multiplication => leftConstant.Value * rightConstant.Value,
@@ -22,7 +20,7 @@ internal sealed class ExpressionTransformer : TypedExpressionVisitorBase<Express
                 OperatorType.Addition => leftConstant.Value + rightConstant.Value,
                 OperatorType.Subtraction => leftConstant.Value - rightConstant.Value,
                 OperatorType.Power => Math.Pow(leftConstant.Value, rightConstant.Value),
-                _ => 0
+                _ => throw new NotSupportedException($"Operator '{node.Operator}' is not supported.")
             };
 
             return ConstantNode.Create(result);
@@ -30,19 +28,4 @@ internal sealed class ExpressionTransformer : TypedExpressionVisitorBase<Express
        
         return BinaryOperatorNode.Create(node.Operator, left, right);
     }
-
-    public override ExpressionNode Visit(NegateNode node) => node;
-
-    public override ExpressionNode Visit(FunctionNode node) => node;
-
-    public override ExpressionNode Visit(ParenthesisNode node)
-    {
-        var innerNode = node.InnerExpression.Accept(this);
-        if(innerNode is ConstantNode numberNode)
-            return numberNode;
-
-        return ParenthesisNode.Create(innerNode);
-    }
-
-    public override ExpressionNode Visit(ConstantNode node) => node;
 }

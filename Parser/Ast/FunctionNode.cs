@@ -12,7 +12,6 @@ public sealed record FunctionNode : ExpressionNode
 
     public Func<double, double> Function { get; }
 
-
     public ExpressionNode Argument { get; }
 
     public static FunctionNode Create(Func<double, double> function, ExpressionNode argument) => new(function, argument);

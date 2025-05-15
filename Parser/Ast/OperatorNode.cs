@@ -15,6 +15,16 @@ public sealed record OperatorNode : ExpressionNode
         Operator = operatorType;
     }
 
+    public override string ToString() => Operator switch
+    {
+        OperatorType.Multiplication => "*",
+        OperatorType.Division => "/",
+        OperatorType.Addition => "+",
+        OperatorType.Subtraction => "-",
+        OperatorType.Power => "^",
+        _ => throw new NotSupportedException($"Operator {Operator} is not supported")
+    };
+
     internal OperatorType Operator { get; }
 
     internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);

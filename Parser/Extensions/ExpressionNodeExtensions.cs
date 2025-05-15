@@ -1,5 +1,6 @@
 using LangParser.Ast;
 using LangParser.Visitor;
+using LangParser.Visitor.Transformer;
 
 namespace LangParser.Extensions;
 
@@ -21,7 +22,6 @@ public static class ExpressionNodeExtensions
 
     public static ExpressionNode Simplify(this ExpressionNode tree)
     {
-        var transformer = new ExpressionTransformer();
-        return tree.Accept(transformer);
+        return TransformerVisitorHelper.ApplyTransformations(tree, new ConstantsAggregatorTransformerVisitor(), new ParenthesisUnwrapperTransformerVisitor());
     }
 }
