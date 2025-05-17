@@ -12,4 +12,4 @@ var equationTree = Parser.ParseEquation("x = x*(1 + 2) * 3");
 Console.WriteLine($"Equation:   {equationTree.Format()}");
 
 var simplifiedRhs = equationTree.Right.Simplify();
-Console.WriteLine($"Simplified right hand side: {simplifiedRhs.Format()}");
+Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");

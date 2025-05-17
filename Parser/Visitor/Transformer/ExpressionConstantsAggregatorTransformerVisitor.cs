@@ -24,6 +24,6 @@ internal sealed class ExpressionConstantsAggregatorTransformerVisitor : Expressi
             return ConstantNode.Create(result);
         }
 
-        return BinaryOperatorNode.Create(node.Operator, left, right);
+        return base.Visit(node);
     }
 }

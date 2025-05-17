@@ -6,9 +6,9 @@ internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : Express
 {
     public override ExpressionNode Visit(ParenthesisNode node)
     {
-        var innerNode = node.InnerExpression.Accept(this);
-        return innerNode is ConstantNode numberNode
-            ? numberNode
-            : (ExpressionNode)ParenthesisNode.Create(innerNode);
+        if (node.InnerExpression.Accept(this) is ConstantNode constant)
+            return constant;
+
+        return base.Visit(node);
     }
 }
