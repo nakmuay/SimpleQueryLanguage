@@ -9,16 +9,17 @@ internal sealed class EquationFormatterVisitor : EquationVisitorBase
 
     public override void Visit(EquationNode node)
     {
-        var formatterVisitor = new ExpressionFormatterVisitor();
-
-        node.Left.Accept(formatterVisitor);
-        _ = _stringBuilder.Append(formatterVisitor.ToString());
+        // Format left hand side
+        var leftFormatterVisitor = new ExpressionFormatterVisitor();
+        node.Left.Accept(leftFormatterVisitor);
+        _ = _stringBuilder.Append(leftFormatterVisitor.ToString());
 
         _ = _stringBuilder.Append(" = ");
 
-        formatterVisitor = new ExpressionFormatterVisitor();
-        node.Right.Accept(formatterVisitor);
-        _ = _stringBuilder.Append(formatterVisitor.ToString());
+        // Format right hand side
+        var rightFormatterVisitor = new ExpressionFormatterVisitor();
+        node.Right.Accept(rightFormatterVisitor);
+        _ = _stringBuilder.Append(rightFormatterVisitor.ToString());
     }
 
     public override string ToString() => _stringBuilder.ToString();
