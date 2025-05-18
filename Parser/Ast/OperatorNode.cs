@@ -1,31 +1,32 @@
+using LangParser.DataTypes;
 using LangParser.Visitor;
 
 namespace LangParser.Ast;
 
 public sealed record OperatorNode : ExpressionNode
 {
-    public static readonly OperatorNode Power = new(OperatorType.Power);
-    public static readonly OperatorNode Multiplication = new(OperatorType.Multiplication);
-    public static readonly OperatorNode Division = new(OperatorType.Division);
-    public static readonly OperatorNode Addition = new(OperatorType.Addition);
-    public static readonly OperatorNode Subtraction = new(OperatorType.Subtraction);
+    public static readonly OperatorNode Power = new(BinaryOperatorType.Power);
+    public static readonly OperatorNode Multiplication = new(BinaryOperatorType.Multiplication);
+    public static readonly OperatorNode Division = new(BinaryOperatorType.Division);
+    public static readonly OperatorNode Addition = new(BinaryOperatorType.Addition);
+    public static readonly OperatorNode Subtraction = new(BinaryOperatorType.Subtraction);
 
-    private OperatorNode(OperatorType operatorType)
+    private OperatorNode(BinaryOperatorType operatorType)
     {
         Operator = operatorType;
     }
 
     public override string ToString() => Operator switch
     {
-        OperatorType.Multiplication => "*",
-        OperatorType.Division => "/",
-        OperatorType.Addition => "+",
-        OperatorType.Subtraction => "-",
-        OperatorType.Power => "^",
+        BinaryOperatorType.Multiplication => "*",
+        BinaryOperatorType.Division => "/",
+        BinaryOperatorType.Addition => "+",
+        BinaryOperatorType.Subtraction => "-",
+        BinaryOperatorType.Power => "^",
         _ => throw new NotSupportedException($"Operator {Operator} is not supported")
     };
 
-    internal OperatorType Operator { get; }
+    internal BinaryOperatorType Operator { get; }
 
     internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
 

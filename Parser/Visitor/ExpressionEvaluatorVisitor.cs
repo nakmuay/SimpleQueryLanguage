@@ -11,15 +11,7 @@ internal sealed class ExpressionEvaluatorVisitor : TypedExpressionVisitorBase<do
         double left = node.Left.Accept(this);
         double right = node.Right.Accept(this);
 
-        return node.Operator.Operator switch
-        {
-            OperatorType.Power => Math.Pow(left, right),
-            OperatorType.Multiplication => left * right,
-            OperatorType.Division => left / right,
-            OperatorType.Addition => left + right,
-            OperatorType.Subtraction => left - right,
-            _ => throw new NotSupportedException($"Operator '{node.Operator.Operator}' is not supported.")
-        };
+        return node.Operator.Operator.Compute(left, right);
     }
 
     public override double Visit(NegateNode node) => -1 * node.InnerNode.Accept(this);

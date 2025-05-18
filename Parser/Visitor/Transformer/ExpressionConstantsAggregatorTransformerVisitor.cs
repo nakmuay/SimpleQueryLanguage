@@ -11,16 +11,7 @@ internal sealed class ExpressionConstantsAggregatorTransformerVisitor : Expressi
 
         if (left is ConstantNode leftConstant && right is ConstantNode rightConstant)
         {
-            double result = node.Operator.Operator switch
-            {
-                OperatorType.Multiplication => leftConstant.Value * rightConstant.Value,
-                OperatorType.Division => leftConstant.Value / rightConstant.Value,
-                OperatorType.Addition => leftConstant.Value + rightConstant.Value,
-                OperatorType.Subtraction => leftConstant.Value - rightConstant.Value,
-                OperatorType.Power => Math.Pow(leftConstant.Value, rightConstant.Value),
-                _ => throw new NotSupportedException($"Operator '{node.Operator}' is not supported.")
-            };
-
+            double result = node.Operator.Operator.Compute(leftConstant.Value, rightConstant.Value);
             return ConstantNode.Create(result);
         }
 

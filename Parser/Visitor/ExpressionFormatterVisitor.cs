@@ -1,4 +1,5 @@
 using LangParser.Ast;
+using LangParser.DataTypes;
 using System.Globalization;
 using System.Text;
 
@@ -16,11 +17,11 @@ internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
     {
         string op = node.Operator switch
         {
-            OperatorType.Power => "^",
-            OperatorType.Multiplication => "*",
-            OperatorType.Division => "/",
-            OperatorType.Addition => " + ",
-            OperatorType.Subtraction => " - ",
+            BinaryOperatorType.Power => "^",
+            BinaryOperatorType.Multiplication => "*",
+            BinaryOperatorType.Division => "/",
+            BinaryOperatorType.Addition => " + ",
+            BinaryOperatorType.Subtraction => " - ",
             _ => throw new NotSupportedException($"Operator '{node.Operator}' is not supported.")
         };
 

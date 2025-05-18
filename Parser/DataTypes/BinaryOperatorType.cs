@@ -1,6 +1,6 @@
-namespace LangParser.Ast;
+namespace LangParser.DataTypes;
 
-internal enum OperatorType
+internal enum BinaryOperatorType
 {
     Power = 1,
     Multiplication = 2,
