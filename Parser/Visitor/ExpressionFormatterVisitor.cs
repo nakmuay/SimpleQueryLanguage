@@ -15,14 +15,14 @@ internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
 
     public override void Visit(OperatorNode node)
     {
-        string op = node.Operator switch
+        string op = node.OperatorType switch
         {
             BinaryOperatorType.Power => "^",
             BinaryOperatorType.Multiplication => "*",
             BinaryOperatorType.Division => "/",
             BinaryOperatorType.Addition => " + ",
             BinaryOperatorType.Subtraction => " - ",
-            _ => throw new NotSupportedException($"Operator '{node.Operator}' is not supported.")
+            _ => throw new NotSupportedException($"Operator '{node.OperatorType}' is not supported.")
         };
 
         _ = _builder.Append(CultureInfo.InvariantCulture, $"{op}");

@@ -13,20 +13,20 @@ public sealed record OperatorNode : ExpressionNode
 
     private OperatorNode(BinaryOperatorType operatorType)
     {
-        Operator = operatorType;
+        OperatorType = operatorType;
     }
 
-    public override string ToString() => Operator switch
+    public override string ToString() => OperatorType switch
     {
         BinaryOperatorType.Multiplication => "*",
         BinaryOperatorType.Division => "/",
         BinaryOperatorType.Addition => "+",
         BinaryOperatorType.Subtraction => "-",
         BinaryOperatorType.Power => "^",
-        _ => throw new NotSupportedException($"Operator {Operator} is not supported")
+        _ => throw new NotSupportedException($"Operator {OperatorType} is not supported")
     };
 
-    internal BinaryOperatorType Operator { get; }
+    internal BinaryOperatorType OperatorType { get; }
 
     internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
 

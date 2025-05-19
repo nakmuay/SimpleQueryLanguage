@@ -1,5 +1,4 @@
 using LangParser.Ast;
-using LangParser.Visitor;
 using LangParser.Visitor.Transformer;
 
 internal static class ExpressionTransformerVisitorHelper
@@ -10,10 +9,6 @@ internal static class ExpressionTransformerVisitorHelper
         foreach (var transformer in transformers)
         {
             result = result.Accept(transformer);
-            var formatter = new ExpressionFormatterVisitor();
-            result.Accept(formatter);
-
-            Console.WriteLine(formatter.ToString());
         }
 
         return result;
