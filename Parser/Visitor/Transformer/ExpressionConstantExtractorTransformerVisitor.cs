@@ -3,7 +3,7 @@ using LangParser.DataTypes;
 
 namespace LangParser.Visitor.Transformer;
 
-internal sealed class ExpressionConstantExtractorTransfomrerVisitor : ExpressionTransformerBase
+internal sealed class ExpressionConstantExtractorTransformerVisitor : ExpressionTransformerBase
 {
     public override ExpressionNode Visit(BinaryOperatorNode node)
     {
