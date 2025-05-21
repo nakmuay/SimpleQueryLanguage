@@ -16,8 +16,19 @@ var simplifiedRhs = equationTree.Right.Simplify();
 Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
 */
 
-var expression = Parser.ParseExpression("x + 1 + 2");
-Console.WriteLine($"Expression: {expression.Format()}");
+string[] inputs =
+[
+    "x + 1 * 2 + 3 + 4",
+    "1 * 2 + 3 + 4 + x",
+    "x + 1 * 2 * 3 * 4",
+    "1 * 2 * 3 * 4 + x",
+    "1 * 2 + 3 + x + 3 * 4 + 5 * x + 1"
+];
 
-var simplified = expression.Simplify();
-Console.WriteLine($"Simplified: {simplified.Format()}");
+foreach (string input in inputs)
+{
+    var expression = Parser.ParseExpression(input);
+    var simplified = expression.Simplify();
+
+    Console.WriteLine($"Expression: {expression.Format()} => {simplified.Format()}");
+}

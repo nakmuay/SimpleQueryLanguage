@@ -1,5 +1,4 @@
 using LangParser.Ast;
-using LangParser.DataTypes;
 
 namespace LangParser.Visitor.Transformer;
 
@@ -10,19 +9,34 @@ internal sealed class ExpressionConstantsAggregatorTransformerVisitor : Expressi
         var left = node.Left.Accept(this);
         var right = node.Right.Accept(this);
 
-        if (left is ConstantNode leftConstant && right is ConstantNode rightConstant)
+        var op = node.Operator;
+        var leftConstant = left as ConstantNode;
+        var rightConstant = right as ConstantNode;
+
+        // If both operands are constant we compute the result directly
+        if (leftConstant is not null && rightConstant is not null)
         {
-            double result = node.Operator.OperatorType.Compute(leftConstant.Value, rightConstant.Value);
+            double result = op.OperatorType.Compute(leftConstant.Value, rightConstant.Value);
             return ConstantNode.Create(result);
         }
 
-        var opType = node.Operator.OperatorType;
-        if (left is BinaryOperatorNode leftOp && right is ConstantNode constantNode2)
+        // If the right operand is a constant and the left subtree contains a constant and the operations are equal the result of the constants can be computed.
+        if (left is BinaryOperatorNode leftBinaryOp && rightConstant is not null)
         {
-            if (leftOp.Right is ConstantNode innerRightContstant && leftOp.Operator.OperatorType == opType && opType == BinaryOperatorType.Addition)
+            if (leftBinaryOp.Right is ConstantNode innerRightConstant && leftBinaryOp.Operator.OperatorType == op.OperatorType && op.IsAssociative)
             {
-                var newBinaryExpr = BinaryOperatorNode.Create(node.Operator, innerRightContstant, constantNode2);
-                return BinaryOperatorNode.Create(node.Operator, leftOp.Left, newBinaryExpr);
+                double result = op.OperatorType.Compute(innerRightConstant.Value, rightConstant.Value);
+                return BinaryOperatorNode.Create(op, leftBinaryOp.Left, ConstantNode.Create(result));
+            }
+        }
+
+        // If the left operand is a constant and the right subtree contains a constant and the operations are equal the result of the constants can be computed.
+        if (leftConstant is not null && right is BinaryOperatorNode rightBinaryOp)
+        {
+            if (rightBinaryOp.Left is ConstantNode innerLeftConstant && rightBinaryOp.Operator.OperatorType == op.OperatorType && op.IsAssociative)
+            {
+                double result = op.OperatorType.Compute(leftConstant.Value, innerLeftConstant.Value);
+                return BinaryOperatorNode.Create(op, ConstantNode.Create(result), rightBinaryOp.Right);
             }
         }
 

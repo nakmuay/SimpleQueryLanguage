@@ -28,6 +28,13 @@ public sealed record OperatorNode : ExpressionNode
 
     internal BinaryOperatorType OperatorType { get; }
 
+    internal bool IsAssociative => OperatorType switch
+    {
+        BinaryOperatorType.Multiplication => true,
+        BinaryOperatorType.Addition => true,
+        _ => false
+    };
+
     internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
 
     internal override T Accept<T>(TypedExpressionVisitorBase<T> visitor) => visitor.Visit(this);
