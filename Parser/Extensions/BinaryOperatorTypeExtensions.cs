@@ -1,6 +1,6 @@
 using LangParser.DataTypes;
 
-internal static class BinaryOperatorExtensions
+internal static class BinaryOperatorTypeExtensions
 {
     public static double Compute(this BinaryOperatorType op, double left, double right)
     {

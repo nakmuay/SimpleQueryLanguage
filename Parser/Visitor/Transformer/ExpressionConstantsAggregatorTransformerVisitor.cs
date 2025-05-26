@@ -17,10 +17,10 @@ internal sealed class ExpressionConstantsAggregatorTransformerVisitor : Expressi
         if (op.OperatorType == BinaryOperatorType.Addition)
         {
             if (leftConstant == ConstantNode.Zero)
-                return ConstantNode.Zero;
+                return node.Right;
 
             if (rightConstant == ConstantNode.Zero)
-                return ConstantNode.Zero;
+                return node.Left;
         }
 
         // If both operands are constant we compute the result directly
