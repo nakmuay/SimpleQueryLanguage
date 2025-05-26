@@ -23,8 +23,8 @@ public static class ExpressionNodeExtensions
     public static ExpressionNode Simplify(this ExpressionNode tree)
     {
         return ExpressionTransformerVisitorHelper.ApplyTransformations(tree,
-        TransformationVisitorFactory.ConstantAggregator,
         TransformationVisitorFactory.ConstantCoefficientReducer,
+        TransformationVisitorFactory.ConstantAggregator,
         TransformationVisitorFactory.ParenthesisUnwrapper);
     }
 }
