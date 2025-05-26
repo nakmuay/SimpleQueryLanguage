@@ -18,15 +18,15 @@ Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
 
 string[] inputs =
 [
+    "0 / 1",
+    "0 / 10"
+    /*
     "x^1",
     "x^0",
     "1^120",
     "1^0",
     "0^1",
-    "0^2"
-    
-    
-    /*
+    "0^2",
     "x * 2 * 3 * 0",
     "0 * 2 * 3 * x",
     "2 * 3 * x * 0",

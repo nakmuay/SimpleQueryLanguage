@@ -1,5 +1,5 @@
 using LangParser.Ast;
-using LangParser.DataTypes;
+using Operator = LangParser.DataTypes.BinaryOperatorType;
 
 namespace LangParser.Visitor.Transformer;
 
@@ -13,14 +13,15 @@ internal sealed class ExpressionConstantCoefficientReducerTransformerVisitor : E
 #pragma warning disable IDE0072 // Add missing cases
         return node.Operator.OperatorType switch
         {
-            BinaryOperatorType.Multiplication when left == ConstantNode.Zero => ConstantNode.Zero,
-            BinaryOperatorType.Multiplication when right == ConstantNode.Zero => ConstantNode.Zero,
-            BinaryOperatorType.Multiplication when left == ConstantNode.One => node.Right,
-            BinaryOperatorType.Multiplication when right == ConstantNode.One => node.Left,
-            BinaryOperatorType.Power when left == ConstantNode.Zero => ConstantNode.Zero,
-            BinaryOperatorType.Power when right == ConstantNode.Zero => ConstantNode.One,
-            BinaryOperatorType.Power when left == ConstantNode.One => ConstantNode.One,
-            BinaryOperatorType.Power when right == ConstantNode.One => left,
+            Operator.Multiplication when left == ConstantNode.Zero => ConstantNode.Zero,
+            Operator.Multiplication when right == ConstantNode.Zero => ConstantNode.Zero,
+            Operator.Multiplication when left == ConstantNode.One => node.Right,
+            Operator.Multiplication when right == ConstantNode.One => node.Left,
+            Operator.Division when left == ConstantNode.Zero => ConstantNode.Zero,
+            Operator.Power when left == ConstantNode.Zero => ConstantNode.Zero,
+            Operator.Power when right == ConstantNode.Zero => ConstantNode.One,
+            Operator.Power when left == ConstantNode.One => ConstantNode.One,
+            Operator.Power when right == ConstantNode.One => left,
             _ => base.Visit(node)
         };
 #pragma warning restore IDE0072 // Add missing cases
