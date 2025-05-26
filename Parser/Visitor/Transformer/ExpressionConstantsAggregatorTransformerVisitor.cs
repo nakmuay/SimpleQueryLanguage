@@ -1,4 +1,5 @@
 using LangParser.Ast;
+using LangParser.DataTypes;
 
 namespace LangParser.Visitor.Transformer;
 
@@ -13,11 +14,14 @@ internal sealed class ExpressionConstantsAggregatorTransformerVisitor : Expressi
         var leftConstant = left as ConstantNode;
         var rightConstant = right as ConstantNode;
 
-        if (op.OperatorType == DataTypes.BinaryOperatorType.Addition && leftConstant == ConstantNode.Zero)
-            return node.Right;
+        if (op.OperatorType == BinaryOperatorType.Addition)
+        {
+            if (leftConstant == ConstantNode.Zero)
+                return ConstantNode.Zero;
 
-        if (op.OperatorType == DataTypes.BinaryOperatorType.Addition && rightConstant == ConstantNode.Zero)
-            return node.Left;
+            if (rightConstant == ConstantNode.Zero)
+                return ConstantNode.Zero;
+        }
 
         // If both operands are constant we compute the result directly
         if (leftConstant is not null && rightConstant is not null)
