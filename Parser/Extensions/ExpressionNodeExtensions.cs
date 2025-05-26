@@ -24,6 +24,7 @@ public static class ExpressionNodeExtensions
     {
         return ExpressionTransformerVisitorHelper.ApplyTransformations(tree,
         TransformationVisitorFactory.ConstantAggregator,
+        TransformationVisitorFactory.ConstantCoefficientReducer,
         TransformationVisitorFactory.ParenthesisUnwrapper);
     }
 }

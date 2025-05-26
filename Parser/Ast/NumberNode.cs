@@ -4,6 +4,10 @@ namespace LangParser.Ast;
 
 public sealed record ConstantNode : ExpressionNode
 {
+    public static readonly ConstantNode Zero = new(0.0D);
+
+    public static readonly ConstantNode One = new(1.0D);
+
     private ConstantNode(double value)
     {
         Value = value;
