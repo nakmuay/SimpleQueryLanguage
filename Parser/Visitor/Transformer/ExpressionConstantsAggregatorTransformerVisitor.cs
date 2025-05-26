@@ -31,21 +31,33 @@ internal sealed class ExpressionConstantsAggregatorTransformerVisitor : Expressi
         }
 
         // If the right operand is a constant and the left subtree contains a constant and the operations are equal the result of the constants can be computed.
-        if (left is BinaryOperatorNode leftBinaryOp && rightConstant is not null)
+        if (left is BinaryOperatorNode leftBinaryOp && rightConstant is not null && leftBinaryOp.Operator.OperatorType == op.OperatorType && op.IsAssociative)
         {
-            if (leftBinaryOp.Right is ConstantNode innerRightConstant && leftBinaryOp.Operator.OperatorType == op.OperatorType && op.IsAssociative)
+            if (leftBinaryOp.Left is ConstantNode innerLeftConstant)
+            {
+                double result = op.OperatorType.Compute(innerLeftConstant.Value, rightConstant.Value);
+                return BinaryOperatorNode.Create(op, ConstantNode.Create(result), leftBinaryOp.Right);
+            }
+
+            if (leftBinaryOp.Right is ConstantNode innerRightConstant)
             {
                 double result = op.OperatorType.Compute(innerRightConstant.Value, rightConstant.Value);
-                return BinaryOperatorNode.Create(op, leftBinaryOp.Left, ConstantNode.Create(result));
+                return BinaryOperatorNode.Create(op, ConstantNode.Create(result), leftBinaryOp.Left);
             }
         }
 
         // If the left operand is a constant and the right subtree contains a constant and the operations are equal the result of the constants can be computed.
-        if (leftConstant is not null && right is BinaryOperatorNode rightBinaryOp)
+        if (leftConstant is not null && right is BinaryOperatorNode rightBinaryOp && rightBinaryOp.Operator.OperatorType == op.OperatorType && op.IsAssociative)
         {
-            if (rightBinaryOp.Left is ConstantNode innerLeftConstant && rightBinaryOp.Operator.OperatorType == op.OperatorType && op.IsAssociative)
+            if (rightBinaryOp.Left is ConstantNode innerLeftConstant)
             {
                 double result = op.OperatorType.Compute(leftConstant.Value, innerLeftConstant.Value);
+                return BinaryOperatorNode.Create(op, ConstantNode.Create(result), rightBinaryOp.Right);
+            }
+
+            if (rightBinaryOp.Right is ConstantNode innerRightConstant)
+            {
+                double result = op.OperatorType.Compute(leftConstant.Value, innerRightConstant.Value);
                 return BinaryOperatorNode.Create(op, ConstantNode.Create(result), rightBinaryOp.Right);
             }
         }
