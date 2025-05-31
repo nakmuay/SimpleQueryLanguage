@@ -14,4 +14,30 @@ internal static class BinaryOperatorTypeExtensions
             _ => throw new NotSupportedException($"{nameof(BinaryOperatorType)} '{op}' is not supported.")
         };
     }
+
+    public static bool IsDistributive(this BinaryOperatorType op)
+    {
+        return op switch
+        {
+            BinaryOperatorType.Multiplication => true,
+            BinaryOperatorType.Power => false,
+            BinaryOperatorType.Division => false,
+            BinaryOperatorType.Addition => false,
+            BinaryOperatorType.Subtraction => false,
+            _ => throw new NotSupportedException($"Operator '{op}' is not supported.")
+        };
+    }
+
+    public static bool DistributesOver(this BinaryOperatorType op, BinaryOperatorType other)
+    {
+        return op switch
+        {
+            BinaryOperatorType.Multiplication => other == BinaryOperatorType.Addition,
+            BinaryOperatorType.Power => false,
+            BinaryOperatorType.Division => false,
+            BinaryOperatorType.Addition => false,
+            BinaryOperatorType.Subtraction => false,
+            _ => throw new NotSupportedException($"Operator '{op}' is not supported.")
+        };
+    }
 }

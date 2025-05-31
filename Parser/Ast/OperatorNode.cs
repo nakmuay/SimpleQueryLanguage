@@ -32,6 +32,9 @@ public sealed record OperatorNode : ExpressionNode
     {
         BinaryOperatorType.Multiplication => true,
         BinaryOperatorType.Addition => true,
+        BinaryOperatorType.Power => false,
+        BinaryOperatorType.Division => false,
+        BinaryOperatorType.Subtraction => false,
         _ => false
     };
 
