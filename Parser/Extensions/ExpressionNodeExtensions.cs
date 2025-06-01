@@ -1,5 +1,6 @@
 using LangParser.Ast;
 using LangParser.Visitor;
+using LangParser.Visitor.Transformer;
 using TransformationVisitorFactory = LangParser.Visitor.Transformer.ExpressionTransformationVisitorFactory;
 
 namespace LangParser.Extensions;
@@ -20,13 +21,21 @@ public static class ExpressionNodeExtensions
         return tree.Accept(evaluator);
     }
 
-    public static ExpressionNode Simplify(this ExpressionNode tree)
-    {
-        return ExpressionTransformerVisitorHelper.ApplyTransformations(tree,
+    public static ExpressionNode Simplify(this ExpressionNode tree) => tree.ApplyTransformations(
         TransformationVisitorFactory.TermDistributivityExpander
         //TransformationVisitorFactory.ConstantCoefficientReducer,
         //TransformationVisitorFactory.ConstantAggregator
         // TransformationVisitorFactory.ParenthesisUnwrapper
         );
+
+    internal static ExpressionNode ApplyTransformations(this ExpressionNode tree, params Span<ExpressionTransformerBase> transformers)
+    {
+        var result = tree;
+        foreach (var transformer in transformers)
+        {
+            result = result.Accept(transformer);
+        }
+
+        return result;
     }
 }
