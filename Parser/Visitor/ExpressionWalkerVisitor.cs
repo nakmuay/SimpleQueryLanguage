@@ -21,20 +21,14 @@ internal class ExpressionWalkerVisitor : ExpressionVisitorBase
         node.Right.Accept(this);
     }
 
-    public override void Visit(NegateNode node)
-    {
-        node.InnerNode.Accept(this);
-    }
+    public override void Visit(NegateNode node) => node.InnerNode.Accept(this);
 
     public override void Visit(FunctionNode node)
     {
         // Noop.
     }
 
-    public override void Visit(ParenthesisNode node)
-    {
-        node.InnerExpression.Accept(this);
-    }
+    public override void Visit(ParenthesisNode node) => node.InnerExpression.Accept(this);
 
     public override void Visit(ConstantNode node)
     {

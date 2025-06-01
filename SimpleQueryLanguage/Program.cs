@@ -19,6 +19,7 @@ Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
 string[] inputs =
 [
     "2 * (3*4 + 5 + 6 + 8)",
+    "(-1 + 2) * (3*4 + x + 6 + 8)",
     /*
 "0 / 1",
 "0 / 10",
