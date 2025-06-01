@@ -1,5 +1,6 @@
 using LangParser.Ast;
-using LangParser.Visitor.Transformer;
+
+namespace LangParser.Visitor.Transformer;
 
 internal sealed class ExpressionDistributivityExpanderTransformerVisitor : ExpressionTransformerBase
 {

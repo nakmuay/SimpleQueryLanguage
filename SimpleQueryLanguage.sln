@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleQueryLanguage", "Simp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LangParser", "Parser\LangParser.csproj", "{58CD2B7D-39E8-4D85-A5AD-2D325C06BDED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{FB1DA6D0-8EAB-473C-AE4A-4798B37D2801}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{58CD2B7D-39E8-4D85-A5AD-2D325C06BDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58CD2B7D-39E8-4D85-A5AD-2D325C06BDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58CD2B7D-39E8-4D85-A5AD-2D325C06BDED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB1DA6D0-8EAB-473C-AE4A-4798B37D2801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB1DA6D0-8EAB-473C-AE4A-4798B37D2801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB1DA6D0-8EAB-473C-AE4A-4798B37D2801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB1DA6D0-8EAB-473C-AE4A-4798B37D2801}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
