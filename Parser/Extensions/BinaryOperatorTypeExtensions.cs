@@ -24,7 +24,7 @@ internal static class BinaryOperatorTypeExtensions
 
     public static bool DistributesOver(this BinaryOperatorType op, BinaryOperatorType other) => op switch
     {
-        BinaryOperatorType.Multiplication => other == BinaryOperatorType.Addition,
+        BinaryOperatorType.Multiplication => other is BinaryOperatorType.Addition or BinaryOperatorType.Subtraction,
         BinaryOperatorType.Power => false,
         BinaryOperatorType.Division => false,
         BinaryOperatorType.Addition => false,

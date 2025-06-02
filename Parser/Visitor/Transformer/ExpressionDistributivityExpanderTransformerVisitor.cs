@@ -38,8 +38,9 @@ internal sealed class ExpressionDistributivityExpanderTransformerVisitor : Expre
         {
             var left = node.Left.Accept(this);
             var right = node.Right.Accept(this);
+            var op = node.Operator;
 
-            if (_op.OperatorType.DistributesOver(node.Operator.OperatorType))
+            if (_op.OperatorType.DistributesOver(op.OperatorType))
             {
                 // Only apply transformation to the left sub-tree in case we have not already processed it
                 var newLeft = left is BinaryOperatorNode leftOperator && _op.OperatorType.DistributesOver(leftOperator.Operator.OperatorType)
@@ -52,7 +53,7 @@ internal sealed class ExpressionDistributivityExpanderTransformerVisitor : Expre
                     : BinaryOperatorNode.Create(_op, _term, right);
 
                 // Re-combine the left and right sub-trees with the current operator
-                return BinaryOperatorNode.Create(node.Operator, newLeft, newRight);
+                return BinaryOperatorNode.Create(op, newLeft, newRight);
             }
 
             return base.Visit(node);

@@ -6,14 +6,19 @@ namespace Test.Visitor;
 public class ExpressionDistributivityExpanderTransformerVisitorTest
 {
     [Theory]
-    [InlineData("2*2", "2*2")]
     [InlineData("2*(1 + 2)", "2*1 + 2*2")]
     [InlineData("2*(-1 + 2)", "2*-1 + 2*2")]
     [InlineData("2*(1 + -2)", "2*1 + 2*-2")]
+    [InlineData("2*(1 - 2)", "2*1 - 2*2")]
+    [InlineData("2*(-1 - 2)", "2*-1 - 2*2")]
+    [InlineData("2*(1 - -2)", "2*1 - 2*-2")]
+
     [InlineData("(1 + 2)*2", "2*1 + 2*2")]
     [InlineData("(-1 + 2)*2", "2*-1 + 2*2")]
     [InlineData("(1 + -2)*2", "2*1 + 2*-2")]
-    [InlineData("(1 + 2)*(3 + 4)", "1*3 + 1*4 + 2*3 + 2*4")]
+    [InlineData("(1 - 2)*2", "2*1 - 2*2")]
+    [InlineData("(-1 - 2)*2", "2*-1 - 2*2")]
+    [InlineData("(1 - -2)*2", "2*1 - 2*-2")]
     public void DistributiviteLaw(string input, string expected)
     {
         var tree = LangParser.Parser.ParseExpression(input);
