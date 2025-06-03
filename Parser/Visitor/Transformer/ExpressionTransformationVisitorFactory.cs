@@ -9,4 +9,6 @@ internal static class ExpressionTransformationVisitorFactory
     public static ExpressionParenthesisUnwrapperTransformerVisitor ParenthesisUnwrapper => new();
 
     public static ExpressionDistributivityExpanderTransformerVisitor TermDistributivityExpander => new();
+
+    public static ExpressionInverseFunctionSimplifyerTransformerVisitor InverseFunctionSimplifyer => new();
 }

@@ -20,7 +20,19 @@ internal sealed class ExpressionEvaluatorVisitor : TypedExpressionVisitorBase<do
 
     public override double Visit(OperatorNode node) => throw new NotImplementedException();
 
-    public override double Visit(UnaryFunctionNode node) => throw new NotImplementedException();
+    public override double Visit(UnaryFunctionNode node)
+    {
+        double argument = node.Argument.Accept(this);
+
+        return node.FunctionType switch
+        {
+            UnaryFunctionType.Cos => Math.Cos(argument),
+            UnaryFunctionType.Sin => Math.Sin(argument),
+            UnaryFunctionType.ArcCos => Math.Acos(argument),
+            UnaryFunctionType.ArcSin => Math.Asin(argument),
+            _ => throw new NotSupportedException($"{nameof(UnaryFunctionType)} '{node.FunctionType}' is not supported")
+        };
+    }
 
     public override double Visit(ParenthesisNode node) => node.InnerExpression.Accept(this);
 }

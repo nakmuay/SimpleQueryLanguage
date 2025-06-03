@@ -23,7 +23,7 @@ public sealed record UnaryFunctionNode : ExpressionNode
 
     internal UnaryFunctionType FunctionType { get; }
 
-    internal UnaryFunctionType Inverse => FunctionType.GetInverse();
+    internal bool IsInverseOf(UnaryFunctionNode other) => FunctionType.GetInverse() == other.FunctionType;
 
     public static UnaryFunctionNode CreateArcCosFunction(ExpressionNode argument) => new(UnaryFunctionType.ArcCos, argument);
 

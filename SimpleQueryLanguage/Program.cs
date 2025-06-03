@@ -2,15 +2,16 @@
 using LangParser.Extensions;
 
 /*
-var epxressionTree = Parser.ParseExpression("(1 + 1)^3 + 1 * (-2 / 10) * 100");
+var expressionTree = Parser.ParseExpression("(1 + 1)^3 + 1 * (-2 / 10) * 100");
 Console.WriteLine($"Expression: {epxressionTree.Format()}");
 Console.WriteLine($"Expression: {epxressionTree.Format()}");
 */
 
-/*
-double result = epxressionTree.Evaluate();
+
+var expressionTree = Parser.ParseExpression("1 + 2 + (1 + sin(0.1))");
+double result = expressionTree.Evaluate();
 Console.WriteLine($"Result:     {result}");
-*/
+
 
 /*
 var equationTree = Parser.ParseEquation("x = x*(1 + 2) * 3");
@@ -24,8 +25,10 @@ Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
 
 string[] inputs =
 [
+    /*
     "1 + 2 + cos(3 + 4)",
-    "1 + 2 + arcsin(sin(3 + 4))",
+    "1 + 2 + arcsin(1 + sin(3 + 4))",
+    */
     /*
     "2 * (3*4)",
     "2 * (3*4 + 5)",
