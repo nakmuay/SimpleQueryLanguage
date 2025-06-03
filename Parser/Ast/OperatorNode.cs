@@ -28,15 +28,11 @@ public sealed record OperatorNode : ExpressionNode
 
     internal BinaryOperatorType OperatorType { get; }
 
-    internal bool IsAssociative => OperatorType switch
-    {
-        BinaryOperatorType.Multiplication => true,
-        BinaryOperatorType.Addition => true,
-        BinaryOperatorType.Power => false,
-        BinaryOperatorType.Division => false,
-        BinaryOperatorType.Subtraction => false,
-        _ => false
-    };
+    internal bool IsAssociative => OperatorType.IsAssociative();
+
+    internal bool IsLeftDistributiveOver(OperatorNode other) => OperatorType.IsLeftDistributiveOver(other.OperatorType);
+
+    internal bool IsRightDistributiveOver(OperatorNode other) => OperatorType.IsRightDistributiveOver(other.OperatorType);
 
     internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
 

@@ -1,3 +1,4 @@
+using LangParser.Ast;
 using LangParser.DataTypes;
 
 internal static class BinaryOperatorTypeExtensions
@@ -12,9 +13,19 @@ internal static class BinaryOperatorTypeExtensions
         _ => throw new NotSupportedException($"{nameof(BinaryOperatorType)} '{op}' is not supported.")
     };
 
-    public static bool IsDistributive(this BinaryOperatorType op) => op switch
+    public static bool IsAssociative(this BinaryOperatorType op) => op switch
     {
         BinaryOperatorType.Multiplication => true,
+        BinaryOperatorType.Addition => true,
+        BinaryOperatorType.Power => false,
+        BinaryOperatorType.Division => false,
+        BinaryOperatorType.Subtraction => false,
+        _ => false
+    };
+
+    public static bool IsLeftDistributiveOver(this BinaryOperatorType op, BinaryOperatorType other) => op switch
+    {
+        BinaryOperatorType.Multiplication => other is BinaryOperatorType.Addition or BinaryOperatorType.Subtraction,
         BinaryOperatorType.Power => false,
         BinaryOperatorType.Division => false,
         BinaryOperatorType.Addition => false,
@@ -22,7 +33,7 @@ internal static class BinaryOperatorTypeExtensions
         _ => throw new NotSupportedException($"Operator '{op}' is not supported.")
     };
 
-    public static bool DistributesOver(this BinaryOperatorType op, BinaryOperatorType other) => op switch
+    public static bool IsRightDistributiveOver(this BinaryOperatorType op, BinaryOperatorType other) => op switch
     {
         BinaryOperatorType.Multiplication => other is BinaryOperatorType.Addition or BinaryOperatorType.Subtraction,
         BinaryOperatorType.Power => false,
