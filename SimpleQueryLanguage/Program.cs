@@ -24,7 +24,8 @@ Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
 
 string[] inputs =
 [
-    "1 + 2 + cos(1+2)"
+    "1 + 2 + cos(3 + 4)",
+    "1 + 2 + arcsin(sin(3 + 4))",
     /*
     "2 * (3*4)",
     "2 * (3*4 + 5)",

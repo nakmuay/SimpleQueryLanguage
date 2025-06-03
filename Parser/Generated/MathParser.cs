@@ -37,7 +37,8 @@ public partial class MathParser : Parser {
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
 		LEFT_PARENTHESIS=1, RIGHT_PARENTHESIS=2, OP_ADD=3, OP_SUB=4, OP_MUL=5, 
-		OP_DIV=6, OP_POW=7, EQ=8, NUM=9, ID=10, WS=11, UNARY_FN_COS=12, UNARY_FN_SIN=13;
+		OP_DIV=6, OP_POW=7, EQ=8, NUM=9, ID=10, WS=11, UNARY_FN_COS=12, UNARY_FN_SIN=13, 
+		UNARY_FN_ARCCOS=14, UNARY_FN_ARCSIN=15;
 	public const int
 		RULE_equation = 0, RULE_expr = 1;
 	public static readonly string[] ruleNames = {
@@ -46,11 +47,12 @@ public partial class MathParser : Parser {
 
 	private static readonly string[] _LiteralNames = {
 		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'", "'^'", "'='", null, null, 
-		null, "'cos'", "'sin'"
+		null, "'cos'", "'sin'", "'arccos'", "'arcsin'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "LEFT_PARENTHESIS", "RIGHT_PARENTHESIS", "OP_ADD", "OP_SUB", "OP_MUL", 
-		"OP_DIV", "OP_POW", "EQ", "NUM", "ID", "WS", "UNARY_FN_COS", "UNARY_FN_SIN"
+		"OP_DIV", "OP_POW", "EQ", "NUM", "ID", "WS", "UNARY_FN_COS", "UNARY_FN_SIN", 
+		"UNARY_FN_ARCCOS", "UNARY_FN_ARCSIN"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -217,6 +219,8 @@ public partial class MathParser : Parser {
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_COS() { return GetToken(MathParser.UNARY_FN_COS, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_SIN() { return GetToken(MathParser.UNARY_FN_SIN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_ARCCOS() { return GetToken(MathParser.UNARY_FN_ARCCOS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_ARCSIN() { return GetToken(MathParser.UNARY_FN_ARCSIN, 0); }
 		public UnaryFuncExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
@@ -375,7 +379,7 @@ public partial class MathParser : Parser {
 				State = 16;
 				((UnaryFuncExprContext)_localctx).name = TokenStream.LT(1);
 				_la = TokenStream.LA(1);
-				if ( !(_la==UNARY_FN_COS || _la==UNARY_FN_SIN) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 61440L) != 0)) ) {
 					((UnaryFuncExprContext)_localctx).name = ErrorHandler.RecoverInline(this);
 				}
 				else {
@@ -524,10 +528,10 @@ public partial class MathParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,13,42,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,
+		4,1,15,42,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,26,8,1,1,1,1,1,1,1,1,1,1,1,
 		1,1,1,1,1,1,1,1,5,1,37,8,1,10,1,12,1,40,9,1,1,1,0,1,2,2,0,2,0,3,1,0,3,
-		4,1,0,12,13,1,0,5,6,47,0,4,1,0,0,0,2,25,1,0,0,0,4,5,3,2,1,0,5,6,5,8,0,
+		4,1,0,12,15,1,0,5,6,47,0,4,1,0,0,0,2,25,1,0,0,0,4,5,3,2,1,0,5,6,5,8,0,
 		0,6,7,3,2,1,0,7,8,5,0,0,1,8,1,1,0,0,0,9,10,6,1,-1,0,10,11,5,1,0,0,11,12,
 		3,2,1,0,12,13,5,2,0,0,13,26,1,0,0,0,14,15,7,0,0,0,15,26,3,2,1,8,16,17,
 		7,1,0,0,17,18,5,1,0,0,18,19,3,2,1,0,19,20,5,2,0,0,20,26,1,0,0,0,21,26,

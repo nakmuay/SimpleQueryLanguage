@@ -14,12 +14,20 @@ public sealed record UnaryFunctionNode : ExpressionNode
 
     public string Name => FunctionType switch
     {
+        UnaryFunctionType.ArcCos => "arccos",
+        UnaryFunctionType.ArcSin => "arcsin",
         UnaryFunctionType.Cos => "cos",
         UnaryFunctionType.Sin => "sin",
         _ => throw new NotSupportedException($"{nameof(UnaryFunctionType)} '{FunctionType}' is not supported.")
     };
 
     internal UnaryFunctionType FunctionType { get; }
+
+    internal UnaryFunctionType Inverse => FunctionType.GetInverse();
+
+    public static UnaryFunctionNode CreateArcCosFunction(ExpressionNode argument) => new(UnaryFunctionType.ArcCos, argument);
+
+    public static UnaryFunctionNode CreateArcSinFunction(ExpressionNode argument) => new(UnaryFunctionType.ArcSin, argument);
 
     public static UnaryFunctionNode CreateCosFunction(ExpressionNode argument) => new(UnaryFunctionType.Cos, argument);
 

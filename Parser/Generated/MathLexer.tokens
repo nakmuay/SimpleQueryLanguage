@@ -11,6 +11,8 @@ ID=10
 WS=11
 UNARY_FN_COS=12
 UNARY_FN_SIN=13
+UNARY_FN_ARCCOS=14
+UNARY_FN_ARCSIN=15
 '('=1
 ')'=2
 '+'=3
@@ -21,3 +23,5 @@ UNARY_FN_SIN=13
 '='=8
 'cos'=12
 'sin'=13
+'arccos'=14
+'arcsin'=15
