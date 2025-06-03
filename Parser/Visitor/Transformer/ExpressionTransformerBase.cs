@@ -22,7 +22,11 @@ internal class ExpressionTransformerBase : TypedExpressionVisitorBase<Expression
         return NegateNode.Create(innerExpression);
     }
 
-    public override ExpressionNode Visit(FunctionNode node) => node;
+    public override ExpressionNode Visit(UnaryFunctionNode node)
+    {
+        var argument = node.Argument.Accept(this);
+        return UnaryFunctionNode.Create(node.FunctionType, argument);
+    }
 
     public override ExpressionNode Visit(ParenthesisNode node)
     {

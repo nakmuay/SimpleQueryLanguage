@@ -67,7 +67,7 @@ public partial class MathParserBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// <return>The visitor result.</return>
 	public virtual Result VisitUnaryExpr([NotNull] MathParser.UnaryExprContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>funcExpr</c>
+	/// Visit a parse tree produced by the <c>unaryFuncExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -76,7 +76,7 @@ public partial class MathParserBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitFuncExpr([NotNull] MathParser.FuncExprContext context) { return VisitChildren(context); }
+	public virtual Result VisitUnaryFuncExpr([NotNull] MathParser.UnaryFuncExprContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>binaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.

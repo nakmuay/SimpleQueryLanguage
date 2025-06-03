@@ -1,16 +1,19 @@
 lexer grammar MathLexer;
 
-LEFT_PARENTHESIS: '(';
-RIGHT_PARENTHESIS: ')';
+LEFT_PARENTHESIS  : '(' ;
+RIGHT_PARENTHESIS : ')' ;
 
-OP_ADD: '+';
-OP_SUB: '-';
-OP_MUL: '*';
-OP_DIV: '/';
-OP_POW: '^';
+OP_ADD : '+' ;
+OP_SUB : '-' ;
+OP_MUL : '*' ;
+OP_DIV : '/' ;
+OP_POW : '^' ;
 
-EQ: '=';
+EQ     : '=' ;
 
-NUM : [0-9]+ ('.' [0-9]+)? ([eE] [+-]? [0-9]+)?;
-ID  : [a-zA-Z]+;
-WS  : [ \t\r\n] -> channel(HIDDEN);
+NUM    : [0-9]+ ('.' [0-9]+)? ([eE] [+-]? [0-9]+)? ;
+ID     : [a-zA-Z] ;
+WS     : [ \t\r\n] -> channel(HIDDEN) ;
+
+UNARY_FN_COS : 'cos' ;
+UNARY_FN_SIN : 'sin' ;

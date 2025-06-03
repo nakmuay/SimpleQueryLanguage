@@ -2,19 +2,30 @@ using LangParser.Visitor;
 
 namespace LangParser.Ast;
 
-public sealed record FunctionNode : ExpressionNode
+public sealed record UnaryFunctionNode : ExpressionNode
 {
-    private FunctionNode(Func<double, double> function, ExpressionNode argument)
+    private UnaryFunctionNode(UnaryFunctionType type, ExpressionNode argument)
     {
-        Function = function;
+        FunctionType = type;
         Argument = argument;
     }
 
-    public Func<double, double> Function { get; }
-
     public ExpressionNode Argument { get; }
 
-    public static FunctionNode Create(Func<double, double> function, ExpressionNode argument) => new(function, argument);
+    public string Name => FunctionType switch
+    {
+        UnaryFunctionType.Cos => "cos",
+        UnaryFunctionType.Sin => "sin",
+        _ => throw new NotSupportedException($"{nameof(UnaryFunctionType)} '{FunctionType}' is not supported.")
+    };
+
+    internal UnaryFunctionType FunctionType { get; }
+
+    public static UnaryFunctionNode CreateCosFunction(ExpressionNode argument) => new(UnaryFunctionType.Cos, argument);
+
+    public static UnaryFunctionNode CreateSinFunction(ExpressionNode argument) => new(UnaryFunctionType.Sin, argument);
+
+    internal static UnaryFunctionNode Create(UnaryFunctionType type, ExpressionNode argument) => new(type, argument);
 
     internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
 

@@ -1,12 +1,12 @@
 using System.Globalization;
-using System.Reflection;
 using LangParser.Ast;
 
 namespace LangParser.Internal;
 
 internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<ExpressionNode>
 {
-    public override ExpressionNode VisitVariableExpr(MathParser.VariableExprContext context) => VariableNode.Create(context.var.Text);
+    public override ExpressionNode VisitVariableExpr(MathParser.VariableExprContext context)
+        => VariableNode.Create(context.var.Text);
 
     public override ExpressionNode VisitConstantExpr(MathParser.ConstantExprContext context)
     {
@@ -32,7 +32,7 @@ internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<Expres
             MathLexer.OP_DIV => BinaryOperatorNode.CreateDivisionOperator(left, right),
             MathLexer.OP_ADD => BinaryOperatorNode.CreateAdditionOperator(left, right),
             MathLexer.OP_SUB => BinaryOperatorNode.CreateSubtractionOperator(left, right),
-            _ => throw new NotSupportedException()
+            _ => throw new NotSupportedException($"The operator {context.op.Text} is not supported.")
         };
     }
 
@@ -44,22 +44,19 @@ internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<Expres
         {
             MathLexer.OP_ADD => innerExpression,
             MathLexer.OP_SUB => NegateNode.Create(innerExpression),
-            _ => throw new NotSupportedException(),
+            _ => throw new NotSupportedException($"The unary operator '{context.op.Text}' is not supported."),
         };
     }
 
-    public override ExpressionNode VisitFuncExpr(MathParser.FuncExprContext context)
+    public override ExpressionNode VisitUnaryFuncExpr(MathParser.UnaryFuncExprContext context)
     {
-        string functionName = context.func.Text;
+        var innerExpression = Visit(context.arg);
 
-        var func = typeof(Math)
-            .GetMethods(BindingFlags.Public | BindingFlags.Static)
-            .Where(m => m.ReturnType == typeof(double))
-            .Where(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual([typeof(double)]))
-            .FirstOrDefault(m => m.Name.Equals(functionName, StringComparison.OrdinalIgnoreCase));
-
-        return func is null
-            ? throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "Function {0} is not supported", functionName))
-            : (ExpressionNode)FunctionNode.Create(func.CreateDelegate<Func<double, double>>(), Visit(context.expr()));
+        return context.name.Type switch
+        {
+            MathLexer.UNARY_FN_COS => UnaryFunctionNode.CreateCosFunction(innerExpression),
+            MathLexer.UNARY_FN_SIN => UnaryFunctionNode.CreateSinFunction(innerExpression),
+            _ => throw new NotSupportedException($"The function '{context.name.Text}' is not supported.")
+        };
     }
 }

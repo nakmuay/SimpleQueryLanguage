@@ -52,12 +52,12 @@ public interface IMathParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitUnaryExpr([NotNull] MathParser.UnaryExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>funcExpr</c>
+	/// Visit a parse tree produced by the <c>unaryFuncExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFuncExpr([NotNull] MathParser.FuncExprContext context);
+	Result VisitUnaryFuncExpr([NotNull] MathParser.UnaryFuncExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>binaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.

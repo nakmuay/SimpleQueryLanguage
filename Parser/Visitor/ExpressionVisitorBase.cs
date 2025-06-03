@@ -12,7 +12,7 @@ public abstract class ExpressionVisitorBase
 
     public abstract void Visit(NegateNode node);
 
-    public abstract void Visit(FunctionNode node);
+    public abstract void Visit(UnaryFunctionNode node);
 
     public abstract void Visit(ParenthesisNode node);
 

@@ -37,7 +37,7 @@ public partial class MathParser : Parser {
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
 		LEFT_PARENTHESIS=1, RIGHT_PARENTHESIS=2, OP_ADD=3, OP_SUB=4, OP_MUL=5, 
-		OP_DIV=6, OP_POW=7, EQ=8, NUM=9, ID=10, WS=11;
+		OP_DIV=6, OP_POW=7, EQ=8, NUM=9, ID=10, WS=11, UNARY_FN_COS=12, UNARY_FN_SIN=13;
 	public const int
 		RULE_equation = 0, RULE_expr = 1;
 	public static readonly string[] ruleNames = {
@@ -45,11 +45,12 @@ public partial class MathParser : Parser {
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'", "'^'", "'='"
+		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'", "'^'", "'='", null, null, 
+		null, "'cos'", "'sin'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "LEFT_PARENTHESIS", "RIGHT_PARENTHESIS", "OP_ADD", "OP_SUB", "OP_MUL", 
-		"OP_DIV", "OP_POW", "EQ", "NUM", "ID", "WS"
+		"OP_DIV", "OP_POW", "EQ", "NUM", "ID", "WS", "UNARY_FN_COS", "UNARY_FN_SIN"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -206,29 +207,31 @@ public partial class MathParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class FuncExprContext : ExprContext {
-		public IToken func;
+	public partial class UnaryFuncExprContext : ExprContext {
+		public IToken name;
+		public ExprContext arg;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEFT_PARENTHESIS() { return GetToken(MathParser.LEFT_PARENTHESIS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RIGHT_PARENTHESIS() { return GetToken(MathParser.RIGHT_PARENTHESIS, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
 			return GetRuleContext<ExprContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RIGHT_PARENTHESIS() { return GetToken(MathParser.RIGHT_PARENTHESIS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(MathParser.ID, 0); }
-		public FuncExprContext(ExprContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_COS() { return GetToken(MathParser.UNARY_FN_COS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_SIN() { return GetToken(MathParser.UNARY_FN_SIN, 0); }
+		public UnaryFuncExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IMathParserListener typedListener = listener as IMathParserListener;
-			if (typedListener != null) typedListener.EnterFuncExpr(this);
+			if (typedListener != null) typedListener.EnterUnaryFuncExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IMathParserListener typedListener = listener as IMathParserListener;
-			if (typedListener != null) typedListener.ExitFuncExpr(this);
+			if (typedListener != null) typedListener.ExitUnaryFuncExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitFuncExpr(this);
+			if (typedVisitor != null) return typedVisitor.VisitUnaryFuncExpr(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -366,15 +369,23 @@ public partial class MathParser : Parser {
 				break;
 			case 3:
 				{
-				_localctx = new FuncExprContext(_localctx);
+				_localctx = new UnaryFuncExprContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
 				State = 16;
-				((FuncExprContext)_localctx).func = Match(ID);
+				((UnaryFuncExprContext)_localctx).name = TokenStream.LT(1);
+				_la = TokenStream.LA(1);
+				if ( !(_la==UNARY_FN_COS || _la==UNARY_FN_SIN) ) {
+					((UnaryFuncExprContext)_localctx).name = ErrorHandler.RecoverInline(this);
+				}
+				else {
+					ErrorHandler.ReportMatch(this);
+				    Consume();
+				}
 				State = 17;
 				Match(LEFT_PARENTHESIS);
 				State = 18;
-				expr(0);
+				((UnaryFuncExprContext)_localctx).arg = expr(0);
 				State = 19;
 				Match(RIGHT_PARENTHESIS);
 				}
@@ -513,19 +524,19 @@ public partial class MathParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,11,42,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,
+		4,1,13,42,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,26,8,1,1,1,1,1,1,1,1,1,1,1,
-		1,1,1,1,1,1,1,1,5,1,37,8,1,10,1,12,1,40,9,1,1,1,0,1,2,2,0,2,0,2,1,0,3,
-		4,1,0,5,6,47,0,4,1,0,0,0,2,25,1,0,0,0,4,5,3,2,1,0,5,6,5,8,0,0,6,7,3,2,
-		1,0,7,8,5,0,0,1,8,1,1,0,0,0,9,10,6,1,-1,0,10,11,5,1,0,0,11,12,3,2,1,0,
-		12,13,5,2,0,0,13,26,1,0,0,0,14,15,7,0,0,0,15,26,3,2,1,8,16,17,5,10,0,0,
-		17,18,5,1,0,0,18,19,3,2,1,0,19,20,5,2,0,0,20,26,1,0,0,0,21,26,5,9,0,0,
-		22,23,5,9,0,0,23,26,5,10,0,0,24,26,5,10,0,0,25,9,1,0,0,0,25,14,1,0,0,0,
-		25,16,1,0,0,0,25,21,1,0,0,0,25,22,1,0,0,0,25,24,1,0,0,0,26,38,1,0,0,0,
-		27,28,10,7,0,0,28,29,5,7,0,0,29,37,3,2,1,8,30,31,10,6,0,0,31,32,7,1,0,
-		0,32,37,3,2,1,7,33,34,10,5,0,0,34,35,7,0,0,0,35,37,3,2,1,6,36,27,1,0,0,
-		0,36,30,1,0,0,0,36,33,1,0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,38,39,1,0,0,
-		0,39,3,1,0,0,0,40,38,1,0,0,0,3,25,36,38
+		1,1,1,1,1,1,1,1,5,1,37,8,1,10,1,12,1,40,9,1,1,1,0,1,2,2,0,2,0,3,1,0,3,
+		4,1,0,12,13,1,0,5,6,47,0,4,1,0,0,0,2,25,1,0,0,0,4,5,3,2,1,0,5,6,5,8,0,
+		0,6,7,3,2,1,0,7,8,5,0,0,1,8,1,1,0,0,0,9,10,6,1,-1,0,10,11,5,1,0,0,11,12,
+		3,2,1,0,12,13,5,2,0,0,13,26,1,0,0,0,14,15,7,0,0,0,15,26,3,2,1,8,16,17,
+		7,1,0,0,17,18,5,1,0,0,18,19,3,2,1,0,19,20,5,2,0,0,20,26,1,0,0,0,21,26,
+		5,9,0,0,22,23,5,9,0,0,23,26,5,10,0,0,24,26,5,10,0,0,25,9,1,0,0,0,25,14,
+		1,0,0,0,25,16,1,0,0,0,25,21,1,0,0,0,25,22,1,0,0,0,25,24,1,0,0,0,26,38,
+		1,0,0,0,27,28,10,7,0,0,28,29,5,7,0,0,29,37,3,2,1,8,30,31,10,6,0,0,31,32,
+		7,2,0,0,32,37,3,2,1,7,33,34,10,5,0,0,34,35,7,0,0,0,35,37,3,2,1,6,36,27,
+		1,0,0,0,36,30,1,0,0,0,36,33,1,0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,38,39,
+		1,0,0,0,39,3,1,0,0,0,40,38,1,0,0,0,3,25,36,38
 	};
 
 	public static readonly ATN _ATN =

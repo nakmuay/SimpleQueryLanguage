@@ -20,7 +20,7 @@ internal sealed class ExpressionEvaluatorVisitor : TypedExpressionVisitorBase<do
 
     public override double Visit(OperatorNode node) => throw new NotImplementedException();
 
-    public override double Visit(FunctionNode node) => throw new NotImplementedException();
+    public override double Visit(UnaryFunctionNode node) => throw new NotImplementedException();
 
     public override double Visit(ParenthesisNode node) => node.InnerExpression.Accept(this);
 }

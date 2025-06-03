@@ -12,7 +12,7 @@ public abstract class TypedExpressionVisitorBase<T>
 
     public abstract T Visit(NegateNode node);
 
-    public abstract T Visit(FunctionNode node);
+    public abstract T Visit(UnaryFunctionNode node);
 
     public abstract T Visit(ParenthesisNode node);
 

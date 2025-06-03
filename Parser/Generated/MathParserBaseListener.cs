@@ -76,19 +76,19 @@ public partial class MathParserBaseListener : IMathParserListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitUnaryExpr([NotNull] MathParser.UnaryExprContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>funcExpr</c>
+	/// Enter a parse tree produced by the <c>unaryFuncExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFuncExpr([NotNull] MathParser.FuncExprContext context) { }
+	public virtual void EnterUnaryFuncExpr([NotNull] MathParser.UnaryFuncExprContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>funcExpr</c>
+	/// Exit a parse tree produced by the <c>unaryFuncExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFuncExpr([NotNull] MathParser.FuncExprContext context) { }
+	public virtual void ExitUnaryFuncExpr([NotNull] MathParser.UnaryFuncExprContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>binaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.

@@ -35,10 +35,12 @@ internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
         base.Visit(node);
     }
 
-    public override void Visit(FunctionNode node)
+    public override void Visit(UnaryFunctionNode node)
     {
-        _ = _builder.Append(CultureInfo.CurrentCulture, $"{node.Function.Method.Name}");
+        _ = _builder.Append(CultureInfo.CurrentCulture, $"{node.Name}");
+        _ = _builder.Append('(');
         base.Visit(node);
+        _ = _builder.Append(')');
     }
 
     public override void Visit(ParenthesisNode node)
