@@ -1,4 +1,3 @@
-using LangParser.Ast;
 using LangParser.DataTypes;
 
 internal static class BinaryOperatorTypeExtensions

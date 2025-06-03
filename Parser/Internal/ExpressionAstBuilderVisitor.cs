@@ -6,10 +6,7 @@ namespace LangParser.Internal;
 
 internal sealed class ExpressionAstBuilderVisitor : MathBaseVisitor<ExpressionNode>
 {
-    public override ExpressionNode VisitVariableExpr(MathParser.VariableExprContext context)
-    {
-        return VariableNode.Create(context.var.Text);
-    }
+    public override ExpressionNode VisitVariableExpr(MathParser.VariableExprContext context) => VariableNode.Create(context.var.Text);
 
     public override ExpressionNode VisitConstantExpr(MathParser.ConstantExprContext context)
     {
