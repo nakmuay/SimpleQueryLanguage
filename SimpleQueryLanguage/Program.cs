@@ -5,13 +5,19 @@ using LangParser.Extensions;
 var epxressionTree = Parser.ParseExpression("(1 + 1)^3 + 1 * (-2 / 10) * 100");
 Console.WriteLine($"Expression: {epxressionTree.Format()}");
 Console.WriteLine($"Expression: {epxressionTree.Format()}");
+*/
 
+/*
 double result = epxressionTree.Evaluate();
 Console.WriteLine($"Result:     {result}");
+*/
 
+/*
 var equationTree = Parser.ParseEquation("x = x*(1 + 2) * 3");
 Console.WriteLine($"Equation:   {equationTree.Format()}");
+*/
 
+/*
 var simplifiedRhs = equationTree.Right.Simplify();
 Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
 */
@@ -33,6 +39,7 @@ string[] inputs =
     "-2 * (3*4)",
     "-2 * (3*4 - 5)",
     "(3*4 - 5)*-2",
+
     /*
 "0 / 1",
 "0 / 10",

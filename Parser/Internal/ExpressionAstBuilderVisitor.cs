@@ -4,7 +4,7 @@ using LangParser.Ast;
 
 namespace LangParser.Internal;
 
-internal sealed class ExpressionAstBuilderVisitor : MathBaseVisitor<ExpressionNode>
+internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<ExpressionNode>
 {
     public override ExpressionNode VisitVariableExpr(MathParser.VariableExprContext context) => VariableNode.Create(context.var.Text);
 

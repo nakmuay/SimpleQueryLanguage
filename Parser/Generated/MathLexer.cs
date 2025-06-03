@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from ../Parser/Grammar/Math.g4 by ANTLR 4.13.0
+// Generated from ../Parser/Grammar/MathLexer.g4 by ANTLR 4.13.0
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -33,8 +33,8 @@ public partial class MathLexer : Lexer {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		T__0=1, T__1=2, OP_ADD=3, OP_SUB=4, OP_MUL=5, OP_DIV=6, OP_POW=7, EQ=8, 
-		NUM=9, ID=10, WS=11;
+		LEFT_PARENTHESIS=1, RIGHT_PARENTHESIS=2, OP_ADD=3, OP_SUB=4, OP_MUL=5, 
+		OP_DIV=6, OP_POW=7, EQ=8, NUM=9, ID=10, WS=11;
 	public static string[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -44,8 +44,8 @@ public partial class MathLexer : Lexer {
 	};
 
 	public static readonly string[] ruleNames = {
-		"T__0", "T__1", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_POW", "EQ", 
-		"NUM", "ID", "WS"
+		"LEFT_PARENTHESIS", "RIGHT_PARENTHESIS", "OP_ADD", "OP_SUB", "OP_MUL", 
+		"OP_DIV", "OP_POW", "EQ", "NUM", "ID", "WS"
 	};
 
 
@@ -62,8 +62,8 @@ public partial class MathLexer : Lexer {
 		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'", "'^'", "'='"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, null, "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_POW", "EQ", 
-		"NUM", "ID", "WS"
+		null, "LEFT_PARENTHESIS", "RIGHT_PARENTHESIS", "OP_ADD", "OP_SUB", "OP_MUL", 
+		"OP_DIV", "OP_POW", "EQ", "NUM", "ID", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -76,7 +76,7 @@ public partial class MathLexer : Lexer {
 		}
 	}
 
-	public override string GrammarFileName { get { return "Math.g4"; } }
+	public override string GrammarFileName { get { return "MathLexer.g4"; } }
 
 	public override string[] RuleNames { get { return ruleNames; } }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from ../Parser/Grammar/Math.g4 by ANTLR 4.13.0
+// Generated from ../Parser/Grammar/MathParser.g4 by ANTLR 4.13.0
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -36,8 +36,8 @@ public partial class MathParser : Parser {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		T__0=1, T__1=2, OP_ADD=3, OP_SUB=4, OP_MUL=5, OP_DIV=6, OP_POW=7, EQ=8, 
-		NUM=9, ID=10, WS=11;
+		LEFT_PARENTHESIS=1, RIGHT_PARENTHESIS=2, OP_ADD=3, OP_SUB=4, OP_MUL=5, 
+		OP_DIV=6, OP_POW=7, EQ=8, NUM=9, ID=10, WS=11;
 	public const int
 		RULE_equation = 0, RULE_expr = 1;
 	public static readonly string[] ruleNames = {
@@ -48,8 +48,8 @@ public partial class MathParser : Parser {
 		null, "'('", "')'", "'+'", "'-'", "'*'", "'/'", "'^'", "'='"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, null, "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_POW", "EQ", 
-		"NUM", "ID", "WS"
+		null, "LEFT_PARENTHESIS", "RIGHT_PARENTHESIS", "OP_ADD", "OP_SUB", "OP_MUL", 
+		"OP_DIV", "OP_POW", "EQ", "NUM", "ID", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -62,7 +62,7 @@ public partial class MathParser : Parser {
 		}
 	}
 
-	public override string GrammarFileName { get { return "Math.g4"; } }
+	public override string GrammarFileName { get { return "MathParser.g4"; } }
 
 	public override string[] RuleNames { get { return ruleNames; } }
 
@@ -102,17 +102,17 @@ public partial class MathParser : Parser {
 		public override int RuleIndex { get { return RULE_equation; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.EnterEquation(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.ExitEquation(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitEquation(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -166,17 +166,17 @@ public partial class MathParser : Parser {
 		public VariableExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.EnterVariableExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.ExitVariableExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitVariableExpr(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -191,41 +191,43 @@ public partial class MathParser : Parser {
 		public UnaryExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.EnterUnaryExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.ExitUnaryExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitUnaryExpr(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 	public partial class FuncExprContext : ExprContext {
 		public IToken func;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEFT_PARENTHESIS() { return GetToken(MathParser.LEFT_PARENTHESIS, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
 			return GetRuleContext<ExprContext>(0);
 		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RIGHT_PARENTHESIS() { return GetToken(MathParser.RIGHT_PARENTHESIS, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(MathParser.ID, 0); }
 		public FuncExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.EnterFuncExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.ExitFuncExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitFuncExpr(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -248,39 +250,41 @@ public partial class MathParser : Parser {
 		public BinaryExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.EnterBinaryExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.ExitBinaryExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitBinaryExpr(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 	public partial class ParensExprContext : ExprContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEFT_PARENTHESIS() { return GetToken(MathParser.LEFT_PARENTHESIS, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
 			return GetRuleContext<ExprContext>(0);
 		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RIGHT_PARENTHESIS() { return GetToken(MathParser.RIGHT_PARENTHESIS, 0); }
 		public ParensExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.EnterParensExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.ExitParensExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitParensExpr(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -291,17 +295,17 @@ public partial class MathParser : Parser {
 		public ConstantExprContext(ExprContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.EnterConstantExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
-			IMathListener typedListener = listener as IMathListener;
+			IMathParserListener typedListener = listener as IMathParserListener;
 			if (typedListener != null) typedListener.ExitConstantExpr(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathVisitor<TResult> typedVisitor = visitor as IMathVisitor<TResult>;
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitConstantExpr(this);
 			else return visitor.VisitChildren(this);
 		}
@@ -334,11 +338,11 @@ public partial class MathParser : Parser {
 				_prevctx = _localctx;
 
 				State = 10;
-				Match(T__0);
+				Match(LEFT_PARENTHESIS);
 				State = 11;
 				expr(0);
 				State = 12;
-				Match(T__1);
+				Match(RIGHT_PARENTHESIS);
 				}
 				break;
 			case 2:
@@ -368,11 +372,11 @@ public partial class MathParser : Parser {
 				State = 16;
 				((FuncExprContext)_localctx).func = Match(ID);
 				State = 17;
-				Match(T__0);
+				Match(LEFT_PARENTHESIS);
 				State = 18;
 				expr(0);
 				State = 19;
-				Match(T__1);
+				Match(RIGHT_PARENTHESIS);
 				}
 				break;
 			case 4:

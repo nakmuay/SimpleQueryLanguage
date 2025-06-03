@@ -14,8 +14,8 @@ null
 
 token symbolic names:
 null
-null
-null
+LEFT_PARENTHESIS
+RIGHT_PARENTHESIS
 OP_ADD
 OP_SUB
 OP_MUL
@@ -27,8 +27,8 @@ ID
 WS
 
 rule names:
-T__0
-T__1
+LEFT_PARENTHESIS
+RIGHT_PARENTHESIS
 OP_ADD
 OP_SUB
 OP_MUL

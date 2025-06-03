@@ -2,7 +2,7 @@ using LangParser.Ast;
 
 namespace LangParser.Internal;
 
-internal sealed class EquationAstBuilderVisitor : MathBaseVisitor<EquationNode>
+internal sealed class EquationAstBuilderVisitor : MathParserBaseVisitor<EquationNode>
 {
     public override EquationNode VisitEquation(MathParser.EquationContext context)
     {
