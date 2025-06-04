@@ -14,9 +14,7 @@ internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
     public override Unit Visit(VariableNode node)
     {
         if (node.Coefficient != 1.0D)
-        {
             _ = _builder.Append(CultureInfo.InvariantCulture, $"{node.Coefficient}");
-        }
 
         _ = _builder.Append(CultureInfo.InvariantCulture, $"{node.Name}");
 
