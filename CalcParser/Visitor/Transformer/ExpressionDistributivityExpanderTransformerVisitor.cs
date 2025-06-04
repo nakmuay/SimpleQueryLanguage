@@ -1,4 +1,5 @@
 using CalcParser.Ast;
+using CalcParser.Visitor.Transformer.Rules;
 
 namespace CalcParser.Visitor.Transformer;
 
@@ -9,85 +10,54 @@ internal sealed class ExpressionDistributivityExpanderTransformerVisitor : Expre
         var left = node.Left.Accept(this);
         var right = node.Right.Accept(this);
 
-        if (right is ParenthesisNode rightParenthesis && IsLeftDistributiveOverInnerExpression(node.Operator, rightParenthesis.InnerExpression))
+        var leftDistributiveRule = TransformationRuleFactory.LeftDistributive(node.Operator);
+        if (right is ParenthesisNode rightParenthesis && leftDistributiveRule.AppliesTo(rightParenthesis.InnerExpression))
         {
-            var leftDistributorVisitor = new ExpressionLeftTermDistributorVisitor(node.Operator, left);
-            return rightParenthesis.InnerExpression.Accept(leftDistributorVisitor);
+            // Apply the distributive rule to the inner expression'
+            var result = ApplyRule(leftDistributiveRule, left, rightParenthesis.InnerExpression);
+
+            // Recurse to apply the distributive rule to nested expressions
+            return result.Accept(this);
         }
 
-        if (left is ParenthesisNode leftParenthesis && IsRightDistributiveOverInnerExpression(node.Operator, leftParenthesis.InnerExpression))
+        var rightDistributiveRule = TransformationRuleFactory.RightDistributivity(node.Operator);
+        if (left is ParenthesisNode leftParenthesis && rightDistributiveRule.AppliesTo(leftParenthesis.InnerExpression))
         {
-            var rightDistributorVisitor = new ExpressionRightTermDistributorVisitor(node.Operator, right);
-            return leftParenthesis.InnerExpression.Accept(rightDistributorVisitor);
+            // Apply the distributive rule to the inner expression
+            var result = ApplyRule(rightDistributiveRule, right, leftParenthesis.InnerExpression);
+
+            // Recurse to apply the distributive rule to nested expressions
+            return result.Accept(this);
         }
 
         return base.Visit(node);
     }
 
-    private static bool IsLeftDistributiveOverInnerExpression(OperatorNode op, ExpressionNode rightInnerExpression)
-        => rightInnerExpression is BinaryOperatorNode innerOp && op.IsLeftDistributiveOver(innerOp.Operator);
-
-    private static bool IsRightDistributiveOverInnerExpression(OperatorNode op, ExpressionNode leftInnerExpression)
-        => leftInnerExpression is BinaryOperatorNode innerOp && op.IsRightDistributiveOver(innerOp.Operator);
-
-    private sealed class ExpressionLeftTermDistributorVisitor(OperatorNode op, ExpressionNode term) : ExpressionTransformerBase
+    private static ParenthesisNode ApplyRule(IBinaryOperatorTransformationRule rule, ExpressionNode term, ExpressionNode expression)
     {
-        private readonly OperatorNode _op = op;
-        private readonly ExpressionNode _term = term;
+        var ruleApplierVisitor = new ExpressionDistributiveRuleApplierVisitor(rule, term);
+        var innerResult = expression.Accept(ruleApplierVisitor);
 
-        public override ExpressionNode Visit(BinaryOperatorNode node)
-        {
-            var left = node.Left.Accept(this);
-            var right = node.Right.Accept(this);
-            var op = node.Operator;
-
-            if (_op.IsLeftDistributiveOver(op))
-            {
-                // Only apply transformation to the left sub-tree in case we have not already processed it
-                var newLeft = left is BinaryOperatorNode leftOperator && _op.IsLeftDistributiveOver(leftOperator.Operator)
-                    ? left
-                    : BinaryOperatorNode.Create(_op, _term, left);
-
-                // Only apply transformation to the right sub-tree in case we have not already processed it
-                var newRight = right is BinaryOperatorNode rightOperator && _op.IsLeftDistributiveOver(rightOperator.Operator)
-                    ? right
-                    : BinaryOperatorNode.Create(_op, _term, right);
-
-                // Re-combine the left and right sub-trees with the current operator
-                return BinaryOperatorNode.Create(node.Operator, newLeft, newRight);
-            }
-
-            return base.Visit(node);
-        }
+        return ParenthesisNode.Create(innerResult);
     }
 
-    private sealed class ExpressionRightTermDistributorVisitor(OperatorNode op, ExpressionNode term) : ExpressionTransformerBase
+    private sealed class ExpressionDistributiveRuleApplierVisitor(IBinaryOperatorTransformationRule distributiveRule, ExpressionNode term) : ExpressionTransformerBase
     {
-        private readonly OperatorNode _op = op;
+        private readonly IBinaryOperatorTransformationRule _distributiveRule = distributiveRule;
         private readonly ExpressionNode _term = term;
 
         public override ExpressionNode Visit(BinaryOperatorNode node)
         {
-            var left = node.Left.Accept(this);
-            var right = node.Right.Accept(this);
+            // Traverse the left- and right subtrees only if the distributive rule applies
+            var left = _distributiveRule.AppliesTo(node.Left) ? node.Left.Accept(this) : node.Left;
+            var right = _distributiveRule.AppliesTo(node.Right) ? node.Right.Accept(this) : node.Right;
 
-            if (_op.IsRightDistributiveOver(node.Operator))
-            {
-                // Only apply transformation to the left sub-tree in case we have not already processed it
-                var newLeft = left is BinaryOperatorNode leftOperator && _op.IsRightDistributiveOver(leftOperator.Operator)
-                    ? left
-                    : BinaryOperatorNode.Create(_op, left, _term);
+            // Only apply transformation to the left- and right subtrees in case we have not already processed it
+            var newLeft = _distributiveRule.AppliesTo(left) ? left : _distributiveRule.Apply(_term, left);
+            var newRight = _distributiveRule.AppliesTo(right) ? right : _distributiveRule.Apply(_term, right);
 
-                // Only apply transformation to the right sub-tree in case we have not already processed it
-                var newRight = right is BinaryOperatorNode rightOperator && _op.IsRightDistributiveOver(rightOperator.Operator)
-                    ? right
-                    : BinaryOperatorNode.Create(_op, right, _term);
-
-                // Re-combine the left and right sub-trees with the current operator
-                return BinaryOperatorNode.Create(node.Operator, newLeft, newRight);
-            }
-
-            return base.Visit(node);
+            // Re-combine the left and right sub-trees with the current operator
+            return BinaryOperatorNode.Create(node.Operator, newLeft, newRight);
         }
     }
 }
