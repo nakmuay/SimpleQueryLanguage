@@ -56,8 +56,10 @@ internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<Expres
         {
             MathLexer.UNARY_FN_ARCCOS => UnaryFunctionNode.CreateArcCosFunction(innerExpression),
             MathLexer.UNARY_FN_ARCSIN => UnaryFunctionNode.CreateArcSinFunction(innerExpression),
+            MathLexer.UNARY_FN_ARCTAN => UnaryFunctionNode.CreateArcTanFunction(innerExpression),
             MathLexer.UNARY_FN_COS => UnaryFunctionNode.CreateCosFunction(innerExpression),
             MathLexer.UNARY_FN_SIN => UnaryFunctionNode.CreateSinFunction(innerExpression),
+            MathLexer.UNARY_FN_TAN => UnaryFunctionNode.CreateTanFunction(innerExpression),
             _ => throw new NotSupportedException($"The function '{context.name.Text}' is not supported.")
         };
     }

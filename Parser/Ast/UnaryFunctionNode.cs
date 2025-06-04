@@ -29,9 +29,13 @@ public sealed record UnaryFunctionNode : ExpressionNode
 
     public static UnaryFunctionNode CreateArcSinFunction(ExpressionNode argument) => new(UnaryFunctionType.ArcSin, argument);
 
+    public static UnaryFunctionNode CreateArcTanFunction(ExpressionNode argument) => new(UnaryFunctionType.ArcTan, argument);
+
     public static UnaryFunctionNode CreateCosFunction(ExpressionNode argument) => new(UnaryFunctionType.Cos, argument);
 
     public static UnaryFunctionNode CreateSinFunction(ExpressionNode argument) => new(UnaryFunctionType.Sin, argument);
+
+    public static UnaryFunctionNode CreateTanFunction(ExpressionNode argument) => new(UnaryFunctionType.Tan, argument);
 
     internal static UnaryFunctionNode Create(UnaryFunctionType type, ExpressionNode argument) => new(type, argument);
 

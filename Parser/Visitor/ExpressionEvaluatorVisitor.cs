@@ -28,8 +28,10 @@ internal sealed class ExpressionEvaluatorVisitor : TypedExpressionVisitorBase<do
         {
             UnaryFunctionType.Cos => Math.Cos(argument),
             UnaryFunctionType.Sin => Math.Sin(argument),
+            UnaryFunctionType.Tan => Math.Tan(argument),
             UnaryFunctionType.ArcCos => Math.Acos(argument),
             UnaryFunctionType.ArcSin => Math.Asin(argument),
+            UnaryFunctionType.ArcTan => Math.Atan(argument),
             _ => throw new NotSupportedException($"{nameof(UnaryFunctionType)} '{node.FunctionType}' is not supported")
         };
     }

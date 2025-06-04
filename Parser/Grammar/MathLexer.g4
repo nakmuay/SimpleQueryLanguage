@@ -17,5 +17,7 @@ WS     : [ \t\r\n] -> channel(HIDDEN) ;
 
 UNARY_FN_COS : 'cos' ;
 UNARY_FN_SIN : 'sin' ;
+UNARY_FN_TAN : 'tan' ;
 UNARY_FN_ARCCOS : 'arccos' ;
 UNARY_FN_ARCSIN : 'arcsin' ;
+UNARY_FN_ARCTAN : 'arctan' ;

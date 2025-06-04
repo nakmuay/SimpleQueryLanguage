@@ -8,7 +8,7 @@ Console.WriteLine($"Expression: {epxressionTree.Format()}");
 */
 
 
-var expressionTree = Parser.ParseExpression("1 + 2 + (1 + sin(0.1))");
+var expressionTree = Parser.ParseExpression("1 + 2 + (1 + tan(0.1))");
 double result = expressionTree.Evaluate();
 Console.WriteLine($"Result:     {result}");
 
