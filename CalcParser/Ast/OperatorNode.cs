@@ -35,7 +35,5 @@ public sealed record OperatorNode : ExpressionNode
 
     internal bool IsRightDistributiveOver(OperatorNode other) => OperatorType.IsRightDistributiveOver(other.OperatorType);
 
-    internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
-
     internal override T Accept<T>(TypedExpressionVisitorBase<T> visitor) => visitor.Visit(this);
 }

@@ -25,8 +25,11 @@ Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
 
 string[] inputs =
 [
-    "1 + 2 + (1 + tan(0.1))",
-    "1 + x"
+    //"1 + 2 + (1 + tan(0.1))",
+    "1 + x",
+    "1 + 1x",
+    "1 + 2x",
+    "1 + 2 * 2x"
     /*
     "1 + 2 + cos(3 + 4)",
     "1 + 2 + arcsin(1 + sin(3 + 4))",
@@ -87,5 +90,5 @@ foreach (string input in inputs)
     var expression = Parser.ParseExpression(input);
     var simplified = expression.Simplify();
 
-    Console.WriteLine($"Expression: {expression.Format()} => {simplified.Format()}");
+    Console.WriteLine($"Expression: {expression.Format()} => {simplified.Format()} (input: {input})");
 }

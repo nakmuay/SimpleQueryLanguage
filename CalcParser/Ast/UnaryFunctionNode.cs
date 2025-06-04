@@ -43,7 +43,5 @@ public sealed record UnaryFunctionNode : ExpressionNode
 
     internal static UnaryFunctionNode Create(UnaryFunctionType type, ExpressionNode argument) => new(type, argument);
 
-    internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
-
     internal override T Accept<T>(TypedExpressionVisitorBase<T> visitor) => visitor.Visit(this);
 }

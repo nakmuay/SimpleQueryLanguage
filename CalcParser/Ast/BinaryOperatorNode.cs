@@ -29,7 +29,5 @@ public sealed record class BinaryOperatorNode : ExpressionNode
 
     internal static BinaryOperatorNode Create(OperatorNode op, ExpressionNode left, ExpressionNode right) => new(op, left, right);
 
-    internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
-
     internal override T Accept<T>(TypedExpressionVisitorBase<T> visitor) => visitor.Visit(this);
 }

@@ -6,11 +6,16 @@ namespace CalcParser.Internal;
 internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<ExpressionNode>
 {
     public override ExpressionNode VisitVariableExpr(MathParser.VariableExprContext context)
-        => VariableNode.Create(context.var.Text);
+    {
+        string? coeff = context.coeff?.Text;
+        string name = context.var.Text;
+
+        return !string.IsNullOrEmpty(coeff) ? VariableNode.Create(ParseConstant(coeff), name) : VariableNode.Create(name);
+    }
 
     public override ExpressionNode VisitConstantExpr(MathParser.ConstantExprContext context)
     {
-        double value = double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
+        double value = ParseConstant(context.value.Text);
         return ConstantNode.Create(value);
     }
 
@@ -63,4 +68,6 @@ internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<Expres
             _ => throw new NotSupportedException($"The function '{context.function.name.Text}' is not supported.")
         };
     }
+
+    private static double ParseConstant(string text) => double.Parse(text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
 }

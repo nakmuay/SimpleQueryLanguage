@@ -11,9 +11,19 @@ internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
 
     public override string ToString() => _builder.ToString();
 
-    public override void Visit(VariableNode node) => _builder.Append(CultureInfo.InvariantCulture, $"{node.Name}");
+    public override Unit Visit(VariableNode node)
+    {
+        if (node.Coefficient != 1.0D)
+        {
+            _ = _builder.Append(CultureInfo.InvariantCulture, $"{node.Coefficient}");
+        }
 
-    public override void Visit(OperatorNode node)
+        _ = _builder.Append(CultureInfo.InvariantCulture, $"{node.Name}");
+
+        return base.Visit(node);
+    }
+
+    public override Unit Visit(OperatorNode node)
     {
         string op = node.OperatorType switch
         {
@@ -26,33 +36,38 @@ internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
         };
 
         _ = _builder.Append(CultureInfo.InvariantCulture, $"{op}");
-        base.Visit(node);
+
+        return base.Visit(node);
     }
 
-    public override void Visit(NegateNode node)
+    public override Unit Visit(NegateNode node)
     {
         _ = _builder.Append('-');
-        base.Visit(node);
+        return base.Visit(node);
     }
 
-    public override void Visit(UnaryFunctionNode node)
+    public override Unit Visit(UnaryFunctionNode node)
     {
         _ = _builder.Append(CultureInfo.CurrentCulture, $"{node.Name}");
         _ = _builder.Append('(');
-        base.Visit(node);
+        _ = base.Visit(node);
         _ = _builder.Append(')');
+
+        return Unit.Default;
     }
 
-    public override void Visit(ParenthesisNode node)
+    public override Unit Visit(ParenthesisNode node)
     {
         _ = _builder.Append('(');
-        node.InnerExpression.Accept(this);
+        _ = node.InnerExpression.Accept(this);
         _ = _builder.Append(')');
+
+        return Unit.Default;
     }
 
-    public override void Visit(ConstantNode node)
+    public override Unit Visit(ConstantNode node)
     {
         _ = _builder.Append(CultureInfo.InvariantCulture, $"{node.Value}");
-        base.Visit(node);
+        return base.Visit(node);
     }
 }
