@@ -18,8 +18,10 @@ public sealed record UnaryFunctionNode : ExpressionNode
     {
         UnaryFunctionType.ArcCos => "arccos",
         UnaryFunctionType.ArcSin => "arcsin",
+        UnaryFunctionType.ArcTan => "arctan",
         UnaryFunctionType.Cos => "cos",
         UnaryFunctionType.Sin => "sin",
+        UnaryFunctionType.Tan => "tan",
         _ => throw new NotSupportedException($"{nameof(UnaryFunctionType)} '{FunctionType}' is not supported.")
     };
 

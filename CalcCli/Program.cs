@@ -7,11 +7,11 @@ Console.WriteLine($"Expression: {epxressionTree.Format()}");
 Console.WriteLine($"Expression: {epxressionTree.Format()}");
 */
 
-
+/*
 var expressionTree = Parser.ParseExpression("1 + 2 + (1 + tan(0.1))");
 double result = expressionTree.Evaluate();
 Console.WriteLine($"Result:     {result}");
-
+*/
 
 /*
 var equationTree = Parser.ParseEquation("x = x*(1 + 2) * 3");
@@ -25,6 +25,8 @@ Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
 
 string[] inputs =
 [
+    "1 + 2 + (1 + tan(0.1))",
+    "1 + x"
     /*
     "1 + 2 + cos(3 + 4)",
     "1 + 2 + arcsin(1 + sin(3 + 4))",
