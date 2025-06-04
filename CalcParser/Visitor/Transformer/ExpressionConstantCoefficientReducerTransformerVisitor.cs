@@ -5,6 +5,9 @@ namespace CalcParser.Visitor.Transformer;
 
 internal sealed class ExpressionConstantCoefficientReducerTransformerVisitor : ExpressionTransformerBase
 {
+    public override ExpressionNode Visit(VariableNode node)
+        => node.Coefficient == 0.0D ? ConstantNode.Zero : base.Visit(node);
+
     public override ExpressionNode Visit(BinaryOperatorNode node)
     {
         var left = node.Left.Accept(this);
