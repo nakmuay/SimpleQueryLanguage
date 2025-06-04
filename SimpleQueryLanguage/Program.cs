@@ -1,5 +1,5 @@
-﻿using LangParser;
-using LangParser.Extensions;
+﻿using CalcParser;
+using CalcParser.Extensions;
 
 /*
 var expressionTree = Parser.ParseExpression("(1 + 1)^3 + 1 * (-2 / 10) * 100");

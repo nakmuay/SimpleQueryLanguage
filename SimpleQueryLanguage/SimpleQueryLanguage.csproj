@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Parser\LangParser.csproj" />
+    <ProjectReference Include="..\CalcParser\CalcParser.csproj" />
   </ItemGroup>
 
 </Project>

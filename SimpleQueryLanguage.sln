@@ -5,7 +5,7 @@ VisualStudioVersion = 17.12.35514.174 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleQueryLanguage", "SimpleQueryLanguage\SimpleQueryLanguage.csproj", "{A74909C2-5A14-44A5-A19E-24E33AC7FC37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LangParser", "Parser\LangParser.csproj", "{58CD2B7D-39E8-4D85-A5AD-2D325C06BDED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalcParser", "CalcParser\CalcParser.csproj", "{58CD2B7D-39E8-4D85-A5AD-2D325C06BDED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{FB1DA6D0-8EAB-473C-AE4A-4798B37D2801}"
 EndProject
