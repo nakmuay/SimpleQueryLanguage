@@ -4,14 +4,14 @@ namespace LangParser.Ast;
 
 public sealed record NegateNode : ExpressionNode
 {
-    private NegateNode(ExpressionNode innerNode)
+    private NegateNode(ExpressionNode operand)
     {
-        InnerNode = innerNode;
+        Operand = operand;
     }
 
-    public ExpressionNode InnerNode { get; }
+    public ExpressionNode Operand { get; }
 
-    public static NegateNode Create(ExpressionNode innerNode) => new(innerNode);
+    public static NegateNode Create(ExpressionNode operand) => new(operand);
 
     internal override void Accept(ExpressionVisitorBase visitor) => visitor.Visit(this);
 

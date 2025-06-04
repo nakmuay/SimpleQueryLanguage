@@ -52,13 +52,6 @@ public interface IMathParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitUnaryExpr([NotNull] MathParser.UnaryExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>unaryFuncExpr</c>
-	/// labeled alternative in <see cref="MathParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitUnaryFuncExpr([NotNull] MathParser.UnaryFuncExprContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>binaryExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// </summary>
@@ -73,10 +66,23 @@ public interface IMathParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitParensExpr([NotNull] MathParser.ParensExprContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>functionExpr</c>
+	/// labeled alternative in <see cref="MathParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionExpr([NotNull] MathParser.FunctionExprContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>constantExpr</c>
 	/// labeled alternative in <see cref="MathParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitConstantExpr([NotNull] MathParser.ConstantExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="MathParser.ufunc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitUfunc([NotNull] MathParser.UfuncContext context);
 }

@@ -21,7 +21,7 @@ internal class ExpressionWalkerVisitor : ExpressionVisitorBase
         node.Right.Accept(this);
     }
 
-    public override void Visit(NegateNode node) => node.InnerNode.Accept(this);
+    public override void Visit(NegateNode node) => node.Operand.Accept(this);
 
     public override void Visit(UnaryFunctionNode node) => node.Argument.Accept(this);
 

@@ -40,9 +40,9 @@ public partial class MathParser : Parser {
 		OP_DIV=6, OP_POW=7, EQ=8, NUM=9, ID=10, WS=11, UNARY_FN_COS=12, UNARY_FN_SIN=13, 
 		UNARY_FN_TAN=14, UNARY_FN_ARCCOS=15, UNARY_FN_ARCSIN=16, UNARY_FN_ARCTAN=17;
 	public const int
-		RULE_equation = 0, RULE_expr = 1;
+		RULE_equation = 0, RULE_expr = 1, RULE_ufunc = 2;
 	public static readonly string[] ruleNames = {
-		"equation", "expr"
+		"equation", "expr", "ufunc"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -118,13 +118,13 @@ public partial class MathParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 4;
-			_localctx.left = expr(0);
-			State = 5;
-			_localctx.eq = Match(EQ);
 			State = 6;
-			_localctx.right = expr(0);
+			_localctx.left = expr(0);
 			State = 7;
+			_localctx.eq = Match(EQ);
+			State = 8;
+			_localctx.right = expr(0);
+			State = 9;
 			Match(Eof);
 			}
 		}
@@ -179,28 +179,6 @@ public partial class MathParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class UnaryFuncExprContext : ExprContext {
-		public IToken name;
-		public ExprContext arg;
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEFT_PARENTHESIS() { return GetToken(MathParser.LEFT_PARENTHESIS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RIGHT_PARENTHESIS() { return GetToken(MathParser.RIGHT_PARENTHESIS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
-			return GetRuleContext<ExprContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_COS() { return GetToken(MathParser.UNARY_FN_COS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_SIN() { return GetToken(MathParser.UNARY_FN_SIN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_TAN() { return GetToken(MathParser.UNARY_FN_TAN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_ARCCOS() { return GetToken(MathParser.UNARY_FN_ARCCOS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_ARCSIN() { return GetToken(MathParser.UNARY_FN_ARCSIN, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_ARCTAN() { return GetToken(MathParser.UNARY_FN_ARCTAN, 0); }
-		public UnaryFuncExprContext(ExprContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitUnaryFuncExpr(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
 	public partial class BinaryExprContext : ExprContext {
 		public ExprContext left;
 		public IToken op;
@@ -238,6 +216,25 @@ public partial class MathParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
+	public partial class FunctionExprContext : ExprContext {
+		public UfuncContext function;
+		public ExprContext arg;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEFT_PARENTHESIS() { return GetToken(MathParser.LEFT_PARENTHESIS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RIGHT_PARENTHESIS() { return GetToken(MathParser.RIGHT_PARENTHESIS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public UfuncContext ufunc() {
+			return GetRuleContext<UfuncContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
+		}
+		public FunctionExprContext(ExprContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitFunctionExpr(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 	public partial class ConstantExprContext : ExprContext {
 		public IToken value;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NUM() { return GetToken(MathParser.NUM, 0); }
@@ -267,7 +264,7 @@ public partial class MathParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 25;
+			State = 27;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,0,Context) ) {
 			case 1:
@@ -276,11 +273,11 @@ public partial class MathParser : Parser {
 				Context = _localctx;
 				_prevctx = _localctx;
 
-				State = 10;
-				Match(LEFT_PARENTHESIS);
-				State = 11;
-				expr(0);
 				State = 12;
+				Match(LEFT_PARENTHESIS);
+				State = 13;
+				expr(0);
+				State = 14;
 				Match(RIGHT_PARENTHESIS);
 				}
 				break;
@@ -289,7 +286,7 @@ public partial class MathParser : Parser {
 				_localctx = new UnaryExprContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
-				State = 14;
+				State = 16;
 				((UnaryExprContext)_localctx).op = TokenStream.LT(1);
 				_la = TokenStream.LA(1);
 				if ( !(_la==OP_ADD || _la==OP_SUB) ) {
@@ -299,30 +296,22 @@ public partial class MathParser : Parser {
 					ErrorHandler.ReportMatch(this);
 				    Consume();
 				}
-				State = 15;
+				State = 17;
 				expr(8);
 				}
 				break;
 			case 3:
 				{
-				_localctx = new UnaryFuncExprContext(_localctx);
+				_localctx = new FunctionExprContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
-				State = 16;
-				((UnaryFuncExprContext)_localctx).name = TokenStream.LT(1);
-				_la = TokenStream.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 258048L) != 0)) ) {
-					((UnaryFuncExprContext)_localctx).name = ErrorHandler.RecoverInline(this);
-				}
-				else {
-					ErrorHandler.ReportMatch(this);
-				    Consume();
-				}
-				State = 17;
-				Match(LEFT_PARENTHESIS);
 				State = 18;
-				((UnaryFuncExprContext)_localctx).arg = expr(0);
+				((FunctionExprContext)_localctx).function = ufunc();
 				State = 19;
+				Match(LEFT_PARENTHESIS);
+				State = 20;
+				((FunctionExprContext)_localctx).arg = expr(0);
+				State = 21;
 				Match(RIGHT_PARENTHESIS);
 				}
 				break;
@@ -331,7 +320,7 @@ public partial class MathParser : Parser {
 				_localctx = new ConstantExprContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
-				State = 21;
+				State = 23;
 				((ConstantExprContext)_localctx).value = Match(NUM);
 				}
 				break;
@@ -340,9 +329,9 @@ public partial class MathParser : Parser {
 				_localctx = new VariableExprContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
-				State = 22;
+				State = 24;
 				((VariableExprContext)_localctx).coeff = Match(NUM);
-				State = 23;
+				State = 25;
 				((VariableExprContext)_localctx).var = Match(ID);
 				}
 				break;
@@ -351,13 +340,13 @@ public partial class MathParser : Parser {
 				_localctx = new VariableExprContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
-				State = 24;
+				State = 26;
 				((VariableExprContext)_localctx).var = Match(ID);
 				}
 				break;
 			}
 			Context.Stop = TokenStream.LT(-1);
-			State = 38;
+			State = 40;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
@@ -366,7 +355,7 @@ public partial class MathParser : Parser {
 						TriggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					State = 36;
+					State = 38;
 					ErrorHandler.Sync(this);
 					switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
 					case 1:
@@ -374,11 +363,11 @@ public partial class MathParser : Parser {
 						_localctx = new BinaryExprContext(new ExprContext(_parentctx, _parentState));
 						((BinaryExprContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expr);
-						State = 27;
-						if (!(Precpred(Context, 7))) throw new FailedPredicateException(this, "Precpred(Context, 7)");
-						State = 28;
-						((BinaryExprContext)_localctx).op = Match(OP_POW);
 						State = 29;
+						if (!(Precpred(Context, 7))) throw new FailedPredicateException(this, "Precpred(Context, 7)");
+						State = 30;
+						((BinaryExprContext)_localctx).op = Match(OP_POW);
+						State = 31;
 						((BinaryExprContext)_localctx).right = expr(8);
 						}
 						break;
@@ -387,9 +376,9 @@ public partial class MathParser : Parser {
 						_localctx = new BinaryExprContext(new ExprContext(_parentctx, _parentState));
 						((BinaryExprContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expr);
-						State = 30;
+						State = 32;
 						if (!(Precpred(Context, 6))) throw new FailedPredicateException(this, "Precpred(Context, 6)");
-						State = 31;
+						State = 33;
 						((BinaryExprContext)_localctx).op = TokenStream.LT(1);
 						_la = TokenStream.LA(1);
 						if ( !(_la==OP_MUL || _la==OP_DIV) ) {
@@ -399,7 +388,7 @@ public partial class MathParser : Parser {
 							ErrorHandler.ReportMatch(this);
 						    Consume();
 						}
-						State = 32;
+						State = 34;
 						((BinaryExprContext)_localctx).right = expr(7);
 						}
 						break;
@@ -408,9 +397,9 @@ public partial class MathParser : Parser {
 						_localctx = new BinaryExprContext(new ExprContext(_parentctx, _parentState));
 						((BinaryExprContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expr);
-						State = 33;
+						State = 35;
 						if (!(Precpred(Context, 5))) throw new FailedPredicateException(this, "Precpred(Context, 5)");
-						State = 34;
+						State = 36;
 						((BinaryExprContext)_localctx).op = TokenStream.LT(1);
 						_la = TokenStream.LA(1);
 						if ( !(_la==OP_ADD || _la==OP_SUB) ) {
@@ -420,14 +409,14 @@ public partial class MathParser : Parser {
 							ErrorHandler.ReportMatch(this);
 						    Consume();
 						}
-						State = 35;
+						State = 37;
 						((BinaryExprContext)_localctx).right = expr(6);
 						}
 						break;
 					}
 					} 
 				}
-				State = 40;
+				State = 42;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			}
@@ -440,6 +429,92 @@ public partial class MathParser : Parser {
 		}
 		finally {
 			UnrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public partial class UfuncContext : ParserRuleContext {
+		public IToken name;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_COS() { return GetToken(MathParser.UNARY_FN_COS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_SIN() { return GetToken(MathParser.UNARY_FN_SIN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_TAN() { return GetToken(MathParser.UNARY_FN_TAN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_ARCCOS() { return GetToken(MathParser.UNARY_FN_ARCCOS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_ARCSIN() { return GetToken(MathParser.UNARY_FN_ARCSIN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UNARY_FN_ARCTAN() { return GetToken(MathParser.UNARY_FN_ARCTAN, 0); }
+		public UfuncContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_ufunc; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IMathParserVisitor<TResult> typedVisitor = visitor as IMathParserVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitUfunc(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public UfuncContext ufunc() {
+		UfuncContext _localctx = new UfuncContext(Context, State);
+		EnterRule(_localctx, 4, RULE_ufunc);
+		try {
+			State = 49;
+			ErrorHandler.Sync(this);
+			switch (TokenStream.LA(1)) {
+			case UNARY_FN_COS:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 43;
+				_localctx.name = Match(UNARY_FN_COS);
+				}
+				break;
+			case UNARY_FN_SIN:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 44;
+				_localctx.name = Match(UNARY_FN_SIN);
+				}
+				break;
+			case UNARY_FN_TAN:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 45;
+				_localctx.name = Match(UNARY_FN_TAN);
+				}
+				break;
+			case UNARY_FN_ARCCOS:
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 46;
+				_localctx.name = Match(UNARY_FN_ARCCOS);
+				}
+				break;
+			case UNARY_FN_ARCSIN:
+				EnterOuterAlt(_localctx, 5);
+				{
+				State = 47;
+				_localctx.name = Match(UNARY_FN_ARCSIN);
+				}
+				break;
+			case UNARY_FN_ARCTAN:
+				EnterOuterAlt(_localctx, 6);
+				{
+				State = 48;
+				_localctx.name = Match(UNARY_FN_ARCTAN);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
 		}
 		return _localctx;
 	}
@@ -460,19 +535,23 @@ public partial class MathParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,17,42,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,
-		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,26,8,1,1,1,1,1,1,1,1,1,1,1,
-		1,1,1,1,1,1,1,1,5,1,37,8,1,10,1,12,1,40,9,1,1,1,0,1,2,2,0,2,0,3,1,0,3,
-		4,1,0,12,17,1,0,5,6,47,0,4,1,0,0,0,2,25,1,0,0,0,4,5,3,2,1,0,5,6,5,8,0,
-		0,6,7,3,2,1,0,7,8,5,0,0,1,8,1,1,0,0,0,9,10,6,1,-1,0,10,11,5,1,0,0,11,12,
-		3,2,1,0,12,13,5,2,0,0,13,26,1,0,0,0,14,15,7,0,0,0,15,26,3,2,1,8,16,17,
-		7,1,0,0,17,18,5,1,0,0,18,19,3,2,1,0,19,20,5,2,0,0,20,26,1,0,0,0,21,26,
-		5,9,0,0,22,23,5,9,0,0,23,26,5,10,0,0,24,26,5,10,0,0,25,9,1,0,0,0,25,14,
-		1,0,0,0,25,16,1,0,0,0,25,21,1,0,0,0,25,22,1,0,0,0,25,24,1,0,0,0,26,38,
-		1,0,0,0,27,28,10,7,0,0,28,29,5,7,0,0,29,37,3,2,1,8,30,31,10,6,0,0,31,32,
-		7,2,0,0,32,37,3,2,1,7,33,34,10,5,0,0,34,35,7,0,0,0,35,37,3,2,1,6,36,27,
-		1,0,0,0,36,30,1,0,0,0,36,33,1,0,0,0,37,40,1,0,0,0,38,36,1,0,0,0,38,39,
-		1,0,0,0,39,3,1,0,0,0,40,38,1,0,0,0,3,25,36,38
+		4,1,17,52,2,0,7,0,2,1,7,1,2,2,7,2,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,28,8,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,1,1,1,1,5,1,39,8,1,10,1,12,1,42,9,1,1,2,1,2,1,2,1,2,1,
+		2,1,2,3,2,50,8,2,1,2,0,1,2,3,0,2,4,0,2,1,0,3,4,1,0,5,6,61,0,6,1,0,0,0,
+		2,27,1,0,0,0,4,49,1,0,0,0,6,7,3,2,1,0,7,8,5,8,0,0,8,9,3,2,1,0,9,10,5,0,
+		0,1,10,1,1,0,0,0,11,12,6,1,-1,0,12,13,5,1,0,0,13,14,3,2,1,0,14,15,5,2,
+		0,0,15,28,1,0,0,0,16,17,7,0,0,0,17,28,3,2,1,8,18,19,3,4,2,0,19,20,5,1,
+		0,0,20,21,3,2,1,0,21,22,5,2,0,0,22,28,1,0,0,0,23,28,5,9,0,0,24,25,5,9,
+		0,0,25,28,5,10,0,0,26,28,5,10,0,0,27,11,1,0,0,0,27,16,1,0,0,0,27,18,1,
+		0,0,0,27,23,1,0,0,0,27,24,1,0,0,0,27,26,1,0,0,0,28,40,1,0,0,0,29,30,10,
+		7,0,0,30,31,5,7,0,0,31,39,3,2,1,8,32,33,10,6,0,0,33,34,7,1,0,0,34,39,3,
+		2,1,7,35,36,10,5,0,0,36,37,7,0,0,0,37,39,3,2,1,6,38,29,1,0,0,0,38,32,1,
+		0,0,0,38,35,1,0,0,0,39,42,1,0,0,0,40,38,1,0,0,0,40,41,1,0,0,0,41,3,1,0,
+		0,0,42,40,1,0,0,0,43,50,5,12,0,0,44,50,5,13,0,0,45,50,5,14,0,0,46,50,5,
+		15,0,0,47,50,5,16,0,0,48,50,5,17,0,0,49,43,1,0,0,0,49,44,1,0,0,0,49,45,
+		1,0,0,0,49,46,1,0,0,0,49,47,1,0,0,0,49,48,1,0,0,0,50,5,1,0,0,0,4,27,38,
+		40,49
 	};
 
 	public static readonly ATN _ATN =

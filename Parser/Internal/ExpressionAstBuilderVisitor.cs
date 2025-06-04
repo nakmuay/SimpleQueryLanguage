@@ -38,29 +38,29 @@ internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<Expres
 
     public override ExpressionNode VisitUnaryExpr(MathParser.UnaryExprContext context)
     {
-        var innerExpression = Visit(context.expr());
+        var operand = Visit(context.expr());
 
         return context.op.Type switch
         {
-            MathLexer.OP_ADD => innerExpression,
-            MathLexer.OP_SUB => NegateNode.Create(innerExpression),
+            MathLexer.OP_ADD => operand,
+            MathLexer.OP_SUB => NegateNode.Create(operand),
             _ => throw new NotSupportedException($"The unary operator '{context.op.Text}' is not supported."),
         };
     }
 
-    public override ExpressionNode VisitUnaryFuncExpr(MathParser.UnaryFuncExprContext context)
+    public override ExpressionNode VisitFunctionExpr(MathParser.FunctionExprContext context)
     {
-        var innerExpression = Visit(context.arg);
+        var argument = Visit(context.arg);
 
-        return context.name.Type switch
+        return context.function.name.Type switch
         {
-            MathLexer.UNARY_FN_ARCCOS => UnaryFunctionNode.CreateArcCosFunction(innerExpression),
-            MathLexer.UNARY_FN_ARCSIN => UnaryFunctionNode.CreateArcSinFunction(innerExpression),
-            MathLexer.UNARY_FN_ARCTAN => UnaryFunctionNode.CreateArcTanFunction(innerExpression),
-            MathLexer.UNARY_FN_COS => UnaryFunctionNode.CreateCosFunction(innerExpression),
-            MathLexer.UNARY_FN_SIN => UnaryFunctionNode.CreateSinFunction(innerExpression),
-            MathLexer.UNARY_FN_TAN => UnaryFunctionNode.CreateTanFunction(innerExpression),
-            _ => throw new NotSupportedException($"The function '{context.name.Text}' is not supported.")
+            MathLexer.UNARY_FN_ARCCOS => UnaryFunctionNode.CreateArcCosFunction(argument),
+            MathLexer.UNARY_FN_ARCSIN => UnaryFunctionNode.CreateArcSinFunction(argument),
+            MathLexer.UNARY_FN_ARCTAN => UnaryFunctionNode.CreateArcTanFunction(argument),
+            MathLexer.UNARY_FN_COS => UnaryFunctionNode.CreateCosFunction(argument),
+            MathLexer.UNARY_FN_SIN => UnaryFunctionNode.CreateSinFunction(argument),
+            MathLexer.UNARY_FN_TAN => UnaryFunctionNode.CreateTanFunction(argument),
+            _ => throw new NotSupportedException($"The function '{context.function.name.Text}' is not supported.")
         };
     }
 }
