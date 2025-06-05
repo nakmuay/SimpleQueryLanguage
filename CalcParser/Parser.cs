@@ -1,6 +1,6 @@
 ﻿using Antlr4.Runtime;
-using CalcParser.Internal;
 using CalcParser.Ast;
+using CalcParser.Visitor;
 
 namespace CalcParser;
 
