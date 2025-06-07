@@ -1,111 +1,26 @@
 ﻿using CalcParser;
 using CalcParser.Extensions;
 
-/*
-var expressionTree = Parser.ParseExpression("(1 + 1)^3 + 1 * (-2 / 10) * 100");
-Console.WriteLine($"Expression: {epxressionTree.Format()}");
-Console.WriteLine($"Expression: {epxressionTree.Format()}");
-*/
-
-/*
-var expressionTree = Parser.ParseExpression("1 + 2 + (1 + tan(0.1))");
-double result = expressionTree.Evaluate();
-Console.WriteLine($"Result:     {result}");
-*/
-
-/*
-var equationTree = Parser.ParseEquation("x = x*(1 + 2) * 3");
-Console.WriteLine($"Equation:   {equationTree.Format()}");
-*/
-
-/*
-var simplifiedRhs = equationTree.Right.Simplify();
-Console.WriteLine($"Simplified (rhs): {simplifiedRhs.Format()}");
-*/
-
-string[] inputs =
-[
-    //"5*(1 + 2 + 3)"
-    //"(1 + 2 + 3)*(4 + 5 + 6)",
-    //"1*(2 + 3 + 4)",
-    //"(2 + 3 + 4)*1",
-    "(1 + 2)*(3 + 4)*(5 + 6)",
-    "5*(1 + 2 + 3 * tan((2 + 3 + 4)))"
-
-    /*
-    "0 + x",
-    "x + 0",
-    "0x",
-    "1x"
-    */
-
-    /*
-    "1 + x",
-    "1 + 1x",
-    "1 + 2x",
-    "1 + 2 * 2x",
-    "1 + tan(arctan(1))"
-    */
-
-    /*
-    "1 + 2 + cos(3 + 4)",
-    "1 + 2 + arcsin(1 + sin(3 + 4))",
-    */
-    /*
-    "2 * (3*4)",
-    "2 * (3*4 + 5)",
-    "(3*4 + 5)*2",
-
-    "-2 * (3*4)",
-    "-2 * (3*4 + 5)",
-    "(3*4 + 5)*-2",
-
-    "2 * (3*4)",
-    "2 * (3*4 - 5)",
-    "(3*4 - 5)*2",
-
-    "-2 * (3*4)",
-    "-2 * (3*4 - 5)",
-    "(3*4 - 5)*-2",
-*/
-
-    /*
-"0 / 1",
-"0 / 10",
-"x^1",
-"x^0",
-"1^120",
-"1^0",
-"0^1",
-"0^2",
-"x * 2 * 3 * 0",
-"0 * 2 * 3 * x",
-"2 * 3 * x * 0",
-"2 * 3 * 0 * x",
-"x + x",
-"1 * x",
-"x * 1",
-"0 * x",
-"x * 0",
-"1 + x",
-"x + 1",
-"0 + x",
-"x + 0",
-"1 + 2 - 3 + x + 4 * 5 + 6",
-"0.5 * 2 * x",
-"2^2 + 1",
-"x + 1 * 2 + 3 + 4 * 5 * 6 + 7 * 8",
-"1 * 2 + 3 + 4 + x",
-"x + 1 * 2 * 3 * 4",
-"1 * 2 * 3 * 4 + x",
-"1 * 2 + 3 + x + 3 * 4 + 5 * x + 1"
-*/
-];
-
-foreach (string input in inputs)
+while (true)
 {
-    var expression = Parser.ParseExpression(input);
-    var simplified = expression.Simplify();
+    Console.Write("Enter expression: ");
+    string? input = Console.ReadLine();
 
-    Console.WriteLine($"Expression: {expression.Format()} => {simplified.Format()} (input: {input})");
+    if (input is null)
+        continue;
+
+    if (input.Equals("q", StringComparison.OrdinalIgnoreCase))
+        break;
+
+    try
+    {
+        var expression = Parser.ParseExpression(input);
+        var simplified = expression.Simplify();
+
+        Console.WriteLine($"Result: {simplified.Format()}");
+    }
+    catch
+    {
+        Console.WriteLine("Invalid input. Try again (enter Q/q to exit)");
+    }
 }

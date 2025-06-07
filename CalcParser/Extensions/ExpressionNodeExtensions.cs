@@ -22,11 +22,11 @@ public static class ExpressionNodeExtensions
     }
 
     public static ExpressionNode Simplify(this ExpressionNode tree) => tree.ApplyTransformations(
-        //TransformationVisitorFactory.InverseFunctionSimplifyer,
-        TransformationVisitorFactory.TermDistributivityExpander
-        //TransformationVisitorFactory.ConstantCoefficientReducer,
-        //TransformationVisitorFactory.ConstantAggregator,
-        //TransformationVisitorFactory.ParenthesisUnwrapper
+        TransformationVisitorFactory.InverseFunctionSimplifyer,
+        TransformationVisitorFactory.TermDistributivityExpander,
+        TransformationVisitorFactory.ConstantCoefficientReducer,
+        TransformationVisitorFactory.ConstantAggregator,
+        TransformationVisitorFactory.ParenthesisUnwrapper
         );
 
     internal static ExpressionNode ApplyTransformations(this ExpressionNode tree, params Span<ExpressionTransformerBase> transformers)
