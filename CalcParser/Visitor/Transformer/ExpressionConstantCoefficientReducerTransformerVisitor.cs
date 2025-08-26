@@ -21,6 +21,7 @@ internal sealed class ExpressionConstantCoefficientReducerTransformerVisitor : E
             Operator.Multiplication when left == ConstantNode.One => node.Right,
             Operator.Multiplication when right == ConstantNode.One => node.Left,
             Operator.Division when left == ConstantNode.Zero => ConstantNode.Zero,
+            Operator.Division when right == ConstantNode.One => node.Left,
             Operator.Power when left == ConstantNode.Zero => ConstantNode.Zero,
             Operator.Power when right == ConstantNode.Zero => ConstantNode.One,
             Operator.Power when left == ConstantNode.One => ConstantNode.One,

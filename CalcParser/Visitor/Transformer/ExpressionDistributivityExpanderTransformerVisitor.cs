@@ -13,7 +13,7 @@ internal sealed class ExpressionDistributivityExpanderTransformerVisitor : Expre
         var leftDistributiveRule = TransformationRuleFactory.LeftDistributive(node.Operator);
         if (right is ParenthesisNode rightParenthesis && leftDistributiveRule.AppliesTo(rightParenthesis.InnerExpression))
         {
-            // Apply the distributive rule to the inner expression'
+            // Apply the distributive rule to the inner expression
             var result = ApplyRule(leftDistributiveRule, left, rightParenthesis.InnerExpression);
 
             // Recurse to apply the distributive rule to nested expressions
