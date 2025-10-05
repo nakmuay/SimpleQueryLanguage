@@ -8,7 +8,7 @@ public class ExpressionParenthesisUnwrapperTransformerVisitorTest
 {
     [Theory]
     [InlineData("1 + (2)", "1 + 2")]
-    [InlineData("1 - (2)", "1 - 2")]
+    [InlineData("1 - (2)", "1 + -2")]
     [InlineData("1 + (-2)", "1 + -2")]
     [InlineData("1 - (-2)", "1 + 2")]
 
@@ -54,6 +54,15 @@ public class ExpressionParenthesisUnwrapperTransformerVisitorTest
     [InlineData("1 + -(2 + (3 - 4))", "1 + -2 + -3 - -4")]
 
     [InlineData("(1 + 2) + (3 + 4)", "1 + 2 + 3 + 4")]
+    [InlineData("(1 - 2) + (3 + 4)", "1 - 2 + 3 + 4")]
+    [InlineData("(1 + 2) - (3 + 4)", "1 + 2 + -3 + -4")]
+    [InlineData("(1 + 2) + (3 - 4)", "1 + 2 + 3 - 4")]
+
+    [InlineData("(-1 + 2) + (3 + 4)", "-1 + 2 + 3 + 4")]
+    [InlineData("(1 - -2) + (3 + 4)", "1 - -2 + 3 + 4")]
+    [InlineData("(1 + 2) - -(3 + 4)", "1 + 2 + 3 + 4")]
+    [InlineData("(1 + 2) - -(-3 + 4)", "1 + 2 + -3 + 4")]
+    [InlineData("(1 + 2) + (3 - -4)", "1 + 2 + 3 - -4")]
     public void ParenthesisUnwrap(string input, string expected)
     {
         var tree = Parser.ParseExpression(input);

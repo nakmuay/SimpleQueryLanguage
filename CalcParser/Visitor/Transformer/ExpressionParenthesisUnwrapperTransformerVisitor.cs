@@ -5,10 +5,6 @@ namespace CalcParser.Visitor.Transformer;
 
 internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : ExpressionTransformerBase
 {
-    public override ExpressionNode Visit(ParenthesisNode node) => node.InnerExpression.Accept(this) is ConstantNode constant
-        ? constant
-        : base.Visit(node);
-
     public override ExpressionNode Visit(BinaryOperatorNode node)
     {
         var left = node.Left.Accept(this);
@@ -16,9 +12,7 @@ internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : Express
 
         if (left is ParenthesisNode leftParenthesis)
         {
-            var innerExpression = leftParenthesis.InnerExpression;
-            var result = BinaryOperatorNode.Create(node.Operator, innerExpression, right);
-
+            var result = BinaryOperatorNode.Create(node.Operator, leftParenthesis.InnerExpression, right);
             return result.Accept(this);
         }
 
@@ -26,7 +20,7 @@ internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : Express
         {
             if (node.Operator.OperatorType == BinaryOperatorType.Addition)
             {
-                var result = BinaryOperatorNode.Create(node.Operator, left, rightParenthesis.InnerExpression);
+                var result = BinaryOperatorNode.CreateAdditionOperator(left, rightParenthesis.InnerExpression);
                 return result.Accept(this);
             }
 
