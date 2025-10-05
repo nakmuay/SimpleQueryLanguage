@@ -4,12 +4,12 @@ namespace CalcParser.Ast;
 
 public sealed record NegateNode : ExpressionNode
 {
-    private NegateNode(ExpressionNode operand)
+    private NegateNode(ExpressionNode innerExpression)
     {
-        Operand = operand;
+        InnerExpression = innerExpression;
     }
 
-    public ExpressionNode Operand { get; }
+    public ExpressionNode InnerExpression { get; }
 
     public static NegateNode Create(ExpressionNode operand) => new(operand);
 

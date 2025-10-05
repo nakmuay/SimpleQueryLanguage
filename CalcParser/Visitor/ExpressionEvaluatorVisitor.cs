@@ -16,7 +16,7 @@ internal sealed class ExpressionEvaluatorVisitor : TypedExpressionVisitorBase<do
         return node.Operator.OperatorType.Compute(left, right);
     }
 
-    public override double Visit(NegateNode node) => -1 * node.Operand.Accept(this);
+    public override double Visit(NegateNode node) => -1 * node.InnerExpression.Accept(this);
 
     public override double Visit(ConstantNode node) => node.Value;
 

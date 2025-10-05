@@ -18,7 +18,7 @@ internal class ExpressionTransformerBase : TypedExpressionVisitorBase<Expression
 
     public override ExpressionNode Visit(NegateNode node)
     {
-        var innerExpression = node.Operand.Accept(this);
+        var innerExpression = node.InnerExpression.Accept(this);
         return NegateNode.Create(innerExpression);
     }
 

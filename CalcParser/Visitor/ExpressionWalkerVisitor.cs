@@ -22,7 +22,7 @@ internal class ExpressionWalkerVisitor : TypedExpressionVisitorBase<Unit>
         return Unit.Default;
     }
 
-    public override Unit Visit(NegateNode node) => node.Operand.Accept(this);
+    public override Unit Visit(NegateNode node) => node.InnerExpression.Accept(this);
 
     public override Unit Visit(UnaryFunctionNode node) => node.Argument.Accept(this);
 

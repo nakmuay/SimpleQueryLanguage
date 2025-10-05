@@ -39,7 +39,7 @@ internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : Express
             }
         }
 
-        if (left is NegateNode leftNegated && leftNegated.Operand is ParenthesisNode leftInnerParenthesis)
+        if (left is NegateNode leftNegated && leftNegated.InnerExpression is ParenthesisNode leftInnerParenthesis)
         {
             var leftNegatedExpression = NegateOperands(leftInnerParenthesis.InnerExpression);
             var newLeftParenthesis = ParenthesisNode.Create(leftNegatedExpression);
@@ -48,7 +48,7 @@ internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : Express
             return result.Accept(this);
         }
 
-        if (right is NegateNode rightNegated && rightNegated.Operand is ParenthesisNode rightInnerParenthesis)
+        if (right is NegateNode rightNegated && rightNegated.InnerExpression is ParenthesisNode rightInnerParenthesis)
         {
             var rightNegatedExpression = NegateOperands(rightInnerParenthesis.InnerExpression);
             var newRightParenthesis = ParenthesisNode.Create(rightNegatedExpression);
@@ -74,7 +74,7 @@ internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : Express
             => NegateNode.Create(node);
 
         public override ExpressionNode Visit(NegateNode node)
-            => node.Operand;
+            => node.InnerExpression;
 
         public override ExpressionNode Visit(UnaryFunctionNode node)
             => NegateNode.Create(node);
