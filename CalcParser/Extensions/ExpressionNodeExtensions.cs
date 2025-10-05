@@ -26,7 +26,8 @@ public static class ExpressionNodeExtensions
         TransformationVisitorFactory.TermDistributivityExpander,
         TransformationVisitorFactory.ConstantCoefficientReducer,
         TransformationVisitorFactory.ConstantAggregator,
-        TransformationVisitorFactory.ParenthesisUnwrapper
+        TransformationVisitorFactory.ParenthesisUnwrapper,
+        TransformationVisitorFactory.BinaryOperatorSimplifier
         );
 
     internal static ExpressionNode ApplyTransformations(this ExpressionNode tree, params Span<ExpressionTransformerBase> transformers)
