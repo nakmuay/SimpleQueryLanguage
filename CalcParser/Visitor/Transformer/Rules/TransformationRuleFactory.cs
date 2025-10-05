@@ -22,7 +22,7 @@ internal static class TransformationRuleFactory
         public bool AppliesTo(ExpressionNode node)
             => node is BinaryOperatorNode innerOp && Op.IsRightDistributiveOver(innerOp.Operator);
 
-        public ExpressionNode Apply(ExpressionNode operand, ExpressionNode test)
-            => BinaryOperatorNode.Create(Op, test, operand);
+        public ExpressionNode Apply(ExpressionNode operand, ExpressionNode node)
+            => BinaryOperatorNode.Create(Op, node, operand);
     }
 }
