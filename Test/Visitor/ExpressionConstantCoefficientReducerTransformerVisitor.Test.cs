@@ -7,6 +7,26 @@ namespace Test.Visitor;
 public sealed class ExpressionConstantCoefficientReducerTransformerVisitorTest
 {
     [Theory]
+    [InlineData("1 + 0", "1")]
+    [InlineData("0 + 1", "1")]
+    [InlineData("1 - 0", "1")]
+    [InlineData("0 - 1", "-1")]
+
+    [InlineData("0 + 0 + 0", "0")]
+    [InlineData("0 + 1 + 0", "1")]
+    [InlineData("1 + 0 + 0", "1")]
+    [InlineData("1 + 0 + 1", "1 + 1")]
+    [InlineData("1 + 1 + 0", "1 + 1")]
+    [InlineData("0 + 1 + 1", "1 + 1")]
+
+    [InlineData("0 - 0 - 0", "0")]
+    [InlineData("0 - 0 - 1", "-1")]
+    [InlineData("0 - 1 - 0", "-1")]
+    [InlineData("1 - 0 - 0", "1")]
+    [InlineData("1 - 0 - 1", "1 - 1")]
+    [InlineData("1 - 1 - 0", "1 - 1")]
+    [InlineData("0 - 1 - 1", "-1 - 1")]
+
     [InlineData("2*0", "0")]
     [InlineData("0*2", "0")]
     [InlineData("0*(1 + x)", "0")]
