@@ -1,5 +1,4 @@
 using CalcParser.Ast;
-using CalcParser.Extensions;
 using Operator = CalcParser.DataTypes.BinaryOperatorType;
 
 namespace CalcParser.Visitor.Transformer;
