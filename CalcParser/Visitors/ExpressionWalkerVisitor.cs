@@ -1,7 +1,7 @@
 using CalcParser.Ast;
 using CalcParser.DataTypes;
 
-namespace CalcParser.Visitor;
+namespace CalcParser.Visitors;
 
 internal class ExpressionWalkerVisitor : TypedExpressionVisitorBase<Unit>
 {

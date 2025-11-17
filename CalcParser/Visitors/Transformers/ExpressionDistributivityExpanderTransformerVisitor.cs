@@ -1,7 +1,7 @@
 using CalcParser.Ast;
-using CalcParser.Visitor.Transformer.Rules;
+using CalcParser.Visitors.Transformers.Rules;
 
-namespace CalcParser.Visitor.Transformer;
+namespace CalcParser.Visitors.Transformers;
 
 internal sealed class ExpressionDistributivityExpanderTransformerVisitor : ExpressionTransformerBase
 {

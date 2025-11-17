@@ -1,4 +1,4 @@
-namespace CalcParser.Visitor.Transformer;
+namespace CalcParser.Visitors.Transformers;
 
 internal static class ExpressionTransformationVisitorFactory
 {

@@ -2,7 +2,7 @@ using CalcParser.Ast;
 using CalcParser.DataTypes;
 using CalcParser.Extensions;
 
-namespace CalcParser.Visitor;
+namespace CalcParser.Visitors;
 
 internal sealed class ExpressionEvaluatorVisitor : TypedExpressionVisitorBase<double>
 {

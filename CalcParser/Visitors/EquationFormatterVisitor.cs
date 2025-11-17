@@ -1,7 +1,7 @@
 using System.Text;
 using CalcParser.Ast;
 
-namespace CalcParser.Visitor;
+namespace CalcParser.Visitors;
 
 internal sealed class EquationFormatterVisitor : EquationVisitorBase
 {

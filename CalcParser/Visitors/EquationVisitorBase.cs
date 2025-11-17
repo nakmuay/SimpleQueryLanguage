@@ -1,6 +1,6 @@
 using CalcParser.Ast;
 
-namespace CalcParser.Visitor;
+namespace CalcParser.Visitors;
 
 public abstract class EquationVisitorBase
 {

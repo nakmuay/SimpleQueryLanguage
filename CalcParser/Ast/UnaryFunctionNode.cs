@@ -1,6 +1,6 @@
 using CalcParser.DataTypes;
 using CalcParser.Extensions;
-using CalcParser.Visitor;
+using CalcParser.Visitors;
 
 namespace CalcParser.Ast;
 

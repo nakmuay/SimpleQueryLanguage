@@ -1,6 +1,6 @@
 using CalcParser;
 using CalcParser.Extensions;
-using CalcParser.Visitor.Transformer;
+using CalcParser.Visitors.Transformers;
 
 namespace Test.Visitor;
 

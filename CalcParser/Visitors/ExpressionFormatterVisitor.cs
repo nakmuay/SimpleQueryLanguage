@@ -3,7 +3,7 @@ using CalcParser.DataTypes;
 using System.Globalization;
 using System.Text;
 
-namespace CalcParser.Visitor;
+namespace CalcParser.Visitors;
 
 internal sealed class ExpressionFormatterVisitor : ExpressionWalkerVisitor
 {

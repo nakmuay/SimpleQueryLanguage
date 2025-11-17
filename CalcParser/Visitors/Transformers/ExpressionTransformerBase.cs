@@ -1,6 +1,6 @@
 using CalcParser.Ast;
 
-namespace CalcParser.Visitor.Transformer;
+namespace CalcParser.Visitors.Transformers;
 
 internal class ExpressionTransformerBase : TypedExpressionVisitorBase<ExpressionNode>
 {

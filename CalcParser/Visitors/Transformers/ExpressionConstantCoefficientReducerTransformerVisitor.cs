@@ -1,7 +1,7 @@
 using CalcParser.Ast;
 using Operator = CalcParser.DataTypes.BinaryOperatorType;
 
-namespace CalcParser.Visitor.Transformer;
+namespace CalcParser.Visitors.Transformers;
 
 internal sealed class ExpressionConstantCoefficientReducerTransformerVisitor : ExpressionTransformerBase
 {

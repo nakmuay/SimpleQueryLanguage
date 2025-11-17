@@ -1,7 +1,7 @@
 using CalcParser.Ast;
-using CalcParser.Visitor;
-using CalcParser.Visitor.Transformer;
-using TransformationVisitorFactory = CalcParser.Visitor.Transformer.ExpressionTransformationVisitorFactory;
+using CalcParser.Visitors;
+using CalcParser.Visitors.Transformers;
+using TransformationVisitorFactory = CalcParser.Visitors.Transformers.ExpressionTransformationVisitorFactory;
 
 namespace CalcParser.Extensions;
 

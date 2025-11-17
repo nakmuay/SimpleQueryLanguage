@@ -1,6 +1,6 @@
 using CalcParser.Ast;
 
-namespace CalcParser.Visitor.Transformer.Rules;
+namespace CalcParser.Visitors.Transformers.Rules;
 
 internal interface IBinaryOperatorTransformationRule
 {

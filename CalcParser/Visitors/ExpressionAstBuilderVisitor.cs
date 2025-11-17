@@ -1,7 +1,7 @@
 using System.Globalization;
 using CalcParser.Ast;
 
-namespace CalcParser.Visitor;
+namespace CalcParser.Visitors;
 
 internal sealed class ExpressionAstBuilderVisitor : MathParserBaseVisitor<ExpressionNode>
 {

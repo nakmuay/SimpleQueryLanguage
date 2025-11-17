@@ -1,6 +1,6 @@
 using CalcParser.Ast;
 
-namespace CalcParser.Visitor;
+namespace CalcParser.Visitors;
 
 internal sealed class EquationAstBuilderVisitor : MathParserBaseVisitor<EquationNode>
 {

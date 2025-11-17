@@ -1,7 +1,7 @@
 using CalcParser.Ast;
 using CalcParser.DataTypes;
 
-namespace CalcParser.Visitor.Transformer;
+namespace CalcParser.Visitors.Transformers;
 
 internal sealed class ExpressionParenthesisUnwrapperTransformerVisitor : ExpressionTransformerBase
 {

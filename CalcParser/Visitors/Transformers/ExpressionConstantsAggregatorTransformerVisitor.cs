@@ -2,7 +2,7 @@ using CalcParser.Ast;
 using CalcParser.DataTypes;
 using CalcParser.Extensions;
 
-namespace CalcParser.Visitor.Transformer;
+namespace CalcParser.Visitors.Transformers;
 
 internal sealed class ExpressionConstantsAggregatorTransformerVisitor : ExpressionTransformerBase
 {

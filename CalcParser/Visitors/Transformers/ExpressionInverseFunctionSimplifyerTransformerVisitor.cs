@@ -1,5 +1,5 @@
 using CalcParser.Ast;
-using CalcParser.Visitor.Transformer;
+using CalcParser.Visitors.Transformers;
 
 internal sealed class ExpressionInverseFunctionSimplifyerTransformerVisitor : ExpressionTransformerBase
 {
