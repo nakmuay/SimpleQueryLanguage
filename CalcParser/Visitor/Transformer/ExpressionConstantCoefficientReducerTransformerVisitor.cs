@@ -16,8 +16,7 @@ internal sealed class ExpressionConstantCoefficientReducerTransformerVisitor : E
 
         return op.OperatorType switch
         {
-            Operator.Multiplication when left == ConstantNode.Zero => ConstantNode.Zero,
-            Operator.Multiplication when right == ConstantNode.Zero => ConstantNode.Zero,
+            Operator.Multiplication when left == ConstantNode.Zero || right == ConstantNode.Zero => ConstantNode.Zero,
             Operator.Multiplication when left == ConstantNode.One => right,
             Operator.Multiplication when right == ConstantNode.One => left,
             Operator.Division when left == ConstantNode.Zero => ConstantNode.Zero,
