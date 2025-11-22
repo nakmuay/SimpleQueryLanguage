@@ -7,6 +7,9 @@ namespace Test.Visitor;
 public class ExpressionDistributivityExpanderTransformerVisitorTest
 {
     [Theory]
+
+    [InlineData("1*(2 + 3*x^(4 + 5 + 6))", "(1*2 + 1*3*x^(4 + 5 + 6))")]
+
     [InlineData("2*(1 + 2)", "(2*1 + 2*2)")]
     [InlineData("2*(-1 + 2)", "(2*-1 + 2*2)")]
     [InlineData("2*(1 + -2)", "(2*1 + 2*-2)")]
@@ -67,6 +70,10 @@ public class ExpressionDistributivityExpanderTransformerVisitorTest
 
     [InlineData("1/2*(1 + 2)", "(1/2*1 + 1/2*2)")]
     [InlineData("2/(1 + 2)", "2/(1 + 2)")]
+    [InlineData("1*(2*3*4*5 + 6)", "(1*2*3*4*5 + 1*6)")]
+
+    [InlineData("1*((2 + 3) + 4)", "((1*2 + 1*3) + 1*4)")]
+    [InlineData("((1 + 2) + 3)*4", "((1*4 + 2*4) + 3*4)")]
     public void DistributiveLaw(string input, string expected)
     {
         var tree = Parser.ParseExpression(input);

@@ -4,29 +4,63 @@ namespace CalcParser.Visitors.Transformers.Rules.Extensions;
 
 internal static class BinaryOperatorTransformationRuleExtensions
 {
-    public static ExpressionNode ApplyTo(this IBinaryOperatorTransformationRule rule, ExpressionNode tree, ExpressionNode term)
+    public static ExpressionNode ApplyRecursively(this LeftDistributiveRule rule, ExpressionNode tree, ExpressionNode term)
     {
-        var ruleApplierVisitor = new RuleApplierVisitor(rule, term);
+        var ruleApplierVisitor = new LeftDistributor(rule, term);
         return tree.Accept(ruleApplierVisitor);
     }
 
-    private sealed class RuleApplierVisitor(IBinaryOperatorTransformationRule distributiveRule, ExpressionNode term) : ExpressionTransformerBase
+    public static ExpressionNode ApplyRecursively(this RightDistributiveRule rule, ExpressionNode tree, ExpressionNode term)
     {
-        private readonly IBinaryOperatorTransformationRule _distributiveRule = distributiveRule;
-        private readonly ExpressionNode _term = term;
+        var ruleApplierVisitor = new RightDistributor(rule, term);
+        return tree.Accept(ruleApplierVisitor);
+    }
 
+    private abstract class Distributor(IBinaryOperatorTransformationRule rule, ExpressionNode operand) : ExpressionTransformerBase
+    {
+        protected readonly IBinaryOperatorTransformationRule _rule = rule;
+        private readonly ExpressionNode _operand = operand;
+
+        public override ExpressionNode Visit(VariableNode node) => _rule.Apply(_operand, node);
+
+        public override ExpressionNode Visit(NegateNode node) => _rule.Apply(_operand, node);
+
+        public override ExpressionNode Visit(UnaryFunctionNode node) => _rule.Apply(_operand, node);
+
+        public override ExpressionNode Visit(ParenthesisNode node)
+        {
+            var innerExpression = node.InnerExpression.Accept(this);
+            return ParenthesisNode.Create(innerExpression);
+        }
+
+        public override ExpressionNode Visit(ConstantNode node) => _rule.Apply(_operand, node);
+    }
+
+    private sealed class LeftDistributor(LeftDistributiveRule rule, ExpressionNode operand) : Distributor(rule, operand)
+    {
         public override ExpressionNode Visit(BinaryOperatorNode node)
         {
-            // Traverse the left- and right subtrees only if the distributive rule applies
-            var left = _distributiveRule.AppliesTo(node.Left) ? node.Left.Accept(this) : node.Left;
-            var right = _distributiveRule.AppliesTo(node.Right) ? node.Right.Accept(this) : node.Right;
+            if (!_rule.AppliesTo(node))
+            {
+                var left = node.Left.Accept(this);
+                return BinaryOperatorNode.Create(node.Operator, left, node.Right);
+            }
 
-            // Only apply transformation to the left- and right subtrees in case we have not already processed it
-            var newLeft = _distributiveRule.AppliesTo(left) ? left : _distributiveRule.Apply(_term, left);
-            var newRight = _distributiveRule.AppliesTo(right) ? right : _distributiveRule.Apply(_term, right);
+            return base.Visit(node);
+        }
+    }
 
-            // Re-combine the left and right sub-trees with the current operator
-            return BinaryOperatorNode.Create(node.Operator, newLeft, newRight);
+    private sealed class RightDistributor(IBinaryOperatorTransformationRule rule, ExpressionNode operand) : Distributor(rule, operand)
+    {
+        public override ExpressionNode Visit(BinaryOperatorNode node)
+        {
+            if (node.Operator.OperatorType is DataTypes.BinaryOperatorType.Multiplication or DataTypes.BinaryOperatorType.Division)
+            {
+                var right = node.Right.Accept(this);
+                return BinaryOperatorNode.Create(node.Operator, node.Left, right);
+            }
+
+            return base.Visit(node);
         }
     }
 }
